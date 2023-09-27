@@ -144,13 +144,13 @@ class Vetor{
 };
 
 template <typename T>
-class matriz2{
+class Matriz2{
     
     public:
     
-    matriz2(){ }
+    Matriz2(){ }
     
-    matriz2(T a, T b, T c, T d){
+    Matriz2(T a, T b, T c, T d){
         content[0][0] = a;
         content[0][1] = b;
         content[1][0] = c;
@@ -178,16 +178,65 @@ class matriz2{
     
 };
 
-
-class math2D{
-
+template <typename T>
+class Matriz3{
+    
     public:
     
-    //uma função que não faz nada
-    static void nada(){}
+    Matriz3(){}
+      
+    Matriz3(T a, T b, T c, T d, T e, T f, T g, T h, T i){
+        content[0][0] = a;
+        content[0][1] = b;
+        content[0][2] = c;
+        content[1][0] = d;
+        content[1][1] = e;
+        content[1][2] = f;
+        content[2][0] = g;
+        content[2][1] = h;
+        content[2][2] = i;
+    }
+    
+    T content[3][3];
+    
+    void preencher(T a, T b,T c, T d, T e, T f, T g, T h, T i){
+        content[0][0] = a;
+        content[0][1] = b;
+        content[0][2] = c;
+        content[1][0] = d;
+        content[1][1] = e;
+        content[1][2] = f;
+        content[2][0] = g;
+        content[2][1] = h;
+        content[2][2] = i;
+    }
+    
+    T determinante(){
+
+        T a1 = this->content[0][0] * this->content[1][1]* this->content[2][2];
+        T b1 = this->content[0][1] * this->content[1][2] *this->content[2][0];
+        T c1 = this->content[0][2] * this->content[1][0] * this->content[2][1];
+        T d1 = this->content[2][0] * this->content[1][1] * this->content[0][2];
+        T e1 = this->content[2][1] * this->content[1][2] * this->content[0][0];
+        T f1 = this->content[2][2] * this->content[1][0] * this->content[0][1];
+        
+        return a1+b1+c1-d1-e1-f1;
+            
+    }
+    
+    void print(){
+        cout<<this->content[0][0]<<" "<<this->content[0][1]<<" "<<this->content[0][2]<<endl<<this->content[1][0]<<" "<<this->content[1][1]<<" "<< this->content[1][2]<<endl<<this->content[2][0]<<" "<<this->content[2][1]<<" "<<this->content[2][2]<<endl;
+    }
+    
+};
 
 
-    //funções matemáticas que não envolvem geometria
+
+//funções matemáticas que não envolvem geometria
+class Math1{
+    
+    public:
+    
     template <typename T>
     static T menor(T a,T b){
 
@@ -198,7 +247,7 @@ class math2D{
             return b;
         }
     }
-
+    
     template <typename T>
     static T maior(T a,T b){
 
@@ -209,51 +258,11 @@ class math2D{
             return b;
         }
     }
-    
-    template <typename T>
-    static Ponto<T>* maior_eixo_x(Ponto<T> &ponto1,Ponto<T> &ponto2){
-        
-        if(ponto1.x>=ponto2.x){
-            return &ponto1;
-        }
-        else{
-            return &ponto2;
-        }
-        
-    }
-    
-       
-    template <typename T>
-    static Ponto<T>* maior_eixo_y(Ponto<T> &ponto1,Ponto<T> &ponto2){
-        
-        if(ponto1.y>=ponto2.y){
-            return &ponto1;
-        }
-        else{
-            return &ponto2;
-        }
-        
-    }
-    
-    
-    bool id_ponto(string a){
-        
-        if(a[1]=='P' && a[2] =='o' && a[3] == 'n' && a[4] =='t' && a[5] == 'o'){
-            return true;
-        }
-        else{
-            return false;
-        }
-        
-    }
-    
-    
+      
     //////MERGE SORT//////////////////////////////////
     
     template <typename T>
     static void merge(T vetor[], int esquerda,int meio, int direita, int tamanho){
-        
-        math2D Math2D;
         
         T auxiliar[tamanho];
         
@@ -312,16 +321,78 @@ class math2D{
         merge_sort2(vetor,tamanho,0,tamanho-1);
     }    
     
+    
+    
+    
+    template<typename T>
+    static T* inverter(T* array,int tamanho){
+
+        T* auxiliar = new T[tamanho];
+
+        for(int i = 0,i2 = tamanho-1;i<tamanho;i++, i2--){
+
+            auxiliar[i] = array[i2];
+
+        }
+
+        return auxiliar;
+
+    }
+    
+};
+
+
+class math2D{
+
+    public:
+    
+    template <typename T>
+    static Ponto<T>* maior_eixo_x(Ponto<T> &ponto1,Ponto<T> &ponto2){
+        
+        if(ponto1.x>=ponto2.x){
+            return &ponto1;
+        }
+        else{
+            return &ponto2;
+        }
+        
+    }
+    
+       
+    template <typename T>
+    static Ponto<T>* maior_eixo_y(Ponto<T> &ponto1,Ponto<T> &ponto2){
+        
+        if(ponto1.y>=ponto2.y){
+            return &ponto1;
+        }
+        else{
+            return &ponto2;
+        }
+        
+    }
+    
+    
+    static bool id_ponto(string a){
+        
+        if(a[1]=='P' && a[2] =='o' && a[3] == 'n' && a[4] =='t' && a[5] == 'o'){
+            return true;
+        }
+        else{
+            return false;
+        }
+        
+    }
+    
+  
+    
     ///////////////////////////////////////////////////////////////
     
     /////////MERGE SORT 2/////////////////////////////////////////
     
     
-    
+   
     template <typename T>
     static void merge02(T vetor[], int esquerda,int meio, int direita, int tamanho){
-        
-        math2D Math2D;
         
         T auxiliar[tamanho];
         
@@ -377,11 +448,6 @@ class math2D{
     }
     
     
-    
-    
-    
-    
-    
     ///////////////////////////////////////////////////////////////
     
     //////////MERGE SORT 3/////////////////////////////////////////
@@ -389,8 +455,6 @@ class math2D{
     
     template <typename T>
     static void merge03(T vetor[], int esquerda,int meio, int direita, int tamanho){
-        
-        math2D Math2D;
         
         T auxiliar[tamanho];
         
@@ -511,22 +575,6 @@ class math2D{
         
     }
     
-
-    template<typename T>
-    static T* inverter(T* array,int tamanho){
-
-        T* auxiliar = new T[tamanho];
-
-        for(int i = 0,i2 = tamanho-1;i<tamanho;i++, i2--){
-
-            auxiliar[i] = array[i2];
-
-        }
-
-        return auxiliar;
-
-    }
-
     template <typename T>
 	static T produto_escalar(Vetor<T> vetor1,Vetor<T> vetor2){
 
@@ -733,7 +781,7 @@ class math2D{
     template <typename T>
     //CONFERIR SE FUNCIONA PARA O CASO DO FINAL ESTAR NA FRENTE DO COMEÇO
     static bool ponto_sobre_segmento(Segmento<T> segmento1,Ponto<T> ponto1){
-
+        
         if(mesmo_ponto(segmento1.start,ponto1)){
 
             return true;
@@ -741,7 +789,7 @@ class math2D{
         else{
             if(paralelos(segmento1,Segmento<T>(segmento1.start,ponto1))){
 
-                if( (ponto1.x >= menor(segmento1.start.x,segmento1.end.x) && ponto1.x <= maior(segmento1.start.x,segmento1.end.x) ) && (ponto1.y >= menor(segmento1.start.y,segmento1.end.y) && ponto1.y <= maior(segmento1.start.y,segmento1.end.y) ) ){
+                if( (ponto1.x >= Math1::menor(segmento1.start.x,segmento1.end.x) && ponto1.x <= Math1::maior(segmento1.start.x,segmento1.end.x) ) && (ponto1.y >= Math1::menor(segmento1.start.y,segmento1.end.y) && ponto1.y <= Math1::maior(segmento1.start.y,segmento1.end.y) ) ){
                     return true;
                 }
                 else{
@@ -763,7 +811,7 @@ class math2D{
 
 
     template <typename T>
-
+    //não funciona(funciona sim, confia)
     //inclui o caso que apenas um ponto pertence aos dois segmentos
     //essa função trata de segmentos, não aborda retas. Um segmento (1,1) e (2,2) não é sobreposto a um segmento (5,5) e (10,10);
     static bool paralelos_e_sobrepostos(Segmento<T> segmento1, Segmento<T> segmento2){
@@ -1024,7 +1072,7 @@ class math2D{
         
          //inverter o polígono caso ele esteja no outro sentido
         if(Math2D.lado(Segmento<long double>(ponto_do_meio,forma[0]), forma[1]) == -1){
-            forma = Math2D.inverter(forma,N);
+            forma = Math1::inverter(forma,N);
         }
         
     
@@ -1691,10 +1739,8 @@ class math2D{
         
         math2D Math2D;
          
-         
         //quantos pontos tem o polígono
         int N;
-     
     
         //quantos pontos dentro ou fora do polígono
         int Q;
@@ -1720,8 +1766,6 @@ class math2D{
         
         N = Math2D.tira_pontos_colineares(forma,N);
         
-        
-        
         //cout<<"Digite quantos pontos vai ter:"<<endl<<endl;
         cin>>Q;
     
@@ -1738,128 +1782,16 @@ class math2D{
         
         vector< vector <Segmento<long double> > > trechos;
         
-        
         long double* y = new long double[N];
         
-       
-        
-        
-        
-        
-        
     }
-
-
-
 
 };
 
 
 int main(){
     
-    math2D Math2D;
     
-    //math2D::ponto_em_poligono2();
-    
-    //math2D::ponto_em_poligono3();
-    
-    
-    /*
-    Ponto<int>* pontos = new Ponto<int>;
-    Math2D.criar_pontos(20,pontos);
-    
-    for(int i =0;i<20;i++){
-        pontos[i].print();
-    }
-    
-    cout<<endl;
-    
-    Math2D.ordena_pontos_pelo_eixo_y(pontos,20);
-    
-    for(int i =0;i<20;i++){
-        pontos[i].print();
-    }
-    
-    cout<<endl;
-    
-    Math2D.ordena_pontos_pelo_eixo_x(pontos,20);
-    
-    for(int i =0;i<20;i++){
-        pontos[i].print();
-    }
-    
-    
-    */
-    
-    Ponto<double> ponto1(1.0,1.0);
-    
-    Ponto<double> ponto2(3.0,2.0);
-    
-    Ponto<double> ponto3;
-    
-    double a =0.5;
-    
-    ponto3 = Math2D.ponto_do_meio_do_segmento(Segmento<double>(ponto1,ponto2));
-    ponto3.print();
-   
-  
-    /*
-    
-    Ponto<int> ponto1(3,6);
-    Ponto<double> ponto2(3.9,6.0);
-    Ponto<double> ponto3(3,6);
-    
-    Segmento<double> segmento1(ponto2,ponto3);
-    
-    string teste;
-    string teste2;
-    string teste3;
-    string teste4;
-    
-    teste = typeid(ponto1).name();
-    teste2 = typeid(ponto2).name();
-    teste3 = typeid(ponto3).name();
-    teste4 = typeid(segmento1).name();
-    
-    cout<<teste<<endl;   
-    cout<<teste2<<endl;  
-    cout<<teste3<<endl; 
-    cout<<teste4<<endl;
-    
-    
-    if(Math2D.id_ponto(teste)){
-        cout<<"teste1"<<endl;
-    }
-    if(Math2D.id_ponto(teste2)){
-        cout<<"teste2"<<endl;
-    }
-    if(Math2D.id_ponto(teste4)){
-        cout<<"teste3"<<endl;
-    }
-    
-    
-    */
-    
-    /*
-    Ponto<long double>* forma = new Ponto<long double>[10];
-    
-    forma[0] =Ponto<long double>(0.0,0.0);
-    forma[1] =Ponto<long double>(2.0,0.0);
-    forma[2] =Ponto<long double>(4.0,0.0);
-    forma[3] =Ponto<long double>(10.0,0.0);
-    forma[4] =Ponto<long double>(10.0,2.0);
-    forma[5] =Ponto<long double>(10.0,4.0);
-    forma[6] =Ponto<long double>(10.0,8.0);
-    forma[7] =Ponto<long double>(10.0,10.0);
-    forma[8] =Ponto<long double>(6.0,10.0);
-    forma[9] =Ponto<long double>(0.0,10.0);
-    
-    int a = math2D::tira_pontos_colineares(forma,10);
-    
-    for(int i =0;i<a;i++){
-        forma[i].print();
-    }
-    */
     
     return 0;
 }
