@@ -4,6 +4,7 @@
 #include <typeinfo>
 #include <ctime>
 #include <cstdlib>
+#include <math.h>
 
 #define PI 3.141592653589793236433932795029
 
@@ -131,6 +132,10 @@ class Vetor{
 
     T x;
     T y;
+    
+    long double comprimento(){
+        return (  sqrt( ( ((long double)this->x) *  ((long double)this->x) ) + (  ((long double)this->y)* ((long double)this->y) )  ) );
+    }
 
     Vetor normal(){
 
@@ -140,6 +145,10 @@ class Vetor{
         resultado.y = -(this->x);
 
         return resultado;
+    }
+    
+    void print(){
+        cout<<"Esse vetor tem módulo "<<this->comprimento()<<" e aponta para ("<<this->x<<", "<<this->y<<")"<<endl;
     }
 };
 
@@ -810,7 +819,8 @@ class math2D{
 
 
 
-    template <typename T>    
+    template <typename T>
+    //não funciona(funciona sim, confia)
     //inclui o caso que apenas um ponto pertence aos dois segmentos
     //essa função trata de segmentos, não aborda retas. Um segmento (1,1) e (2,2) não é sobreposto a um segmento (5,5) e (10,10);
     static bool paralelos_e_sobrepostos(Segmento<T> segmento1, Segmento<T> segmento2){
@@ -1736,7 +1746,7 @@ class math2D{
     
     static void ponto_em_poligono3(){
         
-        math2D Math2D;
+        //math2D Math2D;
          
         //quantos pontos tem o polígono
         int N;
@@ -1751,7 +1761,6 @@ class math2D{
         //onde vão ficar os pontos do polígono
         Ponto<long double>* forma = new Ponto<long double>[N];
     
-    
         for(int i = 0; i<N;i++){
     
             //cout<<"Digite as coordenadas de um vértice: "<<endl;
@@ -1763,13 +1772,13 @@ class math2D{
     
         }
         
-        N = Math2D.tira_pontos_colineares(forma,N);
+        N = math2D::tira_pontos_colineares(forma,N);
         
         //cout<<"Digite quantos pontos vai ter:"<<endl<<endl;
         cin>>Q;
-    
+        
         Ponto<long double>* pontos1 = new Ponto<long double>[Q];
-    
+        
         for(int i = 0; i<Q;i++){
     
             //cout<<"Digite as coordenadas de um ponto: "<<endl;
@@ -1779,9 +1788,31 @@ class math2D{
             
         }
         
-        vector< vector <Segmento<long double> > > trechos;
+        struct vetor_de_segmentos{
+            int y;
+            vector<Segmento<long double>> vetor;
+        };
+        
+        vector<vetor_de_segmentos> trechos;
         
         long double* y = new long double[N];
+        
+       
+       
+       
+       
+        Ponto<long double>* pontos2 = new Ponto<long double>[Q];
+        
+        for(int i = 0; i<Q; i++){
+            pontos2[i] = pontos1[i];
+        }
+        
+        math2D::ordena_pontos_pelo_eixo_y(pontos2,Q);
+        
+     
+        
+        
+        
         
     }
 
@@ -1790,8 +1821,9 @@ class math2D{
 
 int main(){
     
+    math2D Math2D;
     
-    
+    math2D::ponto_em_poligono2();
     return 0;
 }
 
