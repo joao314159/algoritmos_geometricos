@@ -134,7 +134,7 @@ class Vetor{
     T y;
     
     long double comprimento(){
-        return (  sqrt( ( ((long double)this->x) *  ((long double)this->x) ) + (  ((long double)this->y)* ((long double)this->y) )  ) );
+        return (  sqrt(  (abs((long double)this->x) ) *  ( abs((long double)this->x) )  + (  abs((long double)this->y) )* ( abs((long double)this->y))  ) );
     }
 
     Vetor normal(){
@@ -1801,18 +1801,183 @@ class math2D{
        
        
        
-        Ponto<long double>* pontos2 = new Ponto<long double>[Q];
+        Ponto<long double>* pontos2 = new Ponto<long double>[N];
         
-        for(int i = 0; i<Q; i++){
+        for(int i = 0; i<N; i++){
             pontos2[i] = pontos1[i];
         }
         
-        math2D::ordena_pontos_pelo_eixo_y(pontos2,Q);
-        
+        math2D::ordena_pontos_pelo_eixo_y(pontos2,N);
      
+        for(int i =0; i<Q; i++){
+            
+            //crio um vetor de segmentos sem segmentos adicionados, para cada y
+            vetor_de_segmentos vetor;
+            //o vetor de segmentos começa em y
+            vetor.y = pontos2[i].y;
+            
+            trechos.push_back(vetor);
+            
+        }
+        
+    
+    
+         /*
+        
+        exemplos de casos de teste
+        
+        teste 5
+        
+        8
+        0.0 20.0
+        11.0 21.0
+        20.0 20.0
+        21.0 10.0
+        20.0 0.0
+        13.0 0.0
+        7.4284 0.0
+        0.0 0.0
+        13
+        1.2 3.2
+        0.02 0.14
+        7.4 18.3 
+        9.975 19.9993
+        0.363 7.34 
+        9.45 0.62
+        0.0 2.634
+        14.0 0.0 
+        -0.236 2.54
+        30.23 5.76
+        0.0 -3.54
+        23.4 20.0
+        0.0 33.4
+       
+        
+        teste 4
+        
+        6
+        0.0 20.0
+        11.0 21.0
+        20.0 20.0
+        21.0 10.0
+        20.0 0.0
+        0.0 0.0
+        13
+        1.2 3.2
+        0.02 0.14
+        7.4 18.3 
+        9.975 19.9993
+        0.363 7.34 
+        9.45 0.62
+        0.0 2.634
+        14.0 0.0 
+        -0.236 2.54
+        30.23 5.76
+        0.0 -3.54
+        23.4 20.0
+        0.0 33.4
+        
+        DENTRO
+        DENTRO
+        DENTRO
+        DENTRO
+        DENTRO
+        DENTRO
+        sobre
+        sobre
+        FORA
+        FORA
+        FORA
+        FORA
+        FORA
         
         
         
+        teste 3
+        
+        4
+        0.0 10.0
+        10.0 10.0
+        10.0 0.0
+        0.0 0.0
+        13
+        1.2 3.2
+        0.02 0.14
+        7.4 8.3 
+        9.975 9.9993
+        0.363 7.34 
+        9.45 0.62
+        0.0 2.634
+        10.0 10.0 
+        -0.236 2.54
+        10.23 5.76
+        0.0 -3.54
+        13.4 0.0
+        0.0 33.4
+        
+        DENTRO
+        DENTRO
+        DENTRO
+        DENTRO
+        DENTRO
+        DENTRO
+        sobre
+        sobre
+        FORA
+        FORA
+        FORA
+        FORA
+        FORA
+        
+        
+        
+        
+        
+        
+        
+        teste 2
+         
+        4
+        100 0
+        0 100
+        -100 0
+        0 -100
+        4
+        0 0
+        50 -50
+        -10 -70
+        -20 99
+        
+        DENTRO
+        EMCIMA
+        DENTRO
+        FORA
+        
+        
+        teste 1
+        
+        3
+        0.0 0.0
+        10.0 0.0
+        0.0 10.0
+        7
+        0.0 0.0
+        0.0 2.5
+        4.6 0.0
+        -2.64 0.0
+        13.53 27.9
+        9.8 11.4
+        1.3 2.375
+        
+        sobre
+        sobre
+        sobre
+        FORA
+        FORA
+        FORA
+        dentro
+        
+        */
         
     }
 
@@ -1826,12 +1991,3 @@ int main(){
     math2D::ponto_em_poligono2();
     return 0;
 }
-
-
-
-
-
-
-
-
-
