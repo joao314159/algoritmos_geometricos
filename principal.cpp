@@ -64,6 +64,13 @@ class Segmento{
     void print(){
         cout<<"Esse segmento começa em ("<<this->start.x<<", "<<this->start.y<<") e termina em ("<<this->end.x<<", "<<this->end.y<<") "<<endl;
     }
+    
+    void inverter(){
+        Ponto<T> ponto;
+        ponto = this->start;
+        this->start = this->end;
+        this->end = ponto;
+    }
 
     bool estranho(){
 
@@ -239,7 +246,34 @@ class Matriz3{
     
 };
 
+template <typename T>
+class Vetor_de_segmentos{
+    
+    public:
+    
+    Vetor_de_segmentos(){}
+    
+    T y1;
+    T y2;
+    vector<Segmento<long double>> vetor;
+    
+    void print(){
+        cout<<"y inicial: "<<y1<<endl;
+        cout<<"y final: "<<y2<<endl;
+        
+        if(vetor.empty()){
+            cout<<"O vector de segmentos está vazio."<<endl;
+        }
+        else{
+            cout<<"O vector de segmentos possui os seguintes segmentos: "<<endl;
+            for(int i =0;i<vetor.size();i++){
+                cout<<"Segmento "<<i<<": "<<endl;
+                vetor[i].print();
+            }
+        }
+    }
 
+};
 
 //funções matemáticas que não envolvem geometria
 class Math1{
@@ -267,7 +301,8 @@ class Math1{
             return b;
         }
     }
-      
+    
+   
     //////MERGE SORT//////////////////////////////////
     
     template <typename T>
@@ -285,7 +320,7 @@ class Math1{
         
         
         while(i <= meio && i2 <= direita){
-            if(auxiliar[i] <= auxiliar[i2]){
+            if(func(auxiliar[i], auxiliar[i2])){
                 vetor[i3] = auxiliar[i];
                 i++;
             }
@@ -354,6 +389,27 @@ class Math1{
 class math2D{
 
     public:
+    
+    
+    template <typename T>
+    static bool comparar_pontos_eixo_x(Ponto<T> ponto1, Ponto<T> ponto2){
+        if(ponto1.x<=ponto2.x){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+     template <typename T>
+    static bool comparar_pontos_eixo_y(Ponto<T> ponto1, Ponto<T> ponto2){
+        if(ponto1.y<=ponto2.y){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     
     template <typename T>
     static Ponto<T>* maior_eixo_x(Ponto<T> &ponto1,Ponto<T> &ponto2){
@@ -521,6 +577,71 @@ class math2D{
     
     ///////////////////////////////////////////////////////////////
    
+    /////////MERGE_SORT 4//////////////////////////////////////////
+   
+   
+    
+    template <typename T>
+    static void merge04(T vetor[], int esquerda,int meio, int direita, int tamanho){
+        
+        T auxiliar[tamanho];
+        
+        for(int i = 0; i<tamanho ;i++){
+            auxiliar[i] = vetor[i];
+        }
+        
+        int i = esquerda;
+        int i2 = meio +1;
+        int i3 = esquerda;
+        
+        
+        while(i <= meio && i2 <= direita){
+            if(auxiliar[i].y1 <= auxiliar[i2].y1){
+                vetor[i3] = auxiliar[i];
+                i++;
+            }
+            else{
+                vetor[i3] = auxiliar[i2];
+                i2++;
+            }
+            i3++;
+        }
+            
+       
+        while(i<=meio){
+            vetor[i3] = auxiliar[i];
+            i++;
+            i3++;
+        }
+        
+        while(i2<=direita){
+            vetor[i3] = auxiliar[i2]; 
+            i2++;
+            i3++;
+        }
+    }
+    
+    template <typename T>
+    static void merge_sort204(T vetor[],int tamanho, int esquerda,int direita){
+        
+        if (esquerda>=direita){
+            return;
+        }
+        
+        int meio = (esquerda + direita)/2;
+        
+        merge_sort204(vetor,tamanho,esquerda,meio);
+        merge_sort204(vetor,tamanho,meio+1,direita);
+        
+        merge04(vetor, esquerda, meio, direita, tamanho);
+        
+    }
+    
+    
+    /////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////
+   
+   
     template <typename T>
     static void ordena_pontos_pelo_eixo_x(Ponto<T>* pontos, int tamanho){
         merge_sort202(pontos,tamanho,0,tamanho-1);
@@ -529,7 +650,12 @@ class math2D{
     template <typename T>
     static void ordena_pontos_pelo_eixo_y(Ponto<T>* pontos, int tamanho){
         merge_sort203(pontos,tamanho,0,tamanho-1);
-    }    
+    }
+    
+    template <typename T>
+    static void ordena_vetor_de_segmentos(Vetor_de_segmentos<T>* vetor_de_segmentos, int tamanho){
+        merge_sort204(vetor_de_segmentos,tamanho,0,tamanho-1);
+    }
     
     template <typename T>
     static void criar_pontos(int quantidade, Ponto<T>* &pontos){
@@ -693,12 +819,12 @@ class math2D{
 
 
     template <typename T>
-    //se um ponto de um segmento estiver sobre o outro retorna falso
+    //se um ponto de um segmento estiver sobre a reta correspondente ao outro retorna 0(se os segmentos forem colineares retorna 0)
     static int cruza(Segmento<T> segmento1, Segmento<T> segmento2){
 
         //caso 0 (útil para comparar retas, mas pode confundir, CUIDADO)
         //ver se um ponto está sobre a reta correspondente ao outro ponto
-        if(lado(segmento1,segmento2.start) == 0 || (lado(segmento1,segmento2.end) == 0) ||lado(segmento2,segmento1.start) ==0 || lado(segmento2,segmento1.end) ==0){
+        if(lado(segmento1,segmento2.start) == 0 && (lado(segmento1,segmento2.end) == 0) && lado(segmento2,segmento1.start) ==0 &&  lado(segmento2,segmento1.end) ==0){
             return 0;
         }
 
@@ -706,14 +832,14 @@ class math2D{
         //ver se os dois pontos de um segmento estão, cada um, em um lado diferente do outro segmento( caso em que os segmentos cruzam)
         if( (lado(segmento1,segmento2.start) != lado(segmento1,segmento2.end)) && (lado(segmento2,segmento1.start) != lado(segmento2,segmento1.end)) )  {
 
-        return 1;
+            return 1;
         }
 
         //caso -1
         //caso não ocorra nenhuma das situações anteriores, os segmentos não se encontram de qualquer forma
         else{return -1;}
     }
-
+    
 
     template <typename T>
     static bool paralelos(Segmento<T> segmento1, Segmento<T> segmento2){
@@ -851,6 +977,38 @@ class math2D{
             return false;
         }
 
+    }
+    
+    
+    
+    template <typename T>
+    //se um ponto de um segmento estiver sobre o outro retorna 1(se os segmentos forem colineares retorna 1 se algum ponto de um segmento pertencer a outro, e zero caso contrário)
+    static int cruza2(Segmento<T> segmento1, Segmento<T> segmento2){
+
+        //caso 0
+        if(lado(segmento1,segmento2.start) == 0 || (lado(segmento1,segmento2.end) == 0) ||lado(segmento2,segmento1.start) ==0 || lado(segmento2,segmento1.end) ==0){
+            
+            if(ponto_sobre_segmento(segmento1,segmento2.start) || ponto_sobre_segmento(segmento1,segmento2.end) || ponto_sobre_segmento(segmento2,segmento1.start) || ponto_sobre_segmento(segmento2,segmento1.end) ){
+                return 1;    
+            }
+            else{
+                if(paralelos(segmento1,segmento2)){
+                    return 0;
+                }
+            }
+            
+        }
+
+        //caso 1
+        //ver se os dois pontos de um segmento estão, cada um, em um lado diferente do outro segmento( caso em que os segmentos cruzam)
+        if( (lado(segmento1,segmento2.start) != lado(segmento1,segmento2.end)) && (lado(segmento2,segmento1.start) != lado(segmento2,segmento1.end)) )  {
+
+            return 1;
+        }
+
+        //caso -1
+        //caso não ocorra nenhuma das situações anteriores, os segmentos não se encontram de qualquer forma
+        else{return -1;}
     }
 
 
@@ -1788,39 +1946,83 @@ class math2D{
             
         }
         
-        struct vetor_de_segmentos{
-            int y;
-            vector<Segmento<long double>> vetor;
-        };
-        
-        vector<vetor_de_segmentos> trechos;
+        vector<Vetor_de_segmentos<long double>> trechos;
         
         long double* y = new long double[N];
         
        
        
        
-       
-        Ponto<long double>* pontos2 = new Ponto<long double>[N];
+        //os pontos de forma3 ficarão ordenados pelo y
+        Ponto<long double>* forma3 = new Ponto<long double>[N];
         
         for(int i = 0; i<N; i++){
-            pontos2[i] = pontos1[i];
+            forma3[i] = forma[i];
         }
         
-        math2D::ordena_pontos_pelo_eixo_y(pontos2,N);
-     
-        for(int i =0; i<Q; i++){
+        //os pontos de forma4 ficarão ordenados pelo x;
+        Ponto<long double>* forma4 = new Ponto<long double>[N];
+        
+        for(int i = 0; i<N; i++){
+            forma4[i] = forma[i];
+        }
+        
+        math2D::ordena_pontos_pelo_eixo_x(forma4,N);
+        long double menor_x = forma4[0].x;
+        long double maior_x = forma4[N-1].x;
+        
+        math2D::ordena_pontos_pelo_eixo_y(forma3,N);
+        
+        int contador = 0;
+        int quantidade_de_trechos = 0;
+        
+        while(true){
             
-            //crio um vetor de segmentos sem segmentos adicionados, para cada y
-            vetor_de_segmentos vetor;
-            //o vetor de segmentos começa em y
-            vetor.y = pontos2[i].y;
+            while(forma3[contador+1].y == forma3[contador].y && contador<(N-2)){
+                contador++;
+            }
             
-            trechos.push_back(vetor);
+            
+            if(contador >= (N-1) ){break;}
+            
+            else{
+                
+                Vetor_de_segmentos<long double> a;
+                a.y1 = forma3[contador].y;
+                a.y2 = forma3[contador+1].y;
+                
+                trechos.push_back(a);
+                contador++;
+                quantidade_de_trechos++;
+            }
             
         }
         
-    
+        for(int i = 0;i<quantidade_de_trechos;i++){
+            
+            trechos[i].print();
+            cout<<endl;
+        }
+        
+       
+        //para cada vetor de segmentos adicionar os segmentos que cruzam a reta horizontal
+        
+        for(int i = 0;i<quantidade_de_trechos;i++){
+            
+            Segmento<long double> horizontal(Ponto<long double>(menor_x-2.0,trechos[i].y1),Ponto<long double>(maior_x+2.0,trechos[i].y2));
+            
+            Ponto<long double>
+            
+            //verificar cada par de pontos
+            for(int i2 = 0;i2<(N-1);i2++){
+                if(!math2D::paralelos(Segmento<long double>(forma[i2],forma[i2+1]),horizontal) && (math2D::cruza2(Segmento<long double>(forma[i2],forma[i2+1]),horizontal)==1) ){
+                    //os segmentos cruzam
+                    trechos[i].vetor.push_back(Segmento<long double>(forma[i2],forma[i2+1]));
+                    
+                }
+            }
+            
+        }
     
          /*
         
@@ -1988,6 +2190,7 @@ int main(){
     
     math2D Math2D;
     
-    math2D::ponto_em_poligono2();
+    //math2D::ponto_em_poligono3();
+    
     return 0;
 }
