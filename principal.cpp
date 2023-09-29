@@ -246,6 +246,7 @@ class Matriz3{
     
 };
 
+//útil na função ponto em polígono 3
 template <typename T>
 class Vetor_de_segmentos{
     
@@ -258,6 +259,7 @@ class Vetor_de_segmentos{
     vector<Segmento<long double>> vetor;
     
     void print(){
+        cout<<endl;
         cout<<"y inicial: "<<y1<<endl;
         cout<<"y final: "<<y2<<endl;
         
@@ -275,7 +277,7 @@ class Vetor_de_segmentos{
 
 };
 
-//funções matemáticas que não envolvem geometria
+//funções que não envolvem geometria
 class Math1{
     
     public:
@@ -820,11 +822,12 @@ class math2D{
 
     template <typename T>
     //se um ponto de um segmento estiver sobre a reta correspondente ao outro retorna 0(se os segmentos forem colineares retorna 0)
+    //USAR FUNÇÃO CRUZA2!!!
     static int cruza(Segmento<T> segmento1, Segmento<T> segmento2){
 
         //caso 0 (útil para comparar retas, mas pode confundir, CUIDADO)
         //ver se um ponto está sobre a reta correspondente ao outro ponto
-        if(lado(segmento1,segmento2.start) == 0 && (lado(segmento1,segmento2.end) == 0) && lado(segmento2,segmento1.start) ==0 &&  lado(segmento2,segmento1.end) ==0){
+        if(lado(segmento1,segmento2.start) == 0 || (lado(segmento1,segmento2.end) == 0) || lado(segmento2,segmento1.start) ==0 ||  lado(segmento2,segmento1.end) ==0){
             return 0;
         }
 
@@ -982,18 +985,21 @@ class math2D{
     
     
     template <typename T>
-    //se um ponto de um segmento estiver sobre o outro retorna 1(se os segmentos forem colineares retorna 1 se algum ponto de um segmento pertencer a outro, e zero caso contrário)
+    //se os segmentos cruzarem retorna 1, retorna 0 nos casos particulares e retorna -1 se não se cruzam
     static int cruza2(Segmento<T> segmento1, Segmento<T> segmento2){
 
         //caso 0
         if(lado(segmento1,segmento2.start) == 0 || (lado(segmento1,segmento2.end) == 0) ||lado(segmento2,segmento1.start) ==0 || lado(segmento2,segmento1.end) ==0){
             
             if(ponto_sobre_segmento(segmento1,segmento2.start) || ponto_sobre_segmento(segmento1,segmento2.end) || ponto_sobre_segmento(segmento2,segmento1.start) || ponto_sobre_segmento(segmento2,segmento1.end) ){
-                return 1;    
+                return 0;    
             }
             else{
-                if(paralelos(segmento1,segmento2)){
+                if(paralelos_e_sobrepostos(segmento1,segmento2)){
                     return 0;
+                }
+                else if(paralelos(segmento1,segmento2)){
+                    return -1;
                 }
             }
             
@@ -1902,6 +1908,7 @@ class math2D{
             
     }
     
+    //funciona para polígonos não convexos
     static void ponto_em_poligono3(){
         
         //math2D Math2D;
@@ -2011,8 +2018,6 @@ class math2D{
             
             Segmento<long double> horizontal(Ponto<long double>(menor_x-2.0,trechos[i].y1),Ponto<long double>(maior_x+2.0,trechos[i].y2));
             
-            Ponto<long double>
-            
             //verificar cada par de pontos
             for(int i2 = 0;i2<(N-1);i2++){
                 if(!math2D::paralelos(Segmento<long double>(forma[i2],forma[i2+1]),horizontal) && (math2D::cruza2(Segmento<long double>(forma[i2],forma[i2+1]),horizontal)==1) ){
@@ -2020,9 +2025,35 @@ class math2D{
                     trechos[i].vetor.push_back(Segmento<long double>(forma[i2],forma[i2+1]));
                     
                 }
+                //caso em que só um ponto da extremidade de um segmento coincide com o outro
+                else if(!math2D::paralelos(Segmento<long double>(forma[i2],forma[i2+1]),horizontal) && (math2D::cruza2(Segmento<long double>(forma[i2],forma[i2+1]),horizontal)==0)){
+                    
+                    if(forma[i2].y >horizontal.start.y || forma[i2+1].y >horizontal.start.y){
+                        trechos[i].vetor.push_back(Segmento<long double>(forma[i2],forma[i2+1]));
+                    }
+                }
+            }
+            
+            //comparar o último par de pontos
+            if(!math2D::paralelos(Segmento<long double>(forma[N-1],forma[0]),horizontal) && (math2D::cruza2(Segmento<long double>(forma[N-1],forma[0]),horizontal)==1) ){
+                //os segmentos cruzam
+                trechos[i].vetor.push_back(Segmento<long double>(forma[N-1],forma[0]));
+                
+            }
+            //caso em que só um ponto da extremidade de um segmento coincide com o outro
+            else if(!math2D::paralelos(Segmento<long double>(forma[N-1],forma[0]),horizontal) && (math2D::cruza2(Segmento<long double>(forma[N-1],forma[0]),horizontal)==0)){
+                
+                if(forma[N-1].y >horizontal.start.y || forma[0].y > horizontal.start.y){
+                    trechos[i].vetor.push_back(Segmento<long double>(forma[N-1],forma[0]));
+                }
             }
             
         }
+        
+        for(int i =0;i<quantidade_de_trechos;i++){
+            trechos[i].print();
+        }
+       
     
          /*
         
@@ -2189,8 +2220,8 @@ class math2D{
 int main(){
     
     math2D Math2D;
-    
-    //math2D::ponto_em_poligono3();
+ 
+    math2D::ponto_em_poligono3();
     
     return 0;
 }
