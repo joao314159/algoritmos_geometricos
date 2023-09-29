@@ -39,6 +39,45 @@ class Ponto{
         this->y = (this->y)*a;
     }
     
+    template <typename tipo3>
+    Ponto<T> operator+(Ponto<tipo3> ponto1){
+        Ponto<T> ponto2;
+        ponto2.x = this->x+ponto1.x;
+        ponto2.y = this->y+ponto1.y;
+        
+        return ponto2;
+    }
+    
+    template <typename tipo5>
+    Ponto<T> operator*(tipo5 number){
+        
+        Ponto<T> ponto2;
+        
+        ponto2.x = (this->x) *number;
+        ponto2.y = (this->y) *number;
+        
+        return ponto2;
+    }
+    
+    template <typename tipo6>
+    Ponto<T> operator-(Ponto<tipo6> ponto1){
+        Ponto<T> ponto2;
+        ponto2.x = this->x - ponto1.x;
+        ponto2.y = this->y - ponto1.y;
+        
+        return ponto2;
+        
+    }
+    
+    template <typename tipo7>
+    Ponto<T> operator/(Ponto<tipo7> ponto1){
+        Ponto<T> ponto2;
+        ponto2.x = this->x/ponto1.x;
+        ponto2.y = this->y/ponto1.y;
+        
+        return ponto2;
+    }
+    
     void print(){
         cout<<"Coordenadas do ponto: ("<<this->x<<", "<<this->y<<")"<<endl;
     }
@@ -1110,7 +1149,12 @@ class math2D{
         else{return -1;}
     }
 
-
+    template <typename T>
+    static Ponto<T> ponto_de_cruzamento(Segmento<T> segmento1,Segmento<T> segmento2){
+        Ponto<T> ponto1;
+        
+        
+    }
 
 
 
@@ -2087,13 +2131,18 @@ class math2D{
             
             else{
                 
-                Vetor_de_segmentos<long double> a;
-                a.y1 = forma3[contador].y;
-                a.y2 = forma3[contador+1].y;
-                
-                trechos.push_back(a);
-                contador++;
-                quantidade_de_trechos++;
+                if(forma3[contador].y != forma3[contador+1].y){
+                    Vetor_de_segmentos<long double> a;
+                    a.y1 = forma3[contador].y;
+                    a.y2 = forma3[contador+1].y;
+                    
+                    trechos.push_back(a);
+                    contador++;
+                    quantidade_de_trechos++;
+                }
+                else{
+                    break;
+                }
             }
             
         }
@@ -2156,10 +2205,62 @@ class math2D{
             trechos[i].print();
         }
        
-    
-         /*
+        
+        //fazer a busca binária para encontrar o trecho, depois fazer a busca binária para encontrar o segmento
+        
+        /*
         
         exemplos de casos de teste
+        
+        teste 6
+        
+        25
+        1.0 7.0
+        3.0 8.0
+        5.0 9.0
+        5.0 8.0
+        8.0 9.0
+        10.0 7.0 
+        10.0 6.0 
+        11.0 5.0 
+        9.0 3.0 
+        7.0 4.0 
+        7.0 5.0 
+        8.0 4.0 
+        9.0 4.0 
+        9.0 5.0 
+        9.0 6.0 
+        6.0 6.0 
+        6.0 5.0 
+        5.0 6.0 
+        4.0 5.0 
+        5.0 4.0 
+        5.0 3.0 
+        6.0 2.0 
+        2.0 2.0 
+        2.0 4.0 
+        4.0 8.0 
+        9
+        6.0 9.0 
+        8.0 7.0 
+        6.0 6.5 
+        5.5 5.5 
+        8.0 4.5 
+        4.0 3.0 
+        2.8 2.8 
+        3.0 2.0 
+        10.0 5.0 
+        
+        fora 
+        dentro
+        dentro 
+        em cima 
+        fora 
+        dentro 
+        dentro 
+        em cima 
+        dentro 
+        
         
         teste 5
         
@@ -2322,8 +2423,9 @@ class math2D{
 int main(){
     
     math2D Math2D;
- 
-    math2D::ponto_em_poligono3();
     
+  
+    //math2D::ponto_em_poligono3();
+   
     return 0;
 }
