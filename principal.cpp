@@ -439,6 +439,33 @@ class math2D{
     }
     
     
+    template <typename T>
+    static Ponto<T>* menor_eixo_x(Ponto<T> &ponto1,Ponto<T> &ponto2){
+        
+        if(ponto1.x<ponto2.x){
+            return &ponto1;
+        }
+        else{
+            return &ponto2;
+        }
+        
+    }
+    
+       
+    template <typename T>
+    static Ponto<T>* menor_eixo_y(Ponto<T> &ponto1,Ponto<T> &ponto2){
+        
+        if(ponto1.y<ponto2.y){
+            return &ponto1;
+        }
+        else{
+            return &ponto2;
+        }
+        
+    }
+    
+    
+    
     static bool id_ponto(string a){
         
         if(a[1]=='P' && a[2] =='o' && a[3] == 'n' && a[4] =='t' && a[5] == 'o'){
@@ -457,188 +484,249 @@ class math2D{
     /////////MERGE SORT 2/////////////////////////////////////////
     
     
-   
-    template <typename T>
-    static void merge02(T vetor[], int esquerda,int meio, int direita, int tamanho){
-        
-        T auxiliar[tamanho];
-        
-        for(int i = 0; i<tamanho ;i++){
-            auxiliar[i] =vetor[i];
-        }
-        
-        int i = esquerda;
-        int i2 = meio +1;
-        int i3 = esquerda;
-        
-        
-        while(i <= meio && i2 <= direita){
-            if(auxiliar[i].x <= auxiliar[i2].x){
-                vetor[i3] = auxiliar[i];
-                i++;
-            }
-            else{
-                vetor[i3] = auxiliar[i2];
-                i2++;
-            }
-            i3++;
-        }
        
-        
-        while(i<=meio){
-            vetor[i3] = auxiliar[i];
-            i++;
-            i3++;
-        }
-        
-        while(i2<=direita){
-            vetor[i3] = auxiliar[i2]; 
-            i2++;
-            i3++;
-        }
-    }
-    
-    template <typename T>
-    static void merge_sort202(T vetor[],int tamanho, int esquerda,int direita){
-        
-        if (esquerda>=direita){
-            return;
-        }
-        
-        int meio = (esquerda + direita)/2;
-        
-        merge_sort202(vetor,tamanho,esquerda,meio);
-        merge_sort202(vetor,tamanho,meio+1,direita);
-        
-        merge02(vetor, esquerda, meio, direita, tamanho);
-        
-    }
-    
-    
-    ///////////////////////////////////////////////////////////////
-    
-    //////////MERGE SORT 3/////////////////////////////////////////
-    
-    
-    template <typename T>
-    static void merge03(T vetor[], int esquerda,int meio, int direita, int tamanho){
-        
-        T auxiliar[tamanho];
-        
-        for(int i = 0; i<tamanho ;i++){
-            auxiliar[i] =vetor[i];
-        }
-        
-        int i = esquerda;
-        int i2 = meio +1;
-        int i3 = esquerda;
-        
-        
-        while(i <= meio && i2 <= direita){
-            if(auxiliar[i].y <= auxiliar[i2].y){
-                vetor[i3] = auxiliar[i];
-                i++;
-            }
-            else{
-                vetor[i3] = auxiliar[i2];
-                i2++;
-            }
-            i3++;
-        }
+        template <typename T>
+        static void merge02(T vetor[], int esquerda,int meio, int direita, int tamanho){
             
-       
-        while(i<=meio){
-            vetor[i3] = auxiliar[i];
-            i++;
-            i3++;
-        }
-        
-        while(i2<=direita){
-            vetor[i3] = auxiliar[i2]; 
-            i2++;
-            i3++;
-        }
-    }
-    
-    template <typename T>
-    static void merge_sort203(T vetor[],int tamanho, int esquerda,int direita){
-        
-        if (esquerda>=direita){
-            return;
-        }
-        
-        int meio = (esquerda + direita)/2;
-        
-        merge_sort203(vetor,tamanho,esquerda,meio);
-        merge_sort203(vetor,tamanho,meio+1,direita);
-        
-        merge03(vetor, esquerda, meio, direita, tamanho);
-        
-    }
-    
-    
-    ///////////////////////////////////////////////////////////////
-   
-    /////////MERGE_SORT 4//////////////////////////////////////////
-   
-   
-    
-    template <typename T>
-    static void merge04(T vetor[], int esquerda,int meio, int direita, int tamanho){
-        
-        T auxiliar[tamanho];
-        
-        for(int i = 0; i<tamanho ;i++){
-            auxiliar[i] = vetor[i];
-        }
-        
-        int i = esquerda;
-        int i2 = meio +1;
-        int i3 = esquerda;
-        
-        
-        while(i <= meio && i2 <= direita){
-            if(auxiliar[i].y1 <= auxiliar[i2].y1){
+            T auxiliar[tamanho];
+            
+            for(int i = 0; i<tamanho ;i++){
+                auxiliar[i] =vetor[i];
+            }
+            
+            int i = esquerda;
+            int i2 = meio +1;
+            int i3 = esquerda;
+            
+            
+            while(i <= meio && i2 <= direita){
+                if(auxiliar[i].x <= auxiliar[i2].x){
+                    vetor[i3] = auxiliar[i];
+                    i++;
+                }
+                else{
+                    vetor[i3] = auxiliar[i2];
+                    i2++;
+                }
+                i3++;
+            }
+           
+            
+            while(i<=meio){
                 vetor[i3] = auxiliar[i];
                 i++;
+                i3++;
             }
-            else{
-                vetor[i3] = auxiliar[i2];
-                i2++;
-            }
-            i3++;
-        }
             
+            while(i2<=direita){
+                vetor[i3] = auxiliar[i2]; 
+                i2++;
+                i3++;
+            }
+        }
+        
+        template <typename T>
+        static void merge_sort202(T vetor[],int tamanho, int esquerda,int direita){
+            
+            if (esquerda>=direita){
+                return;
+            }
+            
+            int meio = (esquerda + direita)/2;
+            
+            merge_sort202(vetor,tamanho,esquerda,meio);
+            merge_sort202(vetor,tamanho,meio+1,direita);
+            
+            merge02(vetor, esquerda, meio, direita, tamanho);
+            
+        }
+        
+        
+        ///////////////////////////////////////////////////////////////
+        
+        //////////MERGE SORT 3/////////////////////////////////////////
+        
+        
+        template <typename T>
+        static void merge03(T vetor[], int esquerda,int meio, int direita, int tamanho){
+            
+            T auxiliar[tamanho];
+            
+            for(int i = 0; i<tamanho ;i++){
+                auxiliar[i] =vetor[i];
+            }
+            
+            int i = esquerda;
+            int i2 = meio +1;
+            int i3 = esquerda;
+            
+            
+            while(i <= meio && i2 <= direita){
+                if(auxiliar[i].y <= auxiliar[i2].y){
+                    vetor[i3] = auxiliar[i];
+                    i++;
+                }
+                else{
+                    vetor[i3] = auxiliar[i2];
+                    i2++;
+                }
+                i3++;
+            }
+                
+           
+            while(i<=meio){
+                vetor[i3] = auxiliar[i];
+                i++;
+                i3++;
+            }
+            
+            while(i2<=direita){
+                vetor[i3] = auxiliar[i2]; 
+                i2++;
+                i3++;
+            }
+        }
+        
+        template <typename T>
+        static void merge_sort203(T vetor[],int tamanho, int esquerda,int direita){
+            
+            if (esquerda>=direita){
+                return;
+            }
+            
+            int meio = (esquerda + direita)/2;
+            
+            merge_sort203(vetor,tamanho,esquerda,meio);
+            merge_sort203(vetor,tamanho,meio+1,direita);
+            
+            merge03(vetor, esquerda, meio, direita, tamanho);
+            
+        }
+        
+        
+        ///////////////////////////////////////////////////////////////
        
-        while(i<=meio){
-            vetor[i3] = auxiliar[i];
-            i++;
-            i3++;
+        /////////MERGE_SORT 4//////////////////////////////////////////
+       
+       
+        
+        template <typename T>
+        static void merge04(T vetor[], int esquerda,int meio, int direita, int tamanho){
+            
+            T auxiliar[tamanho];
+            
+            for(int i = 0; i<tamanho ;i++){
+                auxiliar[i] = vetor[i];
+            }
+            
+            int i = esquerda;
+            int i2 = meio +1;
+            int i3 = esquerda;
+            
+            
+            while(i <= meio && i2 <= direita){
+                if(auxiliar[i].y1 <= auxiliar[i2].y1){
+                    vetor[i3] = auxiliar[i];
+                    i++;
+                }
+                else{
+                    vetor[i3] = auxiliar[i2];
+                    i2++;
+                }
+                i3++;
+            }
+                
+           
+            while(i<=meio){
+                vetor[i3] = auxiliar[i];
+                i++;
+                i3++;
+            }
+            
+            while(i2<=direita){
+                vetor[i3] = auxiliar[i2]; 
+                i2++;
+                i3++;
+            }
         }
         
-        while(i2<=direita){
-            vetor[i3] = auxiliar[i2]; 
-            i2++;
-            i3++;
+        template <typename T>
+        static void merge_sort204(T vetor[],int tamanho, int esquerda,int direita){
+            
+            if (esquerda>=direita){
+                return;
+            }
+            
+            int meio = (esquerda + direita)/2;
+            
+            merge_sort204(vetor,tamanho,esquerda,meio);
+            merge_sort204(vetor,tamanho,meio+1,direita);
+            
+            merge04(vetor, esquerda, meio, direita, tamanho);
+            
         }
-    }
-    
-    template <typename T>
-    static void merge_sort204(T vetor[],int tamanho, int esquerda,int direita){
         
-        if (esquerda>=direita){
-            return;
+        ////////////////////////////////////////////////////////////////////////////
+        
+        ////////////////MERGE SORT 5////////////////////////////////////////////////
+        
+        
+        template <typename T>
+        static void merge05(T vetor[], int esquerda,int meio, int direita, int tamanho){
+            
+            T auxiliar[tamanho];
+            
+            for(int i = 0; i<tamanho ;i++){
+                auxiliar[i] = vetor[i];
+            }
+            
+            int i = esquerda;
+            int i2 = meio +1;
+            int i3 = esquerda;
+            
+            
+            while(i <= meio && i2 <= direita){
+                if(menor_eixo_x(auxiliar[i].start,auxiliar[i].end)->x <= menor_eixo_x(auxiliar[i2].start,auxiliar[i2].end)->x ){
+                    vetor[i3] = auxiliar[i];
+                    i++;
+                }
+                else{
+                    vetor[i3] = auxiliar[i2];
+                    i2++;
+                }
+                i3++;
+            }
+                
+           
+            while(i<=meio){
+                vetor[i3] = auxiliar[i];
+                i++;
+                i3++;
+            }
+            
+            while(i2<=direita){
+                vetor[i3] = auxiliar[i2]; 
+                i2++;
+                i3++;
+            }
         }
         
-        int meio = (esquerda + direita)/2;
+        template <typename T>
+        static void merge_sort205(T vetor[],int tamanho, int esquerda,int direita){
+            
+            if (esquerda>=direita){
+                return;
+            }
+            
+            int meio = (esquerda + direita)/2;
+            
+            merge_sort205(vetor,tamanho,esquerda,meio);
+            merge_sort205(vetor,tamanho,meio+1,direita);
+            
+            merge05(vetor, esquerda, meio, direita, tamanho);
+            
+        }
         
-        merge_sort204(vetor,tamanho,esquerda,meio);
-        merge_sort204(vetor,tamanho,meio+1,direita);
-        
-        merge04(vetor, esquerda, meio, direita, tamanho);
-        
-    }
-    
     
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
@@ -657,6 +745,11 @@ class math2D{
     template <typename T>
     static void ordena_vetor_de_segmentos(Vetor_de_segmentos<T>* vetor_de_segmentos, int tamanho){
         merge_sort204(vetor_de_segmentos,tamanho,0,tamanho-1);
+    }
+    
+    template <typename T>
+    static void ordena_segmentos(Segmento<T>* segmentos, int tamanho){
+        merge_sort205(segmentos,tamanho,0,tamanho-1);
     }
     
     template <typename T>
@@ -2011,10 +2104,14 @@ class math2D{
             cout<<endl;
         }
         
+        int quantidade_de_segmentos =0;
        
         //para cada vetor de segmentos adicionar os segmentos que cruzam a reta horizontal
         
         for(int i = 0;i<quantidade_de_trechos;i++){
+            
+            
+            quantidade_de_segmentos = 0;
             
             Segmento<long double> horizontal(Ponto<long double>(menor_x-2.0,trechos[i].y1),Ponto<long double>(maior_x+2.0,trechos[i].y2));
             
@@ -2023,13 +2120,14 @@ class math2D{
                 if(!math2D::paralelos(Segmento<long double>(forma[i2],forma[i2+1]),horizontal) && (math2D::cruza2(Segmento<long double>(forma[i2],forma[i2+1]),horizontal)==1) ){
                     //os segmentos cruzam
                     trechos[i].vetor.push_back(Segmento<long double>(forma[i2],forma[i2+1]));
-                    
+                    quantidade_de_segmentos++;
                 }
                 //caso em que só um ponto da extremidade de um segmento coincide com o outro
                 else if(!math2D::paralelos(Segmento<long double>(forma[i2],forma[i2+1]),horizontal) && (math2D::cruza2(Segmento<long double>(forma[i2],forma[i2+1]),horizontal)==0)){
                     
                     if(forma[i2].y >horizontal.start.y || forma[i2+1].y >horizontal.start.y){
                         trechos[i].vetor.push_back(Segmento<long double>(forma[i2],forma[i2+1]));
+                        quantidade_de_segmentos++;
                     }
                 }
             }
@@ -2038,6 +2136,7 @@ class math2D{
             if(!math2D::paralelos(Segmento<long double>(forma[N-1],forma[0]),horizontal) && (math2D::cruza2(Segmento<long double>(forma[N-1],forma[0]),horizontal)==1) ){
                 //os segmentos cruzam
                 trechos[i].vetor.push_back(Segmento<long double>(forma[N-1],forma[0]));
+                quantidade_de_segmentos++;
                 
             }
             //caso em que só um ponto da extremidade de um segmento coincide com o outro
@@ -2045,8 +2144,11 @@ class math2D{
                 
                 if(forma[N-1].y >horizontal.start.y || forma[0].y > horizontal.start.y){
                     trechos[i].vetor.push_back(Segmento<long double>(forma[N-1],forma[0]));
+                    quantidade_de_segmentos++;
                 }
             }
+            //ordenar os segmentos
+            math2D::ordena_segmentos(&trechos[i].vetor[0],quantidade_de_segmentos);
             
         }
         
