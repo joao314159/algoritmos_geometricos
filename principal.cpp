@@ -1,4 +1,6 @@
 
+
+
 #include <iostream>
 #include <vector>
 #include <typeinfo>
@@ -453,52 +455,52 @@ class math2D{
     }
     
     template <typename T>
-    static Ponto<T>* maior_eixo_x(Ponto<T> &ponto1,Ponto<T> &ponto2){
+    static Ponto<T> maior_eixo_x(Ponto<T> ponto1,Ponto<T> ponto2){
         
         if(ponto1.x>=ponto2.x){
-            return &ponto1;
+            return ponto1;
         }
         else{
-            return &ponto2;
+            return ponto2;
         }
         
     }
     
        
     template <typename T>
-    static Ponto<T>* maior_eixo_y(Ponto<T> &ponto1,Ponto<T> &ponto2){
+    static Ponto<T> maior_eixo_y(Ponto<T> ponto1,Ponto<T> ponto2){
         
         if(ponto1.y>=ponto2.y){
-            return &ponto1;
+            return ponto1;
         }
         else{
-            return &ponto2;
+            return ponto2;
         }
         
     }
     
     
     template <typename T>
-    static Ponto<T>* menor_eixo_x(Ponto<T> &ponto1,Ponto<T> &ponto2){
+    static Ponto<T> menor_eixo_x(Ponto<T> ponto1,Ponto<T> ponto2){
         
         if(ponto1.x<ponto2.x){
-            return &ponto1;
+            return ponto1;
         }
         else{
-            return &ponto2;
+            return ponto2;
         }
         
     }
     
        
     template <typename T>
-    static Ponto<T>* menor_eixo_y(Ponto<T> &ponto1,Ponto<T> &ponto2){
+    static Ponto<T> menor_eixo_y(Ponto<T> ponto1,Ponto<T> ponto2){
         
         if(ponto1.y<ponto2.y){
-            return &ponto1;
+            return ponto1;
         }
         else{
-            return &ponto2;
+            return ponto2;
         }
         
     }
@@ -711,7 +713,7 @@ class math2D{
         
         
         template <typename T>
-        static void merge05(T vetor[], int esquerda,int meio, int direita, int tamanho){
+        static void merge05(T vetor[], int esquerda,int meio, int direita, int tamanho, int y){
             
             T auxiliar[tamanho];
             
@@ -725,7 +727,48 @@ class math2D{
             
             
             while(i <= meio && i2 <= direita){
-                if(menor_eixo_x(auxiliar[i].start,auxiliar[i].end)->x <= menor_eixo_x(auxiliar[i2].start,auxiliar[i2].end)->x ){
+                
+                //encontrar o cruzamento
+                
+                // y/x = a;
+                //y1= 4;
+                //x = y/a
+                //y1/x1 = a;
+                
+                long double x1;
+                long double x2;
+                long double o1;
+                long double o2;
+                
+                if((auxiliar[i].end.x - auxiliar[i].start.x) == 0){
+                    //reta vertical
+                    x1 = auxiliar[i].end.x;
+                }
+                else if((auxiliar[i2].end.x - auxiliar[i2].start.x) == 0){
+                    //reta vertical
+                    x2 = auxiliar[i2].end.x;
+                }
+                else{
+                    o1 = abs(auxiliar[i].end.y - auxiliar[i].start.y)/abs(auxiliar[i].end.x - auxiliar[i].start.x);
+                    o2 = abs(auxiliar[i2].end.y - auxiliar[i2].start.y)/abs(auxiliar[i2].end.x - auxiliar[i2].start.x);
+                
+                
+                    if((auxiliar[i].end.y - auxiliar[i].start.y) == 0 || (auxiliar[i2].end.y - auxiliar[i2].start.y)==0){
+                        cout<<"erro"<<endl;
+                    }
+                    else{
+                      
+                        Ponto<long double> ponto12 = menor_eixo_y(auxiliar[i].start,auxiliar[i].end);
+                        Ponto<long double> ponto22 = menor_eixo_y(auxiliar[i2].start,auxiliar[i2].end);
+                        
+                        x1 = (abs(auxiliar[i].end.y - auxiliar[i].start.y) - y - o1*abs(auxiliar[i].end.x - auxiliar[i].start.x) )/o1;
+                        x2 = (abs(auxiliar[i2].end.y - auxiliar[i2].start.y) - y - o1*abs(auxiliar[i2].end.x - auxiliar[i2].start.x) )/o1;
+                    }
+                
+                }
+          
+                
+                if(x1 <= x2 ){
                     vetor[i3] = auxiliar[i];
                     i++;
                 }
@@ -751,7 +794,7 @@ class math2D{
         }
         
         template <typename T>
-        static void merge_sort205(T vetor[],int tamanho, int esquerda,int direita){
+        static void merge_sort205(T vetor[],int tamanho, int esquerda,int direita, int y){
             
             if (esquerda>=direita){
                 return;
@@ -759,10 +802,10 @@ class math2D{
             
             int meio = (esquerda + direita)/2;
             
-            merge_sort205(vetor,tamanho,esquerda,meio);
-            merge_sort205(vetor,tamanho,meio+1,direita);
+            merge_sort205(vetor,tamanho,esquerda,meio,y);
+            merge_sort205(vetor,tamanho,meio+1,direita,y);
             
-            merge05(vetor, esquerda, meio, direita, tamanho);
+            merge05(vetor, esquerda, meio, direita, tamanho,y);
             
         }
         
@@ -787,8 +830,8 @@ class math2D{
     }
     
     template <typename T>
-    static void ordena_segmentos(Segmento<T>* segmentos, int tamanho){
-        merge_sort205(segmentos,tamanho,0,tamanho-1);
+    static void ordena_segmentos(Segmento<T>* segmentos, int tamanho,int y){
+        merge_sort205(segmentos,tamanho,0,tamanho-1,y);
     }
     
     template <typename T>
@@ -2196,8 +2239,20 @@ class math2D{
                     quantidade_de_segmentos++;
                 }
             }
+            
+            
+            for(int i2 = 0;i2<trechos[i].vetor.size();i2++){
+                
+                //se o y do início do segmento for maior que o y do final do segmento
+                if(trechos[i].vetor[i2].start.y > trechos[i].vetor[i2].end.y){
+                    trechos[i].vetor[i2].inverter();
+                }
+                
+            }
+            
+            
             //ordenar os segmentos
-            math2D::ordena_segmentos(&trechos[i].vetor[0],quantidade_de_segmentos);
+            math2D::ordena_segmentos(&trechos[i].vetor[0],quantidade_de_segmentos,trechos[i].y1);
             
         }
         
@@ -2425,7 +2480,8 @@ int main(){
     math2D Math2D;
     
   
-    //math2D::ponto_em_poligono3();
+    math2D::ponto_em_poligono3();
    
+    
     return 0;
 }
