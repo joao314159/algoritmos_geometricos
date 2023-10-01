@@ -758,11 +758,20 @@ class math2D{
                     }
                     else{
                       
-                        Ponto<long double> ponto12 = menor_eixo_y(auxiliar[i].start,auxiliar[i].end);
-                        Ponto<long double> ponto22 = menor_eixo_y(auxiliar[i2].start,auxiliar[i2].end);
+                        if(auxiliar[i].start.x<auxiliar[i].end.x){
+                            x1 = auxiliar[i].start.x - (auxiliar[i].start.y - y)/o1;
+                        }
+                        else if(auxiliar[i].start.x>auxiliar[i].end.x){
+                            x1 = auxiliar[i].start.x +(auxiliar[i].start.y - y)/o1;
+                        }
                         
-                        x1 = (abs(auxiliar[i].end.y - auxiliar[i].start.y) - y - o1*abs(auxiliar[i].end.x - auxiliar[i].start.x) )/o1;
-                        x2 = (abs(auxiliar[i2].end.y - auxiliar[i2].start.y) - y - o1*abs(auxiliar[i2].end.x - auxiliar[i2].start.x) )/o1;
+                        if(auxiliar[i2].start.x<auxiliar[i2].end.x){
+                            x2 = auxiliar[i2].start.x - (auxiliar[i2].start.y - y)/o1;
+                        }
+                        else if(auxiliar[i2].start.x>auxiliar[i2].end.x){
+                            x2 = auxiliar[i2].start.x +(auxiliar[i2].start.y - y)/o1;
+                        }
+                        
                     }
                 
                 }
