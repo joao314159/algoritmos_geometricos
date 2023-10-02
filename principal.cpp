@@ -713,7 +713,7 @@ class math2D{
         
         
         template <typename T>
-        static void merge05(T vetor[], int esquerda,int meio, int direita, int tamanho, int y){
+        static void merge05(T vetor[], int esquerda,int meio, int direita, int tamanho, long double y11,long double y12){
             
             T auxiliar[tamanho];
             
@@ -740,6 +740,11 @@ class math2D{
                 long double o1;
                 long double o2;
                 
+                
+                long double x12;
+                long double x22;
+                
+                
                 if((auxiliar[i].end.x - auxiliar[i].start.x) == 0){
                     //reta vertical
                     x1 = auxiliar[i].end.x;
@@ -749,35 +754,70 @@ class math2D{
                     x2 = auxiliar[i2].end.x;
                 }
                 else{
-                    o1 = abs(auxiliar[i].end.y - auxiliar[i].start.y)/abs(auxiliar[i].end.x - auxiliar[i].start.x);
-                    o2 = abs(auxiliar[i2].end.y - auxiliar[i2].start.y)/abs(auxiliar[i2].end.x - auxiliar[i2].start.x);
-                
-                
+                    o1 = abs(auxiliar[i].end.x - auxiliar[i].start.x)/abs(auxiliar[i].end.y - auxiliar[i].start.y);
+                    o2 = abs(auxiliar[i2].end.x - auxiliar[i2].start.x)/abs(auxiliar[i2].end.y - auxiliar[i2].start.y);
+
                     if((auxiliar[i].end.y - auxiliar[i].start.y) == 0 || (auxiliar[i2].end.y - auxiliar[i2].start.y)==0){
                         cout<<"erro"<<endl;
                     }
                     else{
                       
                         if(auxiliar[i].start.x<auxiliar[i].end.x){
-                            x1 = auxiliar[i].start.x - (auxiliar[i].start.y - y)/o1;
+                            x1 = auxiliar[i].start.x + abs(auxiliar[i].start.y - y11)*o1;
                         }
                         else if(auxiliar[i].start.x>auxiliar[i].end.x){
-                            x1 = auxiliar[i].start.x +(auxiliar[i].start.y - y)/o1;
+                            x1 = auxiliar[i].end.x + abs(auxiliar[i].end.y - y11)*o1;
                         }
                         
                         if(auxiliar[i2].start.x<auxiliar[i2].end.x){
-                            x2 = auxiliar[i2].start.x - (auxiliar[i2].start.y - y)/o1;
+                            x2 = auxiliar[i2].start.x + abs(auxiliar[i2].start.y - y11)*o2;
                         }
                         else if(auxiliar[i2].start.x>auxiliar[i2].end.x){
-                            x2 = auxiliar[i2].start.x +(auxiliar[i2].start.y - y)/o1;
+                            x2 = auxiliar[i2].end.x + abs(auxiliar[i2].end.y - y11)*o2;
                         }
                         
                     }
                 
                 }
+                
+                
+                ///////////////////////////////////////////////////////////////////////////
+                ///////////////////////////////////////////////////////////////////////////
+                ///////////////////////////////////////////////////////////////////////////
+                
+                if((auxiliar[i].end.x - auxiliar[i].start.x) == 0){
+                    //reta vertical
+                    x12 = auxiliar[i].end.x;
+                }
+                else if((auxiliar[i2].end.x - auxiliar[i2].start.x) == 0){
+                    //reta vertical
+                    x22 = auxiliar[i2].end.x;
+                }
+                else{
+                    if(auxiliar[i].start.x<auxiliar[i].end.x){
+                        x12 = auxiliar[i].start.x + abs(auxiliar[i].start.y - y12)*o1;
+                    }
+                    else if(auxiliar[i].start.x>auxiliar[i].end.x){
+                        x12 = auxiliar[i].end.x + abs(auxiliar[i].end.y - y12)*o1;
+                    }
+                    
+                    if(auxiliar[i2].start.x<auxiliar[i2].end.x){
+                        x22 = auxiliar[i2].start.x + abs(auxiliar[i2].start.y - y12)*o2;
+                    }
+                    else if(auxiliar[i2].start.x>auxiliar[i2].end.x){
+                        x22 = auxiliar[i2].end.x + abs(auxiliar[i2].end.y - y12)*o2;
+                    }
+                }    
+                    
+                
+                
+                
+                ///////////////////////////////////////////////////////////////////////////
+                ///////////////////////////////////////////////////////////////////////////
+                ///////////////////////////////////////////////////////////////////////////
           
                 
-                if(x1 <= x2 ){
+                if(Math1::menor(x1,x12) <= Math1::menor(x2,x22) ){
                     vetor[i3] = auxiliar[i];
                     i++;
                 }
@@ -803,7 +843,7 @@ class math2D{
         }
         
         template <typename T>
-        static void merge_sort205(T vetor[],int tamanho, int esquerda,int direita, int y){
+        static void merge_sort205(T vetor[],int tamanho, int esquerda,int direita, long double y,long double y2){
             
             if (esquerda>=direita){
                 return;
@@ -811,10 +851,10 @@ class math2D{
             
             int meio = (esquerda + direita)/2;
             
-            merge_sort205(vetor,tamanho,esquerda,meio,y);
-            merge_sort205(vetor,tamanho,meio+1,direita,y);
+            merge_sort205(vetor,tamanho,esquerda,meio,y,y2);
+            merge_sort205(vetor,tamanho,meio+1,direita,y,y2);
             
-            merge05(vetor, esquerda, meio, direita, tamanho,y);
+            merge05(vetor, esquerda, meio, direita, tamanho,y,y2);
             
         }
         
@@ -839,8 +879,8 @@ class math2D{
     }
     
     template <typename T>
-    static void ordena_segmentos(Segmento<T>* segmentos, int tamanho,int y){
-        merge_sort205(segmentos,tamanho,0,tamanho-1,y);
+    static void ordena_segmentos(Segmento<T>* segmentos, int tamanho,long double y,long double y2){
+        merge_sort205(segmentos,tamanho,0,tamanho-1,y,y2);
     }
     
     template <typename T>
@@ -2261,7 +2301,7 @@ class math2D{
             
             
             //ordenar os segmentos
-            math2D::ordena_segmentos(&trechos[i].vetor[0],quantidade_de_segmentos,trechos[i].y1);
+            math2D::ordena_segmentos(&trechos[i].vetor[0],quantidade_de_segmentos,trechos[i].y1,trechos[i].y2);
             
         }
         
@@ -2487,6 +2527,102 @@ class math2D{
 int main(){
     
     math2D Math2D;
+    
+    /*
+    
+    Segmento<double> segmento1(Ponto<double>(3,3),Ponto<double>(7,7));
+    Segmento<double> segmento2(Ponto<double>(3,3),Ponto<double>(2,13));
+    
+    double y = 5.0;
+    
+    long double x1;
+    long double x2;
+    long double o1;
+    long double o2;
+    
+    if((segmento1.end.x - segmento1.start.x) == 0){
+        //reta vertical
+        x1 = segmento1.end.x;
+    }
+    else if((segmento2.end.x - segmento2.start.x) == 0){
+        //reta vertical
+        x2 = segmento2.end.x;
+    }
+    else{
+        
+        o1 =  abs(segmento1.end.x - segmento1.start.x)/abs(segmento1.end.y - segmento1.start.y);
+        o2 =  abs(segmento2.end.x - segmento2.start.x)/abs(segmento2.end.y - segmento2.start.y);
+    
+        if(segmento1.start.x<segmento1.end.x){
+            x1 = segmento1.start.x + abs(segmento1.start.y - y)*o1;
+        }
+        else if(segmento1.start.x>segmento1.end.x){
+            x1 = segmento1.end.x + abs(segmento1.end.y - y)*o1;
+        }
+            
+        if(segmento2.start.x<segmento2.end.x){
+            x2 = segmento2.start.x + abs(segmento2.start.y - y)*o2;
+        }
+        else if(segmento2.start.x>segmento2.end.x){
+            x2 = segmento2.end.x + abs(segmento2.end.y - y)*o2;
+        }
+    
+    }
+    
+    cout<<"x1: "<<x1<<endl;
+    cout<<"x2: "<<x2<<endl;
+    cout<<o1<<endl;
+    cout<<o2<<endl;
+    
+    cout<<segmento2.start.x<<" "<< abs(segmento2.start.y - y)*o1<<endl;
+    cout<<segmento2.end.x<< " "<<abs(segmento2.end.y - y)*o1;
+    
+    
+     // y/x = a;
+                //y1= 4;
+                //x = y/a
+                //y1/x1 = a;
+                
+                long double x1;
+                long double x2;
+                long double o1;
+                long double o2;
+                
+                if((auxiliar[i].end.x - auxiliar[i].start.x) == 0){
+                    //reta vertical
+                    x1 = auxiliar[i].end.x;
+                }
+                else if((auxiliar[i2].end.x - auxiliar[i2].start.x) == 0){
+                    //reta vertical
+                    x2 = auxiliar[i2].end.x;
+                }
+                else{
+                    o1 = abs(auxiliar[i].end.y - auxiliar[i].start.y)/abs(auxiliar[i].end.x - auxiliar[i].start.x);
+                    o2 = abs(auxiliar[i2].end.y - auxiliar[i2].start.y)/abs(auxiliar[i2].end.x - auxiliar[i2].start.x);
+                
+                
+                    if((auxiliar[i].end.y - auxiliar[i].start.y) == 0 || (auxiliar[i2].end.y - auxiliar[i2].start.y)==0){
+                        cout<<"erro"<<endl;
+                    }
+                    else{
+                      
+                        if(auxiliar[i].start.x<auxiliar[i].end.x){
+                            x1 = auxiliar[i].start.x - (auxiliar[i].start.y - y)/o1;
+                        }
+                        else if(auxiliar[i].start.x>auxiliar[i].end.x){
+                            x1 = auxiliar[i].start.x +(auxiliar[i].start.y - y)/o1;
+                        }
+                        
+                        if(auxiliar[i2].start.x<auxiliar[i2].end.x){
+                            x2 = auxiliar[i2].start.x - (auxiliar[i2].start.y - y)/o1;
+                        }
+                        else if(auxiliar[i2].start.x>auxiliar[i2].end.x){
+                            x2 = auxiliar[i2].start.x +(auxiliar[i2].start.y - y)/o1;
+                        }
+                        
+                    }
+    */
+    
     
   
     math2D::ponto_em_poligono3();
