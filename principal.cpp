@@ -749,15 +749,10 @@ class math2D{
                     //reta vertical
                     x1 = auxiliar[i].end.x;
                 }
-                else if((auxiliar[i2].end.x - auxiliar[i2].start.x) == 0){
-                    //reta vertical
-                    x2 = auxiliar[i2].end.x;
-                }
                 else{
                     o1 = abs(auxiliar[i].end.x - auxiliar[i].start.x)/abs(auxiliar[i].end.y - auxiliar[i].start.y);
-                    o2 = abs(auxiliar[i2].end.x - auxiliar[i2].start.x)/abs(auxiliar[i2].end.y - auxiliar[i2].start.y);
-
-                    if((auxiliar[i].end.y - auxiliar[i].start.y) == 0 || (auxiliar[i2].end.y - auxiliar[i2].start.y)==0){
+                    
+                    if((auxiliar[i].end.y - auxiliar[i].start.y) == 0){
                         cout<<"erro"<<endl;
                     }
                     else{
@@ -768,16 +763,30 @@ class math2D{
                         else if(auxiliar[i].start.x>auxiliar[i].end.x){
                             x1 = auxiliar[i].end.x + abs(auxiliar[i].end.y - y11)*o1;
                         }
-                        
+                    }
+                }
+                
+                if((auxiliar[i2].end.x - auxiliar[i2].start.x) == 0){
+                    //reta vertical
+                    x2 = auxiliar[i2].end.x;
+                }
+                
+                else{
+                   
+                    o2 = abs(auxiliar[i2].end.x - auxiliar[i2].start.x)/abs(auxiliar[i2].end.y - auxiliar[i2].start.y);
+
+                    if((auxiliar[i2].end.y - auxiliar[i2].start.y)==0){
+                        cout<<"erro"<<endl;
+                    }
+                    else{
+                       
                         if(auxiliar[i2].start.x<auxiliar[i2].end.x){
                             x2 = auxiliar[i2].start.x + abs(auxiliar[i2].start.y - y11)*o2;
                         }
                         else if(auxiliar[i2].start.x>auxiliar[i2].end.x){
                             x2 = auxiliar[i2].end.x + abs(auxiliar[i2].end.y - y11)*o2;
                         }
-                        
                     }
-                
                 }
                 
                 
@@ -789,10 +798,6 @@ class math2D{
                     //reta vertical
                     x12 = auxiliar[i].end.x;
                 }
-                else if((auxiliar[i2].end.x - auxiliar[i2].start.x) == 0){
-                    //reta vertical
-                    x22 = auxiliar[i2].end.x;
-                }
                 else{
                     if(auxiliar[i].start.x<auxiliar[i].end.x){
                         x12 = auxiliar[i].start.x + abs(auxiliar[i].start.y - y12)*o1;
@@ -800,7 +805,13 @@ class math2D{
                     else if(auxiliar[i].start.x>auxiliar[i].end.x){
                         x12 = auxiliar[i].end.x + abs(auxiliar[i].end.y - y12)*o1;
                     }
-                    
+                }
+                
+                if((auxiliar[i2].end.x - auxiliar[i2].start.x) == 0){
+                    //reta vertical
+                    x22 = auxiliar[i2].end.x;
+                }
+                else{
                     if(auxiliar[i2].start.x<auxiliar[i2].end.x){
                         x22 = auxiliar[i2].start.x + abs(auxiliar[i2].start.y - y12)*o2;
                     }
@@ -2186,7 +2197,8 @@ class math2D{
         
         long double* y = new long double[N];
         
-       
+        bool* dentro = new bool[Q];
+        bool* sobre = new bool[Q];
        
        
         //os pontos de forma3 ficarão ordenados pelo y
@@ -2254,7 +2266,7 @@ class math2D{
             
             quantidade_de_segmentos = 0;
             
-            Segmento<long double> horizontal(Ponto<long double>(menor_x-2.0,trechos[i].y1),Ponto<long double>(maior_x+2.0,trechos[i].y2));
+            Segmento<long double> horizontal(Ponto<long double>(menor_x - 2.0,trechos[i].y1),Ponto<long double>(maior_x + 2.0,trechos[i].y2));
             
             //verificar cada par de pontos
             for(int i2 = 0;i2<(N-1);i2++){
@@ -2310,8 +2322,75 @@ class math2D{
         }
        
         
-        //fazer a busca binária para encontrar o trecho, depois fazer a busca binária para encontrar o segmento
         
+        
+        for(int i =0;i<Q;i++){
+                
+            //fazer a busca binária para encontrar o trecho, depois fazer a busca binária para encontrar o segmento
+            
+            Segmento<long double> final1(Ponto<long double>(1,trechos[trechos.size()-1].y2),Ponto<long double>(2,trechos[trechos.size()-1].y2));
+            Segmento<long double> inicial1(Ponto<long double>(1,trechos[0].y1),Ponto<long double>(2,trechos[0].y1));
+            
+            int lado;
+            
+            lado = math2D::lado(final1,pontos1[i]);
+            
+            
+            //se estiver acima do último
+            if(lado == -1){
+                dentro[i] = false;
+                goto exit2;
+            }
+            
+            lado = math2D::lado(inicial1,pontos1[i]);
+            
+            //se estiver abaixo do primeiro
+            if(lado == 1){
+                dentro[i] = false;
+                goto exit2;
+                
+            }
+            
+            
+            dentro[i] = true;
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            exit2:
+            ;
+        }
+        
+        for(int i =0; i <Q;i++){
+            
+            if(dentro[i]){
+                cout<<"dentro"<<endl;
+            }
+            else{
+                cout<<"fora"<<endl;
+            }
+            
+        }
         /*
         
         exemplos de casos de teste
@@ -2344,7 +2423,7 @@ class math2D{
         2.0 2.0 
         2.0 4.0 
         4.0 8.0 
-        9
+        13
         6.0 9.0 
         8.0 7.0 
         6.0 6.5 
@@ -2353,7 +2432,14 @@ class math2D{
         4.0 3.0 
         2.8 2.8 
         3.0 2.0 
-        10.0 5.0 
+        10.0 5.0
+        -2.0 10.0
+        0.0 0.0
+        10.0 0.0
+        20.0 20.0
+        
+        
+        
         
         fora 
         dentro
@@ -2363,7 +2449,11 @@ class math2D{
         dentro 
         dentro 
         em cima 
-        dentro 
+        dentro
+        fora
+        fora
+        fora
+        fora
         
         
         teste 5
@@ -2528,7 +2618,7 @@ int main(){
     
     math2D Math2D;
     
-    /*
+   /* 
     
     Segmento<double> segmento1(Ponto<double>(3,3),Ponto<double>(7,7));
     Segmento<double> segmento2(Ponto<double>(3,3),Ponto<double>(2,13));
@@ -2540,18 +2630,17 @@ int main(){
     long double o1;
     long double o2;
     
+    long double x12;
+    long double x22;
+    
     if((segmento1.end.x - segmento1.start.x) == 0){
         //reta vertical
         x1 = segmento1.end.x;
-    }
-    else if((segmento2.end.x - segmento2.start.x) == 0){
-        //reta vertical
-        x2 = segmento2.end.x;
+       
     }
     else{
         
         o1 =  abs(segmento1.end.x - segmento1.start.x)/abs(segmento1.end.y - segmento1.start.y);
-        o2 =  abs(segmento2.end.x - segmento2.start.x)/abs(segmento2.end.y - segmento2.start.y);
     
         if(segmento1.start.x<segmento1.end.x){
             x1 = segmento1.start.x + abs(segmento1.start.y - y)*o1;
@@ -2559,7 +2648,18 @@ int main(){
         else if(segmento1.start.x>segmento1.end.x){
             x1 = segmento1.end.x + abs(segmento1.end.y - y)*o1;
         }
-            
+       
+    }    
+    
+    if((segmento2.end.x - segmento2.start.x) == 0){
+        //reta vertical
+        x2 = segmento2.end.x;
+    }
+    else{
+        
+        o2 =  abs(segmento2.end.x - segmento2.start.x)/abs(segmento2.end.y - segmento2.start.y);
+    
+       
         if(segmento2.start.x<segmento2.end.x){
             x2 = segmento2.start.x + abs(segmento2.start.y - y)*o2;
         }
@@ -2576,8 +2676,9 @@ int main(){
     
     cout<<segmento2.start.x<<" "<< abs(segmento2.start.y - y)*o1<<endl;
     cout<<segmento2.end.x<< " "<<abs(segmento2.end.y - y)*o1;
+    */
     
-    
+    /*
      // y/x = a;
                 //y1= 4;
                 //x = y/a
