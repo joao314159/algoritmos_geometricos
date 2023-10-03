@@ -2199,6 +2199,10 @@ class math2D{
         
         bool* dentro = new bool[Q];
         bool* sobre = new bool[Q];
+        
+        for(int i =0; i<Q;i++){
+            sobre[i] = false;
+        }
        
        
         //os pontos de forma3 ficarão ordenados pelo y
@@ -2354,9 +2358,73 @@ class math2D{
             
             dentro[i] = true;
             
+            int start = 0;
+            int end = trechos.size()- 1;
+            int meio = end/start;
             
+            while( (meio-start) > 1 ){
+                
+                
+                
+                if(math2D::lado(Segmento<long double>(Ponto<long double>(1,trechos[meio].y1),Ponto<long double>(2,trechos[meio].y1)),pontos1[i]) == 1){
+                    end = meio;
+                    meio = (start+end)/2;
+                }
+                else if(math2D::lado(Segmento<long double>(Ponto<long double>(1,trechos[meio].y1),Ponto<long double>(2,trechos[meio].y1)),pontos1[i]) == -1){
+                    start = meio;
+                    meio = (start+end)/2;
+                }
+                else if(math2D::lado(Segmento<long double>(Ponto<long double>(1,trechos[meio].y1),Ponto<long double>(2,trechos[meio].y1)),pontos1[i]) == 0){
+                    //fazer a busca binária no trecho acima e abaixo
+                }
+                
+                meio = (end+start)/2;
+                
+            }
             
+            int a = start;
             
+            start = 0;
+            end = trechos[a].vetor.size()- 1;
+            meio = (start+end)/2;
+            
+            //se o ponto estiver à esquerda do primeiro segmento
+            if(math2D::lado(trechos[a].vetor[0],pontos1[i]) == -1){
+                dentro[i] = false;
+                goto exit2;
+            }
+            
+            if(math2D::lado(trechos[a].vetor[vetor.size()- 1],pontos1[i]) == 1){
+                dentro[i] = false;
+                goto exit2;
+            }
+            //se o ponto estiver sobre um desses segmentos
+             if( (math2D::lado(trechos[a].vetor[0],pontos1[i]) == 0 ) || (math2D::lado(trechos[a].vetor[vetor.size()- 1],pontos1[i]) == 0) ){
+                sobre[i] = true;
+                goto exit2;
+            }
+            
+            while((meio-start) >1){
+                 if(math2D::lado(trechos[a].vetor[meio],pontos1[i]) == 1){
+                    start = meio;
+                    meio = (start+end)/2;
+                }
+                else if(math2D::lado(Segmento<long double>(Ponto<long double>(1,trechos[meio].y1),Ponto<long double>(2,trechos[meio].y1)),pontos1[i]) == -1){
+                    end = meio;
+                    meio = (start+end)/2;
+                }
+                else if(math2D::lado(Segmento<long double>(Ponto<long double>(1,trechos[meio].y1),Ponto<long double>(2,trechos[meio].y1)),pontos1[i]) == 0){
+                    sobre[i] = true;
+                    goto exit2;
+                }
+            }
+            
+            if(start%2 == 1){
+                dentro[i] =true;
+            }
+            else{
+                dentro[i]=false;
+            }
             
             
             
