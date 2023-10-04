@@ -345,6 +345,8 @@ class Math1{
         }
     }
     
+    
+    
    
     //////MERGE SORT//////////////////////////////////
     
@@ -2148,6 +2150,62 @@ class math2D{
             
     }
     
+    
+    
+    //função para ponto_em_poligono3()
+    
+   
+    static void busca_binaria1(int a,int start,int end,int meio,Vetor_de_segmentos<long double>* trechos, bool* dentro, bool* sobre, int i,Ponto<long double>* pontos1){
+        
+        a = start;
+            
+        start = 0;
+        end = trechos[a].vetor.size()- 1;
+        meio = (start+end)/2;
+        
+        //se o ponto estiver à esquerda do primeiro segmento
+        if(math2D::lado(trechos[a].vetor[0],pontos1[i]) == -1){
+            dentro[i] = false;
+            goto exit2;
+        }
+        
+        if(math2D::lado(trechos[a].vetor[trechos[a].vetor.size()- 1],pontos1[i]) == 1){
+            dentro[i] = false;
+            goto exit2;
+        }
+        //se o ponto estiver sobre um desses segmentos
+         if( (math2D::lado(trechos[a].vetor[0],pontos1[i]) == 0 ) || (math2D::lado(trechos[a].vetor[trechos[a].vetor.size()- 1],pontos1[i]) == 0) ){
+            sobre[i] = true;
+            goto exit2;
+        }
+      
+        while((meio-start) >=1){
+             if(math2D::lado(trechos[a].vetor[meio],pontos1[i]) == 1){
+                start = meio;
+                meio = (start+end)/2;
+            }
+            else if(math2D::lado(trechos[a].vetor[meio],pontos1[i]) == -1){
+                end = meio;
+                meio = (start+end)/2;
+            }
+            else if(math2D::lado(trechos[a].vetor[meio],pontos1[i]) == 0){
+                sobre[i] = true;
+                goto exit2;
+            }
+        }
+      
+        if( (start+1) %2 == 1){
+            cout<<start<<endl;
+            dentro[i] =true;
+        }
+        else{
+            cout<<start<<endl;
+            dentro[i]=false;
+        }
+        
+    }
+    
+    
     //funciona para polígonos não convexos
     static void ponto_em_poligono3(){
         
@@ -2418,6 +2476,9 @@ class math2D{
             
           
             //trecho
+            
+            math2D::busca_binaria1(a,start,end,meio,trechos,dentro,sobre,i,pontos1);
+            
             a = start;
             
             start = 0;
