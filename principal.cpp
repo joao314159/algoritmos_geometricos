@@ -1186,7 +1186,7 @@ class math2D{
 
 
     template <typename T>
-    //não funciona(funciona sim, confia)
+    //não funciona
     //inclui o caso que apenas um ponto pertence aos dois segmentos
     //essa função trata de segmentos, não aborda retas. Um segmento (1,1) e (2,2) não é sobreposto a um segmento (5,5) e (10,10);
     static bool paralelos_e_sobrepostos(Segmento<T> segmento1, Segmento<T> segmento2){
