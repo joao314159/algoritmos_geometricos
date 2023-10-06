@@ -2318,14 +2318,7 @@ class math2D{
             }
             
         }
-        
-        /*
-        for(int i = 0;i<quantidade_de_trechos;i++){
-            
-            trechos[i].print();
-            cout<<endl;
-        }
-        */
+       
         int quantidade_de_segmentos =0;
        
         //para cada vetor de segmentos adicionar os segmentos que cruzam a reta horizontal
@@ -2385,14 +2378,7 @@ class math2D{
             math2D::ordena_segmentos(&trechos[i].vetor[0],quantidade_de_segmentos,trechos[i].y1,trechos[i].y2);
             
         }
-        
-        /*
-        for(int i =0;i<quantidade_de_trechos;i++){
-            trechos[i].print();
-        }
-       */
-        
-        
+       
         cout<<Q<<endl;
         for(int i =0;i<Q;i++){
             
@@ -2521,10 +2507,7 @@ class math2D{
                         sobre[i] = true;
                         goto exit2;
                     }
-                    
-                    //cout<<i<<" caso ponto sobre reta "<<endl;
-                    //sobre2[i] = true;
-                    //goto exit2;
+                   
                 }
               
                 
@@ -2552,22 +2535,9 @@ class math2D{
                     goto exit2;
                 }
                 
-                //cout<<i<<" caso ponto sobre reta. reta inicial do trecho"<<endl;
-                //sobre2[i] = true;
-                //goto exit2;
             }
             
-            /*
-            if(math2D::lado(Segmento<long double>(Ponto<long double>(1,trechos[start].y2),Ponto<long double>(2,trechos[start].y2)),pontos1[i]) == 0){
-                //fazer a busca binária no trecho acima e abaixo
-                cout<<i<<" caso ponto sobre reta 2 "<<endl;
-                sobre2[i] = true;
-                goto exit2;
-            }
-            */
-            
-            
-          
+           
             //trecho
             
             do_goto_exit2 = Math2D.busca_binaria1(a,start,end,meio,&trechos[0],dentro,sobre,i,pontos1);
@@ -2576,54 +2546,7 @@ class math2D{
                 goto exit2;
             }
             
-            /*
-            a = start;
-            
-            start = 0;
-            end = trechos[a].vetor.size()- 1;
-            meio = (start+end)/2;
-            
-            //se o ponto estiver à esquerda do primeiro segmento
-            if(math2D::lado(trechos[a].vetor[0],pontos1[i]) == -1){
-                dentro[i] = false;
-                goto exit2;
-            }
-            
-            if(math2D::lado(trechos[a].vetor[trechos[a].vetor.size()- 1],pontos1[i]) == 1){
-                dentro[i] = false;
-                goto exit2;
-            }
-            //se o ponto estiver sobre um desses segmentos
-             if( (math2D::lado(trechos[a].vetor[0],pontos1[i]) == 0 ) || (math2D::lado(trechos[a].vetor[trechos[a].vetor.size()- 1],pontos1[i]) == 0) ){
-                sobre[i] = true;
-                goto exit2;
-            }
-          
-            while((meio-start) >=1){
-                 if(math2D::lado(trechos[a].vetor[meio],pontos1[i]) == 1){
-                    start = meio;
-                    meio = (start+end)/2;
-                }
-                else if(math2D::lado(trechos[a].vetor[meio],pontos1[i]) == -1){
-                    end = meio;
-                    meio = (start+end)/2;
-                }
-                else if(math2D::lado(trechos[a].vetor[meio],pontos1[i]) == 0){
-                    sobre[i] = true;
-                    goto exit2;
-                }
-            }
-          
-            if( (start+1) %2 == 1){
-                cout<<start<<endl;
-                dentro[i] =true;
-            }
-            else{
-                cout<<start<<endl;
-                dentro[i]=false;
-            }
-            
-            */
+           
             
             exit2: 
             ;
@@ -2631,21 +2554,17 @@ class math2D{
       
         for(int i =0; i <Q;i++){
             
-            if(sobre2[i]==false){
-                if(sobre[i]==false){
-                    if(dentro[i]){
-                        cout<<"dentro"<<endl;
-                    }
-                    else{
-                        cout<<"fora"<<endl;
-                    }
+            
+            if(sobre[i]==false){
+                if(dentro[i]){
+                    cout<<"dentro"<<endl;
                 }
                 else{
-                    cout<<"Em cima"<<endl;
+                    cout<<"fora"<<endl;
                 }
-            }   
+            }
             else{
-                cout<<"O ponto está sobre uma reta horizontal"<<endl;
+                cout<<"Em cima"<<endl;
             }
             
         }
@@ -2681,7 +2600,7 @@ class math2D{
         2.0 2.0 
         2.0 4.0 
         4.0 8.0 
-        18
+        20
         6.0 9.0 
         8.0 7.0 
         6.0 6.5 
@@ -2700,6 +2619,8 @@ class math2D{
         2.0 2.0
         10.5 7.0
         10.5 5.5
+        3.0 3.0
+        4.0 2.0
         
         
         
@@ -2722,6 +2643,8 @@ class math2D{
         dentro
         Em cima
         fora
+        Em cima
+        dentro
         Em cima
         
         
