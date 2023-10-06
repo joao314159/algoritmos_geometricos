@@ -1185,7 +1185,8 @@ class math2D{
 
 
 
-    template <typename T>    
+    template <typename T>
+    //não funciona
     //inclui o caso que apenas um ponto pertence aos dois segmentos
     //essa função trata de segmentos, não aborda retas. Um segmento (1,1) e (2,2) não é sobreposto a um segmento (5,5) e (10,10);
     static bool paralelos_e_sobrepostos(Segmento<T> segmento1, Segmento<T> segmento2){
@@ -2153,9 +2154,10 @@ class math2D{
     
     //função para ponto_em_poligono3()
     
-   
-    static void busca_binaria1(int a,int start,int end,int meio,Vetor_de_segmentos<long double>* trechos, bool* dentro, bool* sobre, int i,Ponto<long double>* pontos1){
+    //true = goto exit2 false = não goto exit2
+    bool busca_binaria1(int a,int start,int end,int meio,Vetor_de_segmentos<long double>* trechos, bool* dentro, bool* sobre, int i,Ponto<long double>* pontos1){
         
+        //índice do início do trecho
         a = start;
             
         start = 0;
@@ -2165,17 +2167,17 @@ class math2D{
         //se o ponto estiver à esquerda do primeiro segmento
         if(math2D::lado(trechos[a].vetor[0],pontos1[i]) == -1){
             dentro[i] = false;
-            goto exit2;
+            return true;
         }
         
         if(math2D::lado(trechos[a].vetor[trechos[a].vetor.size()- 1],pontos1[i]) == 1){
             dentro[i] = false;
-            goto exit2;
+            return true;
         }
         //se o ponto estiver sobre um desses segmentos
          if( (math2D::lado(trechos[a].vetor[0],pontos1[i]) == 0 ) || (math2D::lado(trechos[a].vetor[trechos[a].vetor.size()- 1],pontos1[i]) == 0) ){
             sobre[i] = true;
-            goto exit2;
+            return true;
         }
       
         while((meio-start) >=1){
@@ -2189,7 +2191,7 @@ class math2D{
             }
             else if(math2D::lado(trechos[a].vetor[meio],pontos1[i]) == 0){
                 sobre[i] = true;
-                goto exit2;
+                return true;
             }
         }
       
@@ -2201,6 +2203,7 @@ class math2D{
             cout<<start<<endl;
             dentro[i]=false;
         }
+        return false;
         
     }
     
@@ -2208,7 +2211,7 @@ class math2D{
     //funciona para polígonos não convexos
     static void ponto_em_poligono3(){
         
-        //math2D Math2D;
+        math2D Math2D;
          
         //quantos pontos tem o polígono
         int N;
@@ -2219,6 +2222,8 @@ class math2D{
         //cout<<"Digite o tamanho do polígono:"<<endl;
     
         cin>>N;
+        
+        bool do_goto_exit2;
     
         //onde vão ficar os pontos do polígono
         Ponto<long double>* forma = new Ponto<long double>[N];
@@ -2406,22 +2411,63 @@ class math2D{
             
             lado = math2D::lado(final1,pontos1[i]);
             
-           
-            //se estiver acima do último
+            /////////////////////////////////////////////
+            //se estiver acima do último y
+            /////////////////////////////////////////////
             if(lado == -1){
                 dentro[i] = false;
                 goto exit2;
             }
             
             lado = math2D::lado(inicial1,pontos1[i]);
-            
+            /////////////////////////////////////////////
             //se estiver abaixo do primeiro
+            /////////////////////////////////////////////
             if(lado == 1){
                 dentro[i] = false;
                 goto exit2;
                 
             }
-            
+            /////////////////////////////////////////////
+            //se estiver no último trecho
+            /////////////////////////////////////////////
+            if(math2D::lado(Segmento<long double>(Ponto<long double>(1,trechos[trechos.size()-1].y1),Ponto<long double>(2,trechos[trechos.size()-1].y1)),pontos1[i]) == -1){
+                
+                Math2D.busca_binaria1(0,trechos.size()-1,0,0,&trechos[0],dentro,sobre,i,pontos1);
+                
+                //se o ponto está sobre a reta no último y do último trecho
+                if(math2D::lado(Segmento<long double>(Ponto(1,trechos[trechos.size()-1].y1),Ponto(2,trechos[trechos.size()-1].y1)),pontos1[i]) == 0){
+                    
+                    //o lado no trecho e acima dele são diferentes, portanto o ponto está sobre o segmento
+                    if(dentro[i] == true){
+                        sobre[i] = true;
+                        goto exit2;
+                    }
+                    else{
+                        if(dentro[i]==true){
+                            dentro[i] = true;
+                            goto exit2;
+                        }
+                        if(dentro[i] == false){
+                            dentro[i] = false;
+                            goto exit2;
+                        }
+                    }
+                }
+                
+                if(sobre[i] == true){
+                    sobre[i] = true;
+                    goto exit2;
+                }
+                if(dentro[i] == false){
+                    dentro[i] = false;
+                    goto exit2;
+                }
+                else{
+                    dentro[i] = true;
+                    goto exit2;
+                }
+            }
           
             start = 0;
             end = trechos.size()- 1;
@@ -2476,8 +2522,13 @@ class math2D{
           
             //trecho
             
-            math2D::busca_binaria1(a,start,end,meio,trechos,dentro,sobre,i,pontos1);
+            do_goto_exit2 = Math2D.busca_binaria1(a,start,end,meio,&trechos[0],dentro,sobre,i,pontos1);
             
+            if(do_goto_exit2){
+                goto exit2;
+            }
+            
+            /*
             a = start;
             
             start = 0;
@@ -2524,7 +2575,7 @@ class math2D{
                 dentro[i]=false;
             }
             
-            
+            */
             
             exit2: 
             ;
