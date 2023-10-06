@@ -2436,7 +2436,7 @@ class math2D{
                 Math2D.busca_binaria1(0,trechos.size()-1,0,0,&trechos[0],dentro,sobre,i,pontos1);
                 
                 //se o ponto está sobre a reta no último y do último trecho
-                if(math2D::lado(Segmento<long double>(Ponto(1,trechos[trechos.size()-1].y1),Ponto(2,trechos[trechos.size()-1].y1)),pontos1[i]) == 0){
+                if( (math2D::lado(Segmento<long double>(Ponto<long double>(1,trechos[trechos.size()-1].y1),Ponto<long double>(2,trechos[trechos.size()-1].y1)),pontos1[i]) ) == 0){
                     
                     //o lado no trecho e acima dele são diferentes, portanto o ponto está sobre o segmento
                     if(dentro[i] == true){
@@ -2491,10 +2491,40 @@ class math2D{
                 }
                 
                 else if(math2D::lado(Segmento<long double>(Ponto<long double>(1,trechos[meio].y1),Ponto<long double>(2,trechos[meio].y1)),pontos1[i]) == 0){
+                   
                     //fazer a busca binária no trecho acima e abaixo
-                    cout<<i<<" caso ponto sobre reta "<<endl;
-                    sobre2[i] = true;
-                    goto exit2;
+                    
+                    //no trecho acima
+                    Math2D.busca_binaria1(0,meio-1,0,0,&trechos[0],dentro,sobre,i,pontos1);
+                    
+                    if(sobre[i] == true){
+                        sobre[i] = true;
+                        goto exit2;
+                    }
+                   
+                    bool valor_da_busca_binaria = dentro[i];
+                    
+                    //no trecho abaixo
+                    Math2D.busca_binaria1(0,meio,0,0,&trechos[0],dentro,sobre,i,pontos1);
+                    
+                    if(sobre[i] == true){
+                        sobre[i] = true;
+                        goto exit2;
+                    }
+                    
+                    if(valor_da_busca_binaria == dentro[i]){
+                        //os valores em cima e em baixo do trecho são os mesmos
+                        goto exit2;
+                    }
+                    else{
+                        //os valores em cima e embaixo são diferentes
+                        sobre[i] = true;
+                        goto exit2;
+                    }
+                    
+                    //cout<<i<<" caso ponto sobre reta "<<endl;
+                    //sobre2[i] = true;
+                    //goto exit2;
                 }
               
                 
@@ -2505,18 +2535,36 @@ class math2D{
             
             //start = meio
             if(math2D::lado(Segmento<long double>(Ponto<long double>(1,trechos[start].y1),Ponto<long double>(2,trechos[start].y1)),pontos1[i]) == 0){
-              
-                cout<<i<<" caso ponto sobre reta. reta inicial do trecho"<<endl;
-                sobre2[i] = true;
-                goto exit2;
+                
+                Math2D.busca_binaria1(0,start,0,0,&trechos[0],dentro,sobre,i,pontos1);
+                
+                if(sobre[i] == true){
+                    sobre[i] = true;
+                    goto exit2;
+                }
+                //caso em que o ponto está sobre segmento
+                if(dentro[i] == true){
+                    sobre[i] = true;
+                    goto exit2;
+                }
+                if(dentro[i] = false){
+                    dentro[i] = false;
+                    goto exit2;
+                }
+                
+                //cout<<i<<" caso ponto sobre reta. reta inicial do trecho"<<endl;
+                //sobre2[i] = true;
+                //goto exit2;
             }
+            
+            /*
             if(math2D::lado(Segmento<long double>(Ponto<long double>(1,trechos[start].y2),Ponto<long double>(2,trechos[start].y2)),pontos1[i]) == 0){
                 //fazer a busca binária no trecho acima e abaixo
                 cout<<i<<" caso ponto sobre reta 2 "<<endl;
                 sobre2[i] = true;
                 goto exit2;
             }
-            
+            */
             
             
           
@@ -2633,7 +2681,7 @@ class math2D{
         2.0 2.0 
         2.0 4.0 
         4.0 8.0 
-        13
+        18
         6.0 9.0 
         8.0 7.0 
         6.0 6.5 
@@ -2647,6 +2695,12 @@ class math2D{
         0.0 0.0
         10.0 0.0
         20.0 20.0
+        1.0 7.0
+        5.0 7.5
+        2.0 2.0
+        10.5 7.0
+        10.5 5.5
+        
         
         
         
@@ -2664,6 +2718,11 @@ class math2D{
         fora
         fora
         fora
+        Em cima
+        dentro
+        Em cima
+        fora
+        Em cima
         
         
         teste 5
