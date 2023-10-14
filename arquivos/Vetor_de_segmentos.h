@@ -13,7 +13,7 @@ using namespace std;
 
 
 
-//útil na função ponto em polígono 3
+//Ãºtil na funÃ§Ã£o ponto em polÃ­gono 3
 template <typename T>
 class Vetor_de_segmentos{
 
@@ -31,7 +31,7 @@ class Vetor_de_segmentos{
         cout<<"y final: "<<y2<<endl;
 
         if(vetor.empty()){
-            cout<<"O vector de segmentos está vazio."<<endl;
+            cout<<"O vector de segmentos estÃ¡ vazio."<<endl;
         }
         else{
             cout<<"O vector de segmentos possui os seguintes segmentos: "<<endl;
