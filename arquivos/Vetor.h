@@ -51,6 +51,6 @@ class Vetor{
     }
 
     void print(){
-        cout<<"Esse vetor tem módulo "<<this->comprimento()<<" e aponta para ("<<this->x<<", "<<this->y<<")"<<endl;
+        cout<<"Esse vetor tem mÃ³dulo "<<this->comprimento()<<" e aponta para ("<<this->x<<", "<<this->y<<")"<<endl;
     }
 };
