@@ -12,7 +12,7 @@
 using namespace std;
 
 
-//funções que não envolvem geometria
+//funÃ§Ãµes que nÃ£o envolvem geometria
 class Math1{
 
     public:
