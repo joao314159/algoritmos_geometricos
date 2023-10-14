@@ -28,7 +28,7 @@ class Segmento{
     Ponto<T> end;
 
     void print(){
-        cout<<"Esse segmento começa em ("<<this->start.x<<", "<<this->start.y<<") e termina em ("<<this->end.x<<", "<<this->end.y<<") "<<endl;
+        cout<<"Esse segmento comeÃ§a em ("<<this->start.x<<", "<<this->start.y<<") e termina em ("<<this->end.x<<", "<<this->end.y<<") "<<endl;
     }
 
     void inverter(){
@@ -44,16 +44,16 @@ class Segmento{
         Ponto<T> ponto2=this->end;
 
         string tipo = typeid(ponto1.x).name();
-            //cópia da função mesmo_ponto()
+            //cÃ³pia da funÃ§Ã£o mesmo_ponto()
             if(&this->start.x == NULL || &this->start.y || NULL || &this->end.x == NULL || &this->end.y ==NULL){
 
-                //cout<<endl<<endl<<"Erro, membros dos pontos são nulos!!!"<<endl<<endl;
+                //cout<<endl<<endl<<"Erro, membros dos pontos sÃ£o nulos!!!"<<endl<<endl;
 
             }
 
             if(tipo == "e" || tipo == "d" ){
 
-                cout<<"não é inteiro"<<endl;
+                cout<<"nÃ£o Ã© inteiro"<<endl;
                 if( (abs(ponto1.x-ponto2.x) <1e-9 )  &&( abs(ponto1.y- ponto2.y)<1e-9 ) ) {
                     return true;
                 }
@@ -63,7 +63,7 @@ class Segmento{
             }
             else if(tipo == "i"){
 
-                cout<<"é inteiro"<<endl;
+                cout<<"Ã© inteiro"<<endl;
                 if( (ponto1.x == ponto2.x) &&(ponto1.y == ponto2.y)) {
                     return true;
                 }
