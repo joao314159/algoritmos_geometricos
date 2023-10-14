@@ -564,7 +564,7 @@ class math2D{
 
         if(&ponto1.x == NULL || &ponto1.y || NULL || &ponto2.x == NULL || &ponto2.y ==NULL){
 
-           // cout<<endl<<endl<<"Erro, membros dos pontos s„o nulos!!!"<<endl<<endl;
+           // cout<<endl<<endl<<"Erro, membros dos pontos s√£o nulos!!!"<<endl<<endl;
 
         }
 
@@ -641,24 +641,24 @@ class math2D{
 
     template <typename T>
     //se um ponto de um segmento estiver sobre a reta correspondente ao outro retorna 0(se os segmentos forem colineares retorna 0)
-    //USAR FUN«√O CRUZA2!!!
+    //USAR FUN√á√ÉO CRUZA2!!!
     static int cruza(Segmento<T> segmento1, Segmento<T> segmento2){
 
-        //caso 0 (˙til para comparar retas, mas pode confundir, CUIDADO)
-        //ver se um ponto est· sobre a reta correspondente ao outro ponto
+        //caso 0 (√∫til para comparar retas, mas pode confundir, CUIDADO)
+        //ver se um ponto est√° sobre a reta correspondente ao outro ponto
         if(lado(segmento1,segmento2.start) == 0 || (lado(segmento1,segmento2.end) == 0) || lado(segmento2,segmento1.start) ==0 ||  lado(segmento2,segmento1.end) ==0){
             return 0;
         }
 
         //caso 1
-        //ver se os dois pontos de um segmento est„o, cada um, em um lado diferente do outro segmento( caso em que os segmentos cruzam)
+        //ver se os dois pontos de um segmento est√£o, cada um, em um lado diferente do outro segmento( caso em que os segmentos cruzam)
         if( (lado(segmento1,segmento2.start) != lado(segmento1,segmento2.end)) && (lado(segmento2,segmento1.start) != lado(segmento2,segmento1.end)) )  {
 
             return 1;
         }
 
         //caso -1
-        //caso n„o ocorra nenhuma das situaÁıes anteriores, os segmentos n„o se encontram de qualquer forma
+        //caso n√£o ocorra nenhuma das situa√ß√µes anteriores, os segmentos n√£o se encontram de qualquer forma
         else{return -1;}
     }
 
@@ -736,7 +736,7 @@ class math2D{
 
 
     template <typename T>
-    //CONFERIR SE FUNCIONA PARA O CASO DO FINAL ESTAR NA FRENTE DO COME«O
+    //CONFERIR SE FUNCIONA PARA O CASO DO FINAL ESTAR NA FRENTE DO COME√áO
     static bool ponto_sobre_segmento(Segmento<T> segmento1,Ponto<T> ponto1){
 
         if(mesmo_ponto(segmento1.start,ponto1)){
@@ -768,9 +768,9 @@ class math2D{
 
 
     template <typename T>
-    //n„o funciona
+    //n√£o funciona
     //inclui o caso que apenas um ponto pertence aos dois segmentos
-    //essa funÁ„o trata de segmentos, n„o aborda retas. Um segmento (1,1) e (2,2) n„o È sobreposto a um segmento (5,5) e (10,10);
+    //essa fun√ß√£o trata de segmentos, n√£o aborda retas. Um segmento (1,1) e (2,2) n√£o √© sobreposto a um segmento (5,5) e (10,10);
     static bool paralelos_e_sobrepostos(Segmento<T> segmento1, Segmento<T> segmento2){
 
         if(paralelos(segmento1,segmento2)){
@@ -804,7 +804,7 @@ class math2D{
 
 
     template <typename T>
-    //se os segmentos cruzarem retorna 1, retorna 0 nos casos particulares e retorna -1 se n„o se cruzam
+    //se os segmentos cruzarem retorna 1, retorna 0 nos casos particulares e retorna -1 se n√£o se cruzam
     static int cruza2(Segmento<T> segmento1, Segmento<T> segmento2){
 
         //caso 0
@@ -825,14 +825,14 @@ class math2D{
         }
 
         //caso 1
-        //ver se os dois pontos de um segmento est„o, cada um, em um lado diferente do outro segmento( caso em que os segmentos cruzam)
+        //ver se os dois pontos de um segmento est√£o, cada um, em um lado diferente do outro segmento( caso em que os segmentos cruzam)
         if( (lado(segmento1,segmento2.start) != lado(segmento1,segmento2.end)) && (lado(segmento2,segmento1.start) != lado(segmento2,segmento1.end)) )  {
 
             return 1;
         }
 
         //caso -1
-        //caso n„o ocorra nenhuma das situaÁıes anteriores, os segmentos n„o se encontram de qualquer forma
+        //caso n√£o ocorra nenhuma das situa√ß√µes anteriores, os segmentos n√£o se encontram de qualquer forma
         else{return -1;}
     }
 
@@ -846,10 +846,10 @@ class math2D{
 
 
     template <typename T>
-    //n„o inclui ponto sobre segmento
-    //n„o vai funcionar se n„o passar um polÌgono convexo
+    //n√£o inclui ponto sobre segmento
+    //n√£o vai funcionar se n√£o passar um pol√≠gono convexo
 
-    // -1 ponto fora do polÌgono 1 ponto dentro do polÌgono, 0 ponto sobre segmento do polÌgono
+    // -1 ponto fora do pol√≠gono 1 ponto dentro do pol√≠gono, 0 ponto sobre segmento do pol√≠gono
     int ponto_em_poligono_convexo(Ponto<T> ponto, Ponto<T>* poligono, int tamanho_poligono){
 
         int lado1;
@@ -858,18 +858,18 @@ class math2D{
 
         if(tamanho_poligono <=2){
 
-            //cout<<"Erro, polÌgono tem dois ou menos pontos"<<endl;
+            //cout<<"Erro, pol√≠gono tem dois ou menos pontos"<<endl;
         }
 
         if( ponto_sobre_segmento( Segmento<T>(poligono[0],poligono[1]), ponto ) ){
 
                 //cout<<"Ponto sobre segmento"<<endl;
-                //cout<<"Segmento comeÁa em "<<poligono[0].x<<", "<<poligono[0].y<<" e termina em "<<poligono[1].x<<", "<<poligono[1].y<<endl<<endl;
-                //cout<<"O ponto È "<<ponto.x<<", "<<ponto.y<<endl<<endl;
+                //cout<<"Segmento come√ßa em "<<poligono[0].x<<", "<<poligono[0].y<<" e termina em "<<poligono[1].x<<", "<<poligono[1].y<<endl<<endl;
+                //cout<<"O ponto √© "<<ponto.x<<", "<<ponto.y<<endl<<endl;
                 a = 0;
         }
 
-        //que lado o ponto est· em relaÁ„o a primeira reta do polÌgono
+        //que lado o ponto est√° em rela√ß√£o a primeira reta do pol√≠gono
         lado1 = lado(Segmento<T>(poligono[0],poligono[1]), ponto);
         //cout<<"lado aresta 1: "<<lado1<<endl;
 
@@ -878,8 +878,8 @@ class math2D{
 
             if( ponto_sobre_segmento( Segmento<T>(poligono[i],poligono[i+1]), ponto ) ){
                 //cout<<"Ponto sobre segmento"<<endl;
-                //cout<<"Segmento comeÁa em "<<poligono[i].x<<", "<<poligono[i].y<<" e termina em "<<poligono[i+1].x<<", "<<poligono[i+1].y<<endl<<endl;
-                //cout<<"O ponto È "<<ponto.x<<", "<<ponto.y<<endl<<endl;
+                //cout<<"Segmento come√ßa em "<<poligono[i].x<<", "<<poligono[i].y<<" e termina em "<<poligono[i+1].x<<", "<<poligono[i+1].y<<endl<<endl;
+                //cout<<"O ponto √© "<<ponto.x<<", "<<ponto.y<<endl<<endl;
 
                 a = 0;
             }
@@ -893,13 +893,13 @@ class math2D{
         }
 
         //quando termina o loop, ainda temos que comparar o ponto com a aresta que liga o ponto do final do array
-        //com o ponto do inÌcio do array
+        //com o ponto do in√≠cio do array
 
         if( ponto_sobre_segmento( Segmento<T>(poligono[tamanho_poligono-1],poligono[0]), ponto ) ){
            // cout<<"Ponto sobre segmento"<<endl;
-            //cout<<"Segmento comeÁa em "<<poligono[tamanho_poligono-1].x<<", "<<poligono[tamanho_poligono-1].y<<" e termina em "<<poligono[0].x<<", "<<poligono[0].y<<endl<<endl;
+            //cout<<"Segmento come√ßa em "<<poligono[tamanho_poligono-1].x<<", "<<poligono[tamanho_poligono-1].y<<" e termina em "<<poligono[0].x<<", "<<poligono[0].y<<endl<<endl;
 
-            //cout<<"O ponto È "<<ponto.x<<", "<<ponto.y<<endl<<endl;
+            //cout<<"O ponto √© "<<ponto.x<<", "<<ponto.y<<endl<<endl;
             a = 0;
         }
 
@@ -993,24 +993,24 @@ class math2D{
 
         math2D Math2D;
 
-        //quantos pontos tem o polÌgono
+        //quantos pontos tem o pol√≠gono
         int N;
 
 
-        //quantos pontos dentro ou fora do polÌgono
+        //quantos pontos dentro ou fora do pol√≠gono
         int Q;
 
-        //cout<<"Digite o tamanho do polÌgono:"<<endl;
+        //cout<<"Digite o tamanho do pol√≠gono:"<<endl;
 
         cin>>N;
 
-        //onde v„o ficar os pontos do polÌgono
+        //onde v√£o ficar os pontos do pol√≠gono
         Ponto<long double>* forma = new Ponto<long double>[N];
 
 
         for(int i = 0; i<N;i++){
 
-            //cout<<"Digite as coordenadas de um vÈrtice: "<<endl;
+            //cout<<"Digite as coordenadas de um v√©rtice: "<<endl;
 
             cin>>forma[i].x;
             cin>>forma[i].y;
@@ -1042,14 +1042,14 @@ class math2D{
 
 
 
-        //crio um ponto dentro po polÌgono
+        //crio um ponto dentro po pol√≠gono
         Ponto<long double> ponto_do_meio = Math2D.criar_ponto2(forma,N);
 
         if( Math2D.ponto_em_poligono_convexo(ponto_do_meio, forma, N) == 1 ){
-            //cout<<"o ponto est· dentro"<<endl;
+            //cout<<"o ponto est√° dentro"<<endl;
         }
         else{
-            //cout<<"o ponto n„o est· dentro"<<endl;
+            //cout<<"o ponto n√£o est√° dentro"<<endl;
         }
 
 
@@ -1067,7 +1067,7 @@ class math2D{
 
         int lado;
 
-         //inverter o polÌgono caso ele esteja no outro sentido
+         //inverter o pol√≠gono caso ele esteja no outro sentido
         if(Math2D.lado(Segmento<long double>(ponto_do_meio,forma[0]), forma[1]) == -1){
             forma = Math1::inverter(forma,N);
         }
@@ -1084,18 +1084,18 @@ class math2D{
 
 
 
-        //enquanto o lado n„o mudar
+        //enquanto o lado n√£o mudar
 
         int x1 =2;
 
-        //cout<<"Meio vai do ponto ("<<ponto_do_meio.x<<", "<<ponto_do_meio.y<<") atÈ o ponto ("<<forma[0].x<<", "<<forma[0].y<<")";
+        //cout<<"Meio vai do ponto ("<<ponto_do_meio.x<<", "<<ponto_do_meio.y<<") at√© o ponto ("<<forma[0].x<<", "<<forma[0].y<<")";
 
         while( (Math2D.lado(meio,forma[x1])== lado) && (Math2D.lado(meio,forma[x1]) != 0) ){
             x1++;
             //cout<<"("<<forma[x1].x<<", "<<forma[x1].y<<")"<<endl;
         }
 
-        //o trecho entre o segmento final e o segmento inicial È analisado em separado e È feita a busca bin·ria na parte entre o segmento inicial e o segmento final
+        //o trecho entre o segmento final e o segmento inicial √© analisado em separado e √© feita a busca bin√°ria na parte entre o segmento inicial e o segmento final
 
         Segmento<long double> segmento_inicial(ponto_do_meio, forma[x1-1]);
         Segmento<long double> segmento_final(ponto_do_meio, forma[x1]);
@@ -1108,17 +1108,17 @@ class math2D{
         trecho[1] = ponto_do_meio;
         trecho[2] = forma[x1];
 
-        //cout<<"O trecho vai do ponto ("<<trecho[0].x<<", "<<trecho[0].y<<") atÈ o ponto ("<<trecho[2].x<<", "<<trecho[2].y<<")"<<endl;
+        //cout<<"O trecho vai do ponto ("<<trecho[0].x<<", "<<trecho[0].y<<") at√© o ponto ("<<trecho[2].x<<", "<<trecho[2].y<<")"<<endl;
 
 
 
-        //todo o intervalo atual a ser buscado na busca bin·ria. ComeÁa com todo o polÌgono menos o trecho
+        //todo o intervalo atual a ser buscado na busca bin√°ria. Come√ßa com todo o pol√≠gono menos o trecho
 
-        //comeÁa em trecho[2] e vai atÈ o trecho[0]
+        //come√ßa em trecho[2] e vai at√© o trecho[0]
 
-        //percorrer no sentido hor·rio
+        //percorrer no sentido hor√°rio
 
-        //refazer o polÌgono de modo que as coordenadas fiquem na ordem
+        //refazer o pol√≠gono de modo que as coordenadas fiquem na ordem
         Ponto<long double>* forma2 = new Ponto<long double>[N];
 
 
@@ -1153,17 +1153,17 @@ class math2D{
         }
 
 
-        //teste se o polÌgono forma2 est· correto (funciona eu acho)
+        //teste se o pol√≠gono forma2 est√° correto (funciona eu acho)
 
-        //cout<<"Forma 1 vÈrtices: "<<endl<<endl;
+        //cout<<"Forma 1 v√©rtices: "<<endl<<endl;
 
         for(int i = 0;i<N;i++){
-           //cout<<"VÈrtice "<<i+1<<" :("<<forma[i].x<<", "<<forma[i].y<<")"<<endl;
+           //cout<<"V√©rtice "<<i+1<<" :("<<forma[i].x<<", "<<forma[i].y<<")"<<endl;
         }
 
-        //cout<<"Forma2 vÈrtices: "<<endl<<endl;
+        //cout<<"Forma2 v√©rtices: "<<endl<<endl;
         for(int i = 0;i<N;i++){
-           //cout<<"VÈrtice "<<i+1<<" :("<<forma2[i].x<<", "<<forma2[i].y<<")"<<endl;
+           //cout<<"V√©rtice "<<i+1<<" :("<<forma2[i].x<<", "<<forma2[i].y<<")"<<endl;
         }
 
         //cout<<"lado 1: "<< Math2D.lado(Segmento<long double>(ponto_do_meio,trecho[0]),pontos1[0])<<endl;
@@ -1183,13 +1183,13 @@ class math2D{
                 //caso do ponto estar sobre segmento do trecho
                 if( ( (Math2D.ponto_sobre_segmento(Segmento<long double>(trecho[0],trecho[2]), pontos1[i10]))) || ( Math2D.ponto_sobre_segmento(Segmento<long double>(ponto_do_meio,trecho[0]), pontos1[i10])) || ( (Math2D.ponto_sobre_segmento(Segmento<long double>(ponto_do_meio,trecho[2]),pontos1[i10])) ) ) {
 
-                   //cout<<"Ponto est· sobre o segmento do trecho: "<<endl;
+                   //cout<<"Ponto est√° sobre o segmento do trecho: "<<endl;
 
                    //cout<<"coordenadas do segmento: ("<<trecho[0].x<<", "<<trecho[0].y<<"), ("<<trecho[2].x<<", "<<trecho[2].y<<") ,("<<ponto_do_meio.x<<", "<<ponto_do_meio.y<<") "<<endl<<endl;
                    dentro[i10] = true;
 
                    if(Math2D.ponto_sobre_segmento(Segmento<long double>(trecho[0],trecho[2]),pontos1[i10])){
-                       //cout<<"O ponto est· sobre o segmento do polÌgono."<<endl;
+                       //cout<<"O ponto est√° sobre o segmento do pol√≠gono."<<endl;
                        sobre[i10] = true;
                    }
 
@@ -1200,22 +1200,22 @@ class math2D{
 
                 else if( (Math2D.lado(Segmento<long double>(ponto_do_meio,trecho[0]),pontos1[i10]) == 1) &&  (Math2D.lado(Segmento<long double>(ponto_do_meio,trecho[2]),pontos1[i10]) == -1) ){
 
-                    //cout<<"ponto est· no trecho"<<endl;
+                    //cout<<"ponto est√° no trecho"<<endl;
 
                     if(Math2D.lado(Segmento<long double>(trecho[0],trecho[2]),pontos1[i10]) == 1){
 
-                        //cout<<"O ponto est· dentro."<<endl;
+                        //cout<<"O ponto est√° dentro."<<endl;
                         dentro[i10] = true;
                         goto exit1;
                     }
                     else if( Math2D.lado(Segmento<long double>(trecho[0],trecho[2]),pontos1[i10]) == 0 ){
-                        //cout<<"O ponto est· sobre o segmento do polÌgono."<<endl;
+                        //cout<<"O ponto est√° sobre o segmento do pol√≠gono."<<endl;
                         sobre[i10] = true;
                         goto exit1;
                     }
 
                     else {
-                        //cout<<"O ponto n„o est· dentro"<<endl;
+                        //cout<<"O ponto n√£o est√° dentro"<<endl;
                         dentro[i10] = false;
                         goto exit1;
                     }
@@ -1224,23 +1224,23 @@ class math2D{
 
 
                 else{
-                   //fazer a busca bin·ria para encontrar o trecho
-                   //a busca bin·ria para quando um dos Ìndices menos a mÈdia dos Ìndices for menor ou igual a 1
+                   //fazer a busca bin√°ria para encontrar o trecho
+                   //a busca bin√°ria para quando um dos √≠ndices menos a m√©dia dos √≠ndices for menor ou igual a 1
                    //cout<<"Comparando o o ponto com o segmento meio"<<endl;
 
                    //se estiver sobre o meio
-                   //forma2[i3] È o ponto correspondente ao meio
+                   //forma2[i3] √© o ponto correspondente ao meio
 
                    if(Math2D.lado(meio,pontos1[i10]) == 0){
-                       //cout<<"ponto est· sobre a reta meio"<<endl;
+                       //cout<<"ponto est√° sobre a reta meio"<<endl;
 
                        if(Math2D.mesmo_ponto(meio.end,pontos1[i10])){
-                            //cout<<"Ponto est· sobre segmento do polÌgono"<<endl;
+                            //cout<<"Ponto est√° sobre segmento do pol√≠gono"<<endl;
                             sobre[i10] = true;
                        }
 
                        if(Math2D.ponto_sobre_segmento(meio,pontos1[i10]))  {
-                            //cout<<"O ponto est· sobre o segmento meio"<<endl<<endl;
+                            //cout<<"O ponto est√° sobre o segmento meio"<<endl<<endl;
                             dentro[i10] = true;
                             goto exit1;
                        }
@@ -1257,40 +1257,40 @@ class math2D{
                    else if(Math2D.lado(meio,pontos1[i10]) ==1){
 
 
-                       //cout<<"ponto est· a direita do segmento meio"<<endl;
-                       //mudo o inÌcio para o meio, limitando o trecho ‡ parte a direita
+                       //cout<<"ponto est√° a direita do segmento meio"<<endl;
+                       //mudo o in√≠cio para o meio, limitando o trecho √† parte a direita
 
 
                        direita = true;
 
-                       //Ìndice do inÌcio
+                       //√≠ndice do in√≠cio
                        int start = i3;
                        //cout<<"coordenada do meio: ("<<forma2[i3].x<<", "<<forma2[i3].y<<")"<<endl;
 
-                       //Ìndice do fim
+                       //√≠ndice do fim
                        int end = N-1;
 
                        if(start == end){
                         //cout<<"teste 1"<<endl;
                        }
 
-                       //a busca bin·ria termina quando (inÌcio +fim)/2 È no m·ximo 1 de dist‚ncia do fim
+                       //a busca bin√°ria termina quando (in√≠cio +fim)/2 √© no m√°ximo 1 de dist√¢ncia do fim
                        while( (abs((double)(start + end)/2.0)- (double)start) >= 1.0 ){
-                            //fazer a busca bin·ria na esquerda
+                            //fazer a busca bin√°ria na esquerda
 
-                            //compara o ponto com o segmento na mÈdia do trecho
+                            //compara o ponto com o segmento na m√©dia do trecho
 
-                            //caso o ponto est· sobre a reta
+                            //caso o ponto est√° sobre a reta
                             if(Math2D.lado(Segmento<long double>(ponto_do_meio,forma2[(int)((start+end)/2)]),pontos1[i10]) == 0){
 
-                                //cout<<"O ponto est· sobre a reta que vai do ponto: ("<<ponto_do_meio.x<<", "<<ponto_do_meio.y<<") ao ponto ("<<forma2[(int)((start+end)/2)].x<<", "<<forma2[(int)((start+end)/2)].y<<")"<<endl<<endl;
+                                //cout<<"O ponto est√° sobre a reta que vai do ponto: ("<<ponto_do_meio.x<<", "<<ponto_do_meio.y<<") ao ponto ("<<forma2[(int)((start+end)/2)].x<<", "<<forma2[(int)((start+end)/2)].y<<")"<<endl<<endl;
 
-                                //ver se o ponto est· sobre o segmento
+                                //ver se o ponto est√° sobre o segmento
                                 if(Math2D.ponto_sobre_segmento(Segmento<long double>(ponto_do_meio,forma2[(int)((start+end)/2)]),pontos1[i10])){
-                                    //cout<<"O ponto est· sobre o segmento."<<endl;
+                                    //cout<<"O ponto est√° sobre o segmento."<<endl;
 
                                     if(Math2D.mesmo_ponto(forma2[(int)((start+end)/2)] , pontos1[i10])){
-                                        //cout<<"O ponto est· sobre o segmento do polÌgono."<<endl;
+                                        //cout<<"O ponto est√° sobre o segmento do pol√≠gono."<<endl;
                                         sobre[i10] = true;
                                     }
 
@@ -1298,23 +1298,23 @@ class math2D{
                                     goto exit1;
                                 }
                                 else{
-                                    //o ponto n„o est· sobre o segmento
+                                    //o ponto n√£o est√° sobre o segmento
                                     dentro[i10] = false;
                                     goto exit1;
                                 }
 
                             }
-                            //fim caso ponto est· sobre a reta
+                            //fim caso ponto est√° sobre a reta
 
-                            //caso ponto est· a direita
+                            //caso ponto est√° a direita
                             else if(Math2D.lado(Segmento<long double>(ponto_do_meio,forma2[(int)((start+end)/2)]),pontos1[i10]) == 1){
-                                //cout<<"O ponto est· a direita da reta que vai do ponto: ("<<ponto_do_meio.x<<", "<<ponto_do_meio.y<<") ao ponto ("<<forma2[(int)((start+end)/2)].x<<", "<<forma2[(int)((start+end)/2)].y<<")"<<endl<<endl;
+                                //cout<<"O ponto est√° a direita da reta que vai do ponto: ("<<ponto_do_meio.x<<", "<<ponto_do_meio.y<<") ao ponto ("<<forma2[(int)((start+end)/2)].x<<", "<<forma2[(int)((start+end)/2)].y<<")"<<endl<<endl;
                                 direita = true;
                                 start = (int)((double)(start+end)/2.0);
 
                             }
                             else if(Math2D.lado(Segmento<long double>(ponto_do_meio,forma2[(int)((start+end)/2)]),pontos1[i10]) == -1 ){
-                                //cout<<"O ponto est· a esquerda da reta que vai do ponto: ("<<ponto_do_meio.x<<", "<<ponto_do_meio.y<<") ao ponto ("<<forma2[(int)((start+end)/2)].x<<", "<<forma2[(int)((start+end)/2)].y<<")"<<endl<<endl;
+                                //cout<<"O ponto est√° a esquerda da reta que vai do ponto: ("<<ponto_do_meio.x<<", "<<ponto_do_meio.y<<") ao ponto ("<<forma2[(int)((start+end)/2)].x<<", "<<forma2[(int)((start+end)/2)].y<<")"<<endl<<endl;
                                 direita = false;
 
 
@@ -1327,15 +1327,15 @@ class math2D{
 
 
                        if( (end - start) != 1){
-                           //cout<<"Erro!! trecho encontrado n„o È v·lido!"<<endl<<endl;
+                           //cout<<"Erro!! trecho encontrado n√£o √© v√°lido!"<<endl<<endl;
                            //cout<<"start: "<<start<<endl;
                            //cout<<"end :"<<end<<endl;
 
                        }
                        else{
-                            //encontramos o trecho que È delimitado pelos vÈrtices ponto_do_meio, forma2[start] e forma2[end]
+                            //encontramos o trecho que √© delimitado pelos v√©rtices ponto_do_meio, forma2[start] e forma2[end]
 
-                            //estamos a esquerda do ˙ltimo segmento
+                            //estamos a esquerda do √∫ltimo segmento
                             //if(! direita){
                             //    end = start;
                             //    start = end-1;
@@ -1344,14 +1344,14 @@ class math2D{
                             //cout<<"start: "<<start<<endl;
                             //cout<<"end: "<<end<<endl;
 
-                            //cout<<"trecho encontrado, vÈrtices: ("<<forma2[start].x<<", "<<forma2[start].y<<") e ("<<forma2[end].x<<", "<<forma2[end].y<<")"<<endl<<endl;
+                            //cout<<"trecho encontrado, v√©rtices: ("<<forma2[start].x<<", "<<forma2[start].y<<") e ("<<forma2[end].x<<", "<<forma2[end].y<<")"<<endl<<endl;
 
-                            //verificar se o ponto est· sobre um dos segmentos do trecho
+                            //verificar se o ponto est√° sobre um dos segmentos do trecho
                             if(Math2D.ponto_sobre_segmento(Segmento<long double>(ponto_do_meio,forma2[start]), pontos1[i10])){
-                                //cout<<"O ponto est· sobre o segmento do trecho"<<endl;
+                                //cout<<"O ponto est√° sobre o segmento do trecho"<<endl;
 
                                 if(Math2D.mesmo_ponto(forma2[start],pontos1[i10])){
-                                    //cout<<"O ponto est· sobre o segmento do polÌgono."<<endl;
+                                    //cout<<"O ponto est√° sobre o segmento do pol√≠gono."<<endl;
                                     sobre[i10] = true;
                                 }
 
@@ -1359,10 +1359,10 @@ class math2D{
                                 goto exit1;
                             }
                             else if(Math2D.ponto_sobre_segmento(Segmento<long double>(ponto_do_meio,forma2[end]), pontos1[i10])){
-                                //cout<<"O ponto est· sobre o segmento do trecho"<<endl;
+                                //cout<<"O ponto est√° sobre o segmento do trecho"<<endl;
 
                                  if(Math2D.mesmo_ponto(forma2[end],pontos1[i10])){
-                                    //cout<<"O ponto est· sobre o segmento do polÌgono."<<endl;
+                                    //cout<<"O ponto est√° sobre o segmento do pol√≠gono."<<endl;
                                     sobre[i10] = true;
                                 }
 
@@ -1372,17 +1372,17 @@ class math2D{
 
                             else{
                                 if(Math2D.lado(Segmento<long double>(forma2[start],forma2[end]),pontos1[i10]) == 0 || Math2D.lado(Segmento<long double>(forma2[start],forma2[end]),pontos1[i10]) == 1){
-                                    //cout<<"O ponto est· dentro do polÌgono!"<<endl<<endl;
+                                    //cout<<"O ponto est√° dentro do pol√≠gono!"<<endl<<endl;
 
                                     if(Math2D.lado(Segmento<long double>(forma2[start],forma2[end]),pontos1[i10]) == 0){
-                                        //cout<<"O ponto est· sobre o segmento do polÌgono"<<endl;
+                                        //cout<<"O ponto est√° sobre o segmento do pol√≠gono"<<endl;
                                         sobre[i10] = true;
                                     }
 
                                     dentro[i10] = true;
                                 }
                                 else{
-                                    //cout<<"O ponto est· fora do polÌgono!"<<endl<<endl;
+                                    //cout<<"O ponto est√° fora do pol√≠gono!"<<endl<<endl;
                                     dentro[i10] = false;
                                 }
 
@@ -1406,20 +1406,20 @@ class math2D{
 
                    //se estiver a esquerda
                    else if(Math2D.lado(meio,pontos1[i10]) == -1){
-                       //cout<<"ponto est· a esquerda do segmento meio"<<endl;
-                       //mudo o final do segmento para o meio, limitando o trecho ‡ parte ‡ esquerda
+                       //cout<<"ponto est√° a esquerda do segmento meio"<<endl;
+                       //mudo o final do segmento para o meio, limitando o trecho √† parte √† esquerda
 
 
                        direita = false;
 
-                       //Ìndice do inÌcio
+                       //√≠ndice do in√≠cio
                        int start = 0;
 
-                       //Ìndice do fim
+                       //√≠ndice do fim
                        int end = i3;
 
 
-                       //cout<<"coordenada do inÌcio: ("<<forma2[start].x<<", "<<forma2[start].y<<")"<<endl;
+                       //cout<<"coordenada do in√≠cio: ("<<forma2[start].x<<", "<<forma2[start].y<<")"<<endl;
 
                        //cout<<"coordenada do meio: ("<<forma2[i3].x<<", "<<forma[i3].y<<")"<<endl;
 
@@ -1428,29 +1428,29 @@ class math2D{
                        if(start == end){
 
                            dentro[i10] = false;
-                           //cout<< "O ponto est· a esquerda do segmento meio, mas a esquerda do meio È o trecho"<<endl;
-                           //cout<<"O ponto est· fora"<<endl;
+                           //cout<< "O ponto est√° a esquerda do segmento meio, mas a esquerda do meio √© o trecho"<<endl;
+                           //cout<<"O ponto est√° fora"<<endl;
                            goto exit1;
 
                        }
 
-                       //a busca bin·ria termina quando (inÌcio +fim)/2 È no m·ximo 1 de dist‚ncia do fim
+                       //a busca bin√°ria termina quando (in√≠cio +fim)/2 √© no m√°ximo 1 de dist√¢ncia do fim
                        while( (abs((double)(start + end)/2.0)-(double)start) >= 1.0){
-                            //fazer a busca bin·ria na esquerda
+                            //fazer a busca bin√°ria na esquerda
 
-                            //compara o ponto com o segmento na mÈdia do trecho
+                            //compara o ponto com o segmento na m√©dia do trecho
 
-                            //caso o ponto est· sobre a reta
+                            //caso o ponto est√° sobre a reta
                             if(Math2D.lado(Segmento<long double>(ponto_do_meio,forma2[(int)((start+end)/2)]),pontos1[i10]) == 0){
 
-                                //cout<<"O ponto est· sobre a reta que vai do ponto: ("<<ponto_do_meio.x<<", "<<ponto_do_meio.y<<") ao ponto ("<<forma2[(int)((start+end)/2)].x<<", "<<forma2[(int)((start+end)/2)].y<<")"<<endl<<endl;
+                                //cout<<"O ponto est√° sobre a reta que vai do ponto: ("<<ponto_do_meio.x<<", "<<ponto_do_meio.y<<") ao ponto ("<<forma2[(int)((start+end)/2)].x<<", "<<forma2[(int)((start+end)/2)].y<<")"<<endl<<endl;
 
-                                //ver se o ponto est· sobre o segmento
+                                //ver se o ponto est√° sobre o segmento
                                 if(Math2D.ponto_sobre_segmento(Segmento<long double>(ponto_do_meio,forma2[(int)((start+end)/2)]),pontos1[i10])){
-                                    //cout<<"O ponto est· sobre o segmento."<<endl;
+                                    //cout<<"O ponto est√° sobre o segmento."<<endl;
 
                                     if(Math2D.mesmo_ponto(forma2[(int)((start+end)/2)],pontos1[i10])){
-                                        //cout<<"O ponto est· sobre o segmento do polÌgono, e"<<endl;
+                                        //cout<<"O ponto est√° sobre o segmento do pol√≠gono, e"<<endl;
                                         sobre[i10] = true;
                                     }
 
@@ -1458,17 +1458,17 @@ class math2D{
                                     goto exit1;
                                 }
                                 else{
-                                    //o ponto n„o est· sobre o segmento
+                                    //o ponto n√£o est√° sobre o segmento
                                     dentro[i10] = false;
                                     goto exit1;
                                 }
 
                             }
-                            //fim caso ponto est· sobre a reta
+                            //fim caso ponto est√° sobre a reta
 
-                            //caso ponto est· a direita
+                            //caso ponto est√° a direita
                             else if( Math2D.lado(Segmento<long double>(ponto_do_meio,forma2[(int)((start+end)/2)]),pontos1[i10]) == 1){
-                                //cout<<"O ponto est· a direita da reta que vai do ponto: ("<<ponto_do_meio.x<<", "<<ponto_do_meio.y<<") ao ponto ("<<forma2[(int)((start+end)/2)].x<<", "<<forma2[(int)((start+end)/2)].y<<")"<<endl<<endl;
+                                //cout<<"O ponto est√° a direita da reta que vai do ponto: ("<<ponto_do_meio.x<<", "<<ponto_do_meio.y<<") ao ponto ("<<forma2[(int)((start+end)/2)].x<<", "<<forma2[(int)((start+end)/2)].y<<")"<<endl<<endl;
 
                                 direita = true;
 
@@ -1476,7 +1476,7 @@ class math2D{
 
                             }
                             else if( Math2D.lado(Segmento<long double>(ponto_do_meio,forma2[(int)((start+end)/2)]),pontos1[i10]) == -1 ){
-                                //cout<<"O ponto est· a esquerda da reta que vai do ponto: ("<<ponto_do_meio.x<<", "<<ponto_do_meio.y<<") ao ponto ("<<forma2[(int)((start+end)/2)].x<<", "<<forma2[(int)((start+end)/2)].y<<")"<<endl<<endl;
+                                //cout<<"O ponto est√° a esquerda da reta que vai do ponto: ("<<ponto_do_meio.x<<", "<<ponto_do_meio.y<<") ao ponto ("<<forma2[(int)((start+end)/2)].x<<", "<<forma2[(int)((start+end)/2)].y<<")"<<endl<<endl;
 
                                 direita = false;
 
@@ -1488,15 +1488,15 @@ class math2D{
 
 
                        if( (end - start) != 1){
-                           //cout<<"Erro!! trecho encontrado n„o È v·lido!"<<endl<<endl;
+                           //cout<<"Erro!! trecho encontrado n√£o √© v√°lido!"<<endl<<endl;
 
                            //cout<<"start: "<<start<<endl;
                            //cout<<"end :"<<end<<endl;
                        }
                        else{
-                            //encontramos o trecho que È delimitado pelos vÈrtices ponto_do_meio, forma2[start] e forma2[end]
+                            //encontramos o trecho que √© delimitado pelos v√©rtices ponto_do_meio, forma2[start] e forma2[end]
 
-                            //estamos a esquerda do ˙ltimo segmento
+                            //estamos a esquerda do √∫ltimo segmento
                             //if(! direita){
                             //    //cout<<"teste"<<endl;
                             //    end = start;
@@ -1505,23 +1505,23 @@ class math2D{
                             //cout<<"start: "<<start<<endl;
                             //cout<<"end: "<<end<<endl;
 
-                            //cout<<"trecho encontrado, vÈrtices: ("<<forma2[start].x<<", "<<forma2[start].y<<") e ("<<forma2[end].x<<", "<<forma2[end].y<<")"<<endl<<endl;
+                            //cout<<"trecho encontrado, v√©rtices: ("<<forma2[start].x<<", "<<forma2[start].y<<") e ("<<forma2[end].x<<", "<<forma2[end].y<<")"<<endl<<endl;
 
-                            //verificar se o ponto est· sobre um dos segmentos do trecho
+                            //verificar se o ponto est√° sobre um dos segmentos do trecho
                             if(Math2D.ponto_sobre_segmento(Segmento<long double>(ponto_do_meio,forma2[start]), pontos1[i10])){
-                                //cout<<"O ponto est· sobre o segmento do trecho"<<endl;
+                                //cout<<"O ponto est√° sobre o segmento do trecho"<<endl;
 
                                 if(Math2D.mesmo_ponto(forma2[start],pontos1[i10])){
-                                    //cout<<"O ponto est· sobre o segmento do polÌgono."<<endl;
+                                    //cout<<"O ponto est√° sobre o segmento do pol√≠gono."<<endl;
                                     sobre[i10]  =true;
                                 }
                                 dentro[i10] = true;
                             }
                             else if(Math2D.ponto_sobre_segmento(Segmento<long double>(ponto_do_meio,forma2[end]), pontos1[i10])){
-                                //cout<<"O ponto est· sobre o segmento do trecho"<<endl;
+                                //cout<<"O ponto est√° sobre o segmento do trecho"<<endl;
 
                                 if(Math2D.mesmo_ponto(forma2[end],pontos1[i10])){
-                                    //cout<<"O ponto est· sobre o segmento do polÌgono."<<endl;
+                                    //cout<<"O ponto est√° sobre o segmento do pol√≠gono."<<endl;
                                     sobre[i10]  =true;
                                 }
 
@@ -1530,17 +1530,17 @@ class math2D{
 
                             else{
                                 if(Math2D.lado(Segmento<long double>(forma2[start],forma2[end]),pontos1[i10]) == 0 || Math2D.lado(Segmento<long double>(forma2[start],forma2[end]),pontos1[i10]) == 1){
-                                    //cout<<"O ponto est· dentro do polÌgono!"<<endl<<endl;
+                                    //cout<<"O ponto est√° dentro do pol√≠gono!"<<endl<<endl;
 
                                     if(Math2D.lado(Segmento<long double>(forma2[start],forma2[end]),pontos1[i10]) == 0 ){
-                                        //cout<<"O ponto est· sobre o segmento do polÌgono."<<endl;
+                                        //cout<<"O ponto est√° sobre o segmento do pol√≠gono."<<endl;
                                         sobre[i10] = true;
                                     }
 
                                     dentro[i10] = true;
                                 }
                                 else{
-                                    //cout<<"O ponto est· fora do polÌgono!"<<endl<<endl;
+                                    //cout<<"O ponto est√° fora do pol√≠gono!"<<endl<<endl;
                                     dentro[i10] = false;
                                 }
                             }
@@ -1734,19 +1734,19 @@ class math2D{
 
 
 
-    //funÁ„o para ponto_em_poligono3()
+    //fun√ß√£o para ponto_em_poligono3()
 
-    //true = goto exit2 false = n„o goto exit2
+    //true = goto exit2 false = n√£o goto exit2
     bool busca_binaria1(int a,int start,int end,int meio,Vetor_de_segmentos<long double>* trechos, bool* dentro, bool* sobre, int i,Ponto<long double>* pontos1){
 
-        //Ìndice do inÌcio do trecho
+        //√≠ndice do in√≠cio do trecho
         a = start;
 
         start = 0;
         end = trechos[a].vetor.size()- 1;
         meio = (start+end)/2;
 
-        //se o ponto estiver ‡ esquerda do primeiro segmento
+        //se o ponto estiver √† esquerda do primeiro segmento
         if(math2D::lado(trechos[a].vetor[0],pontos1[i]) == -1){
             dentro[i] = false;
             return true;
@@ -1790,29 +1790,29 @@ class math2D{
     }
 
 
-    //funciona para polÌgonos n„o convexos
+    //funciona para pol√≠gonos n√£o convexos
     static void ponto_em_poligono3(){
 
         math2D Math2D;
 
-        //quantos pontos tem o polÌgono
+        //quantos pontos tem o pol√≠gono
         int N;
 
-        //quantos pontos dentro ou fora do polÌgono
+        //quantos pontos dentro ou fora do pol√≠gono
         int Q;
 
-        //cout<<"Digite o tamanho do polÌgono:"<<endl;
+        //cout<<"Digite o tamanho do pol√≠gono:"<<endl;
 
         cin>>N;
 
         bool do_goto_exit2;
 
-        //onde v„o ficar os pontos do polÌgono
+        //onde v√£o ficar os pontos do pol√≠gono
         Ponto<long double>* forma = new Ponto<long double>[N];
 
         for(int i = 0; i<N;i++){
 
-            //cout<<"Digite as coordenadas de um vÈrtice: "<<endl;
+            //cout<<"Digite as coordenadas de um v√©rtice: "<<endl;
 
             cin>>forma[i].x;
             cin>>forma[i].y;
@@ -1851,14 +1851,14 @@ class math2D{
         }
 
 
-        //os pontos de forma3 ficar„o ordenados pelo y
+        //os pontos de forma3 ficar√£o ordenados pelo y
         Ponto<long double>* forma3 = new Ponto<long double>[N];
 
         for(int i = 0; i<N; i++){
             forma3[i] = forma[i];
         }
 
-        //os pontos de forma4 ficar„o ordenados pelo x;
+        //os pontos de forma4 ficar√£o ordenados pelo x;
         Ponto<long double>* forma4 = new Ponto<long double>[N];
 
         for(int i = 0; i<N; i++){
@@ -1919,7 +1919,7 @@ class math2D{
                     trechos[i].vetor.push_back(Segmento<long double>(forma[i2],forma[i2+1]));
                     quantidade_de_segmentos++;
                 }
-                //caso em que sÛ um ponto da extremidade de um segmento coincide com o outro
+                //caso em que s√≥ um ponto da extremidade de um segmento coincide com o outro
                 else if(!math2D::paralelos(Segmento<long double>(forma[i2],forma[i2+1]),horizontal) && (math2D::cruza2(Segmento<long double>(forma[i2],forma[i2+1]),horizontal)==0)){
 
                     if(forma[i2].y >horizontal.start.y || forma[i2+1].y >horizontal.start.y){
@@ -1929,14 +1929,14 @@ class math2D{
                 }
             }
 
-            //comparar o ˙ltimo par de pontos
+            //comparar o √∫ltimo par de pontos
             if(!math2D::paralelos(Segmento<long double>(forma[N-1],forma[0]),horizontal) && (math2D::cruza2(Segmento<long double>(forma[N-1],forma[0]),horizontal)==1) ){
                 //os segmentos cruzam
                 trechos[i].vetor.push_back(Segmento<long double>(forma[N-1],forma[0]));
                 quantidade_de_segmentos++;
 
             }
-            //caso em que sÛ um ponto da extremidade de um segmento coincide com o outro
+            //caso em que s√≥ um ponto da extremidade de um segmento coincide com o outro
             else if(!math2D::paralelos(Segmento<long double>(forma[N-1],forma[0]),horizontal) && (math2D::cruza2(Segmento<long double>(forma[N-1],forma[0]),horizontal)==0)){
 
                 if(forma[N-1].y >horizontal.start.y || forma[0].y > horizontal.start.y){
@@ -1948,7 +1948,7 @@ class math2D{
 
             for(int i2 = 0;i2<trechos[i].vetor.size();i2++){
 
-                //se o y do inÌcio do segmento for maior que o y do final do segmento
+                //se o y do in√≠cio do segmento for maior que o y do final do segmento
                 if(trechos[i].vetor[i2].start.y > trechos[i].vetor[i2].end.y){
                     trechos[i].vetor[i2].inverter();
                 }
@@ -1965,7 +1965,7 @@ class math2D{
         for(int i =0;i<Q;i++){
 
 
-            //fazer a busca bin·ria para encontrar o trecho, depois fazer a busca bin·ria para encontrar o segmento
+            //fazer a busca bin√°ria para encontrar o trecho, depois fazer a busca bin√°ria para encontrar o segmento
 
             Segmento<long double> final1(Ponto<long double>(1,trechos[trechos.size()-1].y2),Ponto<long double>(2,trechos[trechos.size()-1].y2));
             Segmento<long double> inicial1(Ponto<long double>(1,trechos[0].y1),Ponto<long double>(2,trechos[0].y1));
@@ -1980,7 +1980,7 @@ class math2D{
             lado = math2D::lado(final1,pontos1[i]);
 
             /////////////////////////////////////////////
-            //se estiver acima do ˙ltimo y
+            //se estiver acima do √∫ltimo y
             /////////////////////////////////////////////
             if(lado == -1){
                 dentro[i] = false;
@@ -1997,16 +1997,16 @@ class math2D{
 
             }
             /////////////////////////////////////////////
-            //se estiver no ˙ltimo trecho
+            //se estiver no √∫ltimo trecho
             /////////////////////////////////////////////
             if(math2D::lado(Segmento<long double>(Ponto<long double>(1,trechos[trechos.size()-1].y1),Ponto<long double>(2,trechos[trechos.size()-1].y1)),pontos1[i]) == -1){
 
                 Math2D.busca_binaria1(0,trechos.size()-1,0,0,&trechos[0],dentro,sobre,i,pontos1);
 
-                //se o ponto est· sobre a reta no ˙ltimo y do ˙ltimo trecho
+                //se o ponto est√° sobre a reta no √∫ltimo y do √∫ltimo trecho
                 if( (math2D::lado(Segmento<long double>(Ponto<long double>(1,trechos[trechos.size()-1].y1),Ponto<long double>(2,trechos[trechos.size()-1].y1)),pontos1[i]) ) == 0){
 
-                    //o lado no trecho e acima dele s„o diferentes, portanto o ponto est· sobre o segmento
+                    //o lado no trecho e acima dele s√£o diferentes, portanto o ponto est√° sobre o segmento
                     if(dentro[i] == true){
                         sobre[i] = true;
                         goto exit2;
@@ -2060,7 +2060,7 @@ class math2D{
 
                 else if(math2D::lado(Segmento<long double>(Ponto<long double>(1,trechos[meio].y1),Ponto<long double>(2,trechos[meio].y1)),pontos1[i]) == 0){
 
-                    //fazer a busca bin·ria no trecho acima e abaixo
+                    //fazer a busca bin√°ria no trecho acima e abaixo
 
                     //no trecho acima
                     Math2D.busca_binaria1(0,meio-1,0,0,&trechos[0],dentro,sobre,i,pontos1);
@@ -2081,11 +2081,11 @@ class math2D{
                     }
 
                     if(valor_da_busca_binaria == dentro[i]){
-                        //os valores em cima e em baixo do trecho s„o os mesmos
+                        //os valores em cima e em baixo do trecho s√£o os mesmos
                         goto exit2;
                     }
                     else{
-                        //os valores em cima e embaixo s„o diferentes
+                        //os valores em cima e embaixo s√£o diferentes
                         sobre[i] = true;
                         goto exit2;
                     }
@@ -2107,7 +2107,7 @@ class math2D{
                     sobre[i] = true;
                     goto exit2;
                 }
-                //caso em que o ponto est· sobre segmento
+                //caso em que o ponto est√° sobre segmento
                 if(dentro[i] == true){
                     sobre[i] = true;
                     goto exit2;
