@@ -828,9 +828,14 @@ class math2D{
                 ///////////////////////////////////////////////////////////////////////////
                 ///////////////////////////////////////////////////////////////////////////
                 ///////////////////////////////////////////////////////////////////////////
-          
+               
                 
-                if(Math1::menor(x1,x12) <= Math1::menor(x2,x22) ){
+                if( (Math1::menor(x1,x12) == Math1::menor(x2,x22)) &&( Math1::maior(x1,x12) <= Math1::maior(x2,x22)) ){
+                    
+                    vetor[i3] = auxiliar[i];
+                    i++;
+                }
+                else if(Math1::menor(x1,x12) < Math1::menor(x2,x22) ){
                     vetor[i3] = auxiliar[i];
                     i++;
                 }
@@ -2164,18 +2169,26 @@ class math2D{
         end = trechos[a].vetor.size()- 1;
         meio = (start+end)/2;
         
+       
+        
         //se o ponto estiver à esquerda do primeiro segmento
         if(math2D::lado(trechos[a].vetor[0],pontos1[i]) == -1){
+           
+            
+            
             dentro[i] = false;
             return true;
         }
         
         if(math2D::lado(trechos[a].vetor[trechos[a].vetor.size()- 1],pontos1[i]) == 1){
+         
+            
             dentro[i] = false;
             return true;
         }
         //se o ponto estiver sobre um desses segmentos
          if( (math2D::lado(trechos[a].vetor[0],pontos1[i]) == 0 ) || (math2D::lado(trechos[a].vetor[trechos[a].vetor.size()- 1],pontos1[i]) == 0) ){
+          
             sobre[i] = true;
             return true;
         }
@@ -2196,11 +2209,11 @@ class math2D{
         }
       
         if( (start+1) %2 == 1){
-            cout<<start<<endl;
+           
             dentro[i] =true;
         }
         else{
-            cout<<start<<endl;
+           
             dentro[i]=false;
         }
         return false;
@@ -2240,6 +2253,7 @@ class math2D{
         }
         
         N = math2D::tira_pontos_colineares(forma,N);
+       
         
         //cout<<"Digite quantos pontos vai ter:"<<endl<<endl;
         cin>>Q;
@@ -2261,11 +2275,11 @@ class math2D{
         
         bool* dentro = new bool[Q];
         bool* sobre = new bool[Q];
-        bool* sobre2 = new bool[Q];
+        //bool* sobre2 = new bool[Q];
         
         for(int i =0; i<Q;i++){
             sobre[i] = false;
-            sobre2[i] = false;
+            //sobre2[i] = false;
         }
        
        
@@ -2324,7 +2338,7 @@ class math2D{
         //para cada vetor de segmentos adicionar os segmentos que cruzam a reta horizontal
         
         for(int i = 0;i<quantidade_de_trechos;i++){
-            
+           
             
             quantidade_de_segmentos = 0;
             
@@ -2334,7 +2348,9 @@ class math2D{
             for(int i2 = 0;i2<(N-1);i2++){
                 if(!math2D::paralelos(Segmento<long double>(forma[i2],forma[i2+1]),horizontal) && (math2D::cruza2(Segmento<long double>(forma[i2],forma[i2+1]),horizontal)==1) ){
                     //os segmentos cruzam
+                 
                     trechos[i].vetor.push_back(Segmento<long double>(forma[i2],forma[i2+1]));
+                  
                     quantidade_de_segmentos++;
                 }
                 //caso em que só um ponto da extremidade de um segmento coincide com o outro
@@ -2349,6 +2365,7 @@ class math2D{
             
             //comparar o último par de pontos
             if(!math2D::paralelos(Segmento<long double>(forma[N-1],forma[0]),horizontal) && (math2D::cruza2(Segmento<long double>(forma[N-1],forma[0]),horizontal)==1) ){
+                
                 //os segmentos cruzam
                 trechos[i].vetor.push_back(Segmento<long double>(forma[N-1],forma[0]));
                 quantidade_de_segmentos++;
@@ -2356,7 +2373,7 @@ class math2D{
             }
             //caso em que só um ponto da extremidade de um segmento coincide com o outro
             else if(!math2D::paralelos(Segmento<long double>(forma[N-1],forma[0]),horizontal) && (math2D::cruza2(Segmento<long double>(forma[N-1],forma[0]),horizontal)==0)){
-                
+           
                 if(forma[N-1].y >horizontal.start.y || forma[0].y > horizontal.start.y){
                     trechos[i].vetor.push_back(Segmento<long double>(forma[N-1],forma[0]));
                     quantidade_de_segmentos++;
@@ -2373,16 +2390,14 @@ class math2D{
                 
             }
             
-            
             //ordenar os segmentos
             math2D::ordena_segmentos(&trechos[i].vetor[0],quantidade_de_segmentos,trechos[i].y1,trechos[i].y2);
-            
+           
         }
        
         cout<<Q<<endl;
         for(int i =0;i<Q;i++){
             
-          
             //fazer a busca binária para encontrar o trecho, depois fazer a busca binária para encontrar o segmento
             
             Segmento<long double> final1(Ponto<long double>(1,trechos[trechos.size()-1].y2),Ponto<long double>(2,trechos[trechos.size()-1].y2));
@@ -2401,6 +2416,8 @@ class math2D{
             //se estiver acima do último y
             /////////////////////////////////////////////
             if(lado == -1){
+               
+                
                 dentro[i] = false;
                 goto exit2;
             }
@@ -2410,6 +2427,7 @@ class math2D{
             //se estiver abaixo do primeiro
             /////////////////////////////////////////////
             if(lado == 1){
+               
                 dentro[i] = false;
                 goto exit2;
                 
@@ -2518,19 +2536,23 @@ class math2D{
             
             //start = meio
             if(math2D::lado(Segmento<long double>(Ponto<long double>(1,trechos[start].y1),Ponto<long double>(2,trechos[start].y1)),pontos1[i]) == 0){
-                
+              
+               
                 Math2D.busca_binaria1(0,start,0,0,&trechos[0],dentro,sobre,i,pontos1);
                 
                 if(sobre[i] == true){
+                  
                     sobre[i] = true;
                     goto exit2;
                 }
                 //caso em que o ponto está sobre segmento
                 if(dentro[i] == true){
+                   
                     sobre[i] = true;
                     goto exit2;
                 }
                 if(dentro[i] = false){
+                   
                     dentro[i] = false;
                     goto exit2;
                 }
@@ -2809,114 +2831,7 @@ class math2D{
 int main(){
     
     math2D Math2D;
-    
-   /* 
-    
-    Segmento<double> segmento1(Ponto<double>(3,3),Ponto<double>(7,7));
-    Segmento<double> segmento2(Ponto<double>(3,3),Ponto<double>(2,13));
-    
-    double y = 5.0;
-    
-    long double x1;
-    long double x2;
-    long double o1;
-    long double o2;
-    
-    long double x12;
-    long double x22;
-    
-    if((segmento1.end.x - segmento1.start.x) == 0){
-        //reta vertical
-        x1 = segmento1.end.x;
-       
-    }
-    else{
-        
-        o1 =  abs(segmento1.end.x - segmento1.start.x)/abs(segmento1.end.y - segmento1.start.y);
-    
-        if(segmento1.start.x<segmento1.end.x){
-            x1 = segmento1.start.x + abs(segmento1.start.y - y)*o1;
-        }
-        else if(segmento1.start.x>segmento1.end.x){
-            x1 = segmento1.end.x + abs(segmento1.end.y - y)*o1;
-        }
-       
-    }    
-    
-    if((segmento2.end.x - segmento2.start.x) == 0){
-        //reta vertical
-        x2 = segmento2.end.x;
-    }
-    else{
-        
-        o2 =  abs(segmento2.end.x - segmento2.start.x)/abs(segmento2.end.y - segmento2.start.y);
-    
-       
-        if(segmento2.start.x<segmento2.end.x){
-            x2 = segmento2.start.x + abs(segmento2.start.y - y)*o2;
-        }
-        else if(segmento2.start.x>segmento2.end.x){
-            x2 = segmento2.end.x + abs(segmento2.end.y - y)*o2;
-        }
-    
-    }
-    
-    cout<<"x1: "<<x1<<endl;
-    cout<<"x2: "<<x2<<endl;
-    cout<<o1<<endl;
-    cout<<o2<<endl;
-    
-    cout<<segmento2.start.x<<" "<< abs(segmento2.start.y - y)*o1<<endl;
-    cout<<segmento2.end.x<< " "<<abs(segmento2.end.y - y)*o1;
-    */
-    
-    /*
-     // y/x = a;
-                //y1= 4;
-                //x = y/a
-                //y1/x1 = a;
-                
-                long double x1;
-                long double x2;
-                long double o1;
-                long double o2;
-                
-                if((auxiliar[i].end.x - auxiliar[i].start.x) == 0){
-                    //reta vertical
-                    x1 = auxiliar[i].end.x;
-                }
-                else if((auxiliar[i2].end.x - auxiliar[i2].start.x) == 0){
-                    //reta vertical
-                    x2 = auxiliar[i2].end.x;
-                }
-                else{
-                    o1 = abs(auxiliar[i].end.y - auxiliar[i].start.y)/abs(auxiliar[i].end.x - auxiliar[i].start.x);
-                    o2 = abs(auxiliar[i2].end.y - auxiliar[i2].start.y)/abs(auxiliar[i2].end.x - auxiliar[i2].start.x);
-                
-                
-                    if((auxiliar[i].end.y - auxiliar[i].start.y) == 0 || (auxiliar[i2].end.y - auxiliar[i2].start.y)==0){
-                        cout<<"erro"<<endl;
-                    }
-                    else{
-                      
-                        if(auxiliar[i].start.x<auxiliar[i].end.x){
-                            x1 = auxiliar[i].start.x - (auxiliar[i].start.y - y)/o1;
-                        }
-                        else if(auxiliar[i].start.x>auxiliar[i].end.x){
-                            x1 = auxiliar[i].start.x +(auxiliar[i].start.y - y)/o1;
-                        }
-                        
-                        if(auxiliar[i2].start.x<auxiliar[i2].end.x){
-                            x2 = auxiliar[i2].start.x - (auxiliar[i2].start.y - y)/o1;
-                        }
-                        else if(auxiliar[i2].start.x>auxiliar[i2].end.x){
-                            x2 = auxiliar[i2].start.x +(auxiliar[i2].start.y - y)/o1;
-                        }
-                        
-                    }
-    */
-    
-    
+  
   
     math2D::ponto_em_poligono3();
    
