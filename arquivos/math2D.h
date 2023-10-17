@@ -299,52 +299,50 @@ class math2D{
 
         ////////////////MERGE SORT 5////////////////////////////////////////////////
 
-
-        template <typename T>
-        static void merge05(T vetor[], int esquerda,int meio, int direita, int tamanho, long double y11,long double y12){
-
+    static void merge05(T vetor[], int esquerda,int meio, int direita, int tamanho, long double y11,long double y12){
+            
             T auxiliar[tamanho];
-
+            
             for(int i = 0; i<tamanho ;i++){
                 auxiliar[i] = vetor[i];
             }
-
+            
             int i = esquerda;
             int i2 = meio +1;
             int i3 = esquerda;
-
-
+            
+            
             while(i <= meio && i2 <= direita){
-
+                
                 //encontrar o cruzamento
-
+                
                 // y/x = a;
                 //y1= 4;
                 //x = y/a
                 //y1/x1 = a;
-
+                
                 long double x1;
                 long double x2;
                 long double o1;
                 long double o2;
-
-
+                
+                
                 long double x12;
                 long double x22;
-
-
+                
+                
                 if((auxiliar[i].end.x - auxiliar[i].start.x) == 0){
                     //reta vertical
                     x1 = auxiliar[i].end.x;
                 }
                 else{
                     o1 = abs(auxiliar[i].end.x - auxiliar[i].start.x)/abs(auxiliar[i].end.y - auxiliar[i].start.y);
-
+                    
                     if((auxiliar[i].end.y - auxiliar[i].start.y) == 0){
                         cout<<"erro"<<endl;
                     }
                     else{
-
+                      
                         if(auxiliar[i].start.x<auxiliar[i].end.x){
                             x1 = auxiliar[i].start.x + abs(auxiliar[i].start.y - y11)*o1;
                         }
@@ -353,21 +351,21 @@ class math2D{
                         }
                     }
                 }
-
+                
                 if((auxiliar[i2].end.x - auxiliar[i2].start.x) == 0){
                     //reta vertical
                     x2 = auxiliar[i2].end.x;
                 }
-
+                
                 else{
-
+                   
                     o2 = abs(auxiliar[i2].end.x - auxiliar[i2].start.x)/abs(auxiliar[i2].end.y - auxiliar[i2].start.y);
 
                     if((auxiliar[i2].end.y - auxiliar[i2].start.y)==0){
                         cout<<"erro"<<endl;
                     }
                     else{
-
+                       
                         if(auxiliar[i2].start.x<auxiliar[i2].end.x){
                             x2 = auxiliar[i2].start.x + abs(auxiliar[i2].start.y - y11)*o2;
                         }
@@ -376,12 +374,12 @@ class math2D{
                         }
                     }
                 }
-
-
+                
+                
                 ///////////////////////////////////////////////////////////////////////////
                 ///////////////////////////////////////////////////////////////////////////
                 ///////////////////////////////////////////////////////////////////////////
-
+                
                 if((auxiliar[i].end.x - auxiliar[i].start.x) == 0){
                     //reta vertical
                     x12 = auxiliar[i].end.x;
@@ -394,7 +392,7 @@ class math2D{
                         x12 = auxiliar[i].end.x + abs(auxiliar[i].end.y - y12)*o1;
                     }
                 }
-
+                
                 if((auxiliar[i2].end.x - auxiliar[i2].start.x) == 0){
                     //reta vertical
                     x22 = auxiliar[i2].end.x;
@@ -406,17 +404,22 @@ class math2D{
                     else if(auxiliar[i2].start.x>auxiliar[i2].end.x){
                         x22 = auxiliar[i2].end.x + abs(auxiliar[i2].end.y - y12)*o2;
                     }
+                }    
+                    
+                
+                
+                
+                ///////////////////////////////////////////////////////////////////////////
+                ///////////////////////////////////////////////////////////////////////////
+                ///////////////////////////////////////////////////////////////////////////
+               
+                
+                if( (Math1::menor(x1,x12) == Math1::menor(x2,x22)) &&( Math1::maior(x1,x12) <= Math1::maior(x2,x22)) ){
+                    
+                    vetor[i3] = auxiliar[i];
+                    i++;
                 }
-
-
-
-
-                ///////////////////////////////////////////////////////////////////////////
-                ///////////////////////////////////////////////////////////////////////////
-                ///////////////////////////////////////////////////////////////////////////
-
-
-                if(Math1::menor(x1,x12) <= Math1::menor(x2,x22) ){
+                else if(Math1::menor(x1,x12) < Math1::menor(x2,x22) ){
                     vetor[i3] = auxiliar[i];
                     i++;
                 }
@@ -426,20 +429,22 @@ class math2D{
                 }
                 i3++;
             }
-
-
+                
+           
             while(i<=meio){
                 vetor[i3] = auxiliar[i];
                 i++;
                 i3++;
             }
-
+            
             while(i2<=direita){
-                vetor[i3] = auxiliar[i2];
+                vetor[i3] = auxiliar[i2]; 
                 i2++;
                 i3++;
             }
         }
+
+     
 
         template <typename T>
         static void merge_sort205(T vetor[],int tamanho, int esquerda,int direita, long double y,long double y2){
@@ -568,7 +573,7 @@ class math2D{
 
         if(&ponto1.x == NULL || &ponto1.y || NULL || &ponto2.x == NULL || &ponto2.y ==NULL){
 
-           // cout<<endl<<endl<<"Erro, membros dos pontos s„o nulos!!!"<<endl<<endl;
+           // cout<<endl<<endl<<"Erro, membros dos pontos s√£o nulos!!!"<<endl<<endl;
 
         }
 
@@ -645,24 +650,24 @@ class math2D{
 
     template <typename T>
     //se um ponto de um segmento estiver sobre a reta correspondente ao outro retorna 0(se os segmentos forem colineares retorna 0)
-    //USAR FUN«√O CRUZA2!!!
+    //USAR FUN√á√ÉO CRUZA2!!!
     static int cruza(Segmento<T> segmento1, Segmento<T> segmento2){
 
-        //caso 0 (˙til para comparar retas, mas pode confundir, CUIDADO)
-        //ver se um ponto est· sobre a reta correspondente ao outro ponto
+        //caso 0 (√∫til para comparar retas, mas pode confundir, CUIDADO)
+        //ver se um ponto est√° sobre a reta correspondente ao outro ponto
         if(lado(segmento1,segmento2.start) == 0 || (lado(segmento1,segmento2.end) == 0) || lado(segmento2,segmento1.start) ==0 ||  lado(segmento2,segmento1.end) ==0){
             return 0;
         }
 
         //caso 1
-        //ver se os dois pontos de um segmento est„o, cada um, em um lado diferente do outro segmento( caso em que os segmentos cruzam)
+        //ver se os dois pontos de um segmento est√£o, cada um, em um lado diferente do outro segmento( caso em que os segmentos cruzam)
         if( (lado(segmento1,segmento2.start) != lado(segmento1,segmento2.end)) && (lado(segmento2,segmento1.start) != lado(segmento2,segmento1.end)) )  {
 
             return 1;
         }
 
         //caso -1
-        //caso n„o ocorra nenhuma das situaÁıes anteriores, os segmentos n„o se encontram de qualquer forma
+        //caso n√£o ocorra nenhuma das situa√ß√µes anteriores, os segmentos n√£o se encontram de qualquer forma
         else{return -1;}
     }
 
@@ -740,7 +745,7 @@ class math2D{
 
 
     template <typename T>
-    //CONFERIR SE FUNCIONA PARA O CASO DO FINAL ESTAR NA FRENTE DO COME«O
+    //CONFERIR SE FUNCIONA PARA O CASO DO FINAL ESTAR NA FRENTE DO COME√áO
     static bool ponto_sobre_segmento(Segmento<T> segmento1,Ponto<T> ponto1){
 
         if(mesmo_ponto(segmento1.start,ponto1)){
@@ -772,9 +777,9 @@ class math2D{
 
 
     template <typename T>
-    //n„o funciona
+    //n√£o funciona
     //inclui o caso que apenas um ponto pertence aos dois segmentos
-    //essa funÁ„o trata de segmentos, n„o aborda retas. Um segmento (1,1) e (2,2) n„o È sobreposto a um segmento (5,5) e (10,10);
+    //essa fun√ß√£o trata de segmentos, n√£o aborda retas. Um segmento (1,1) e (2,2) n√£o √© sobreposto a um segmento (5,5) e (10,10);
     static bool paralelos_e_sobrepostos(Segmento<T> segmento1, Segmento<T> segmento2){
 
         if(paralelos(segmento1,segmento2)){
@@ -808,7 +813,7 @@ class math2D{
 
 
     template <typename T>
-    //se os segmentos cruzarem retorna 1, retorna 0 nos casos particulares e retorna -1 se n„o se cruzam
+    //se os segmentos cruzarem retorna 1, retorna 0 nos casos particulares e retorna -1 se n√£o se cruzam
     static int cruza2(Segmento<T> segmento1, Segmento<T> segmento2){
 
         //caso 0
@@ -829,14 +834,14 @@ class math2D{
         }
 
         //caso 1
-        //ver se os dois pontos de um segmento est„o, cada um, em um lado diferente do outro segmento( caso em que os segmentos cruzam)
+        //ver se os dois pontos de um segmento est√£o, cada um, em um lado diferente do outro segmento( caso em que os segmentos cruzam)
         if( (lado(segmento1,segmento2.start) != lado(segmento1,segmento2.end)) && (lado(segmento2,segmento1.start) != lado(segmento2,segmento1.end)) )  {
 
             return 1;
         }
 
         //caso -1
-        //caso n„o ocorra nenhuma das situaÁıes anteriores, os segmentos n„o se encontram de qualquer forma
+        //caso n√£o ocorra nenhuma das situa√ß√µes anteriores, os segmentos n√£o se encontram de qualquer forma
         else{return -1;}
     }
 
@@ -850,10 +855,10 @@ class math2D{
 
 
     template <typename T>
-    //n„o inclui ponto sobre segmento
-    //n„o vai funcionar se n„o passar um polÌgono convexo
+    //n√£o inclui ponto sobre segmento
+    //n√£o vai funcionar se n√£o passar um pol√≠gono convexo
 
-    // -1 ponto fora do polÌgono 1 ponto dentro do polÌgono, 0 ponto sobre segmento do polÌgono
+    // -1 ponto fora do pol√≠gono 1 ponto dentro do pol√≠gono, 0 ponto sobre segmento do pol√≠gono
     int ponto_em_poligono_convexo(Ponto<T> ponto, Ponto<T>* poligono, int tamanho_poligono);
 
 
@@ -932,12 +937,12 @@ class math2D{
 
 
 
-    //funÁ„o para ponto_em_poligono3()
+    //fun√ß√£o para ponto_em_poligono3()
 
-    //true = goto exit2 false = n„o goto exit2
+    //true = goto exit2 false = n√£o goto exit2
     bool busca_binaria1(int a,int start,int end,int meio,Vetor_de_segmentos<long double>* trechos, bool* dentro, bool* sobre, int i,Ponto<long double>* pontos1);
 
-    //funciona para polÌgonos n„o convexos
+    //funciona para pol√≠gonos n√£o convexos
     static void ponto_em_poligono3();
 
 };
