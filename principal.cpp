@@ -435,7 +435,7 @@ class math2D{
 
     public:
     
-    
+ 
     template <typename T>
     static bool comparar_pontos_eixo_x(Ponto<T> ponto1, Ponto<T> ponto2){
         if(ponto1.x<=ponto2.x){
@@ -507,7 +507,24 @@ class math2D{
         
     }
     
-    
+    template <typename T>
+    static long double distancia_entre_pontos(Ponto<T> ponto1, Ponto<T> ponto2){
+        
+        if(ponto1.y == ponto2.y){
+            return (long double)maior_eixo_x(ponto1,ponto2).x - (long double)menor_eixo_x(ponto1,ponto2).x;
+        }
+        if(ponto1.x == ponto2.x){
+            return (long double)maior_eixo_y(ponto1,ponto2).y -(long double)menor_eixo_y(ponto1,ponto2).y;
+        }
+        else{
+            
+            long double delta_x = maior_eixo_x(ponto1,ponto2).x - menor_eixo_x(ponto1,ponto2).x;
+            long double delta_y = maior_eixo_y(ponto1,ponto2).y - menor_eixo_y(ponto1,ponto2).y;
+            return sqrt( delta_x*delta_x + delta_y*delta_y);
+            
+        }
+        
+    }
     
     static bool id_ponto(string a){
         
@@ -2824,6 +2841,46 @@ class math2D{
         */
         
     }
+    
+    //////////////////////////////////////////////////////////////////////
+    //algoritmo menor distância entre pontos /////////////////////////////
+    //////////////////////////////////////////////////////////////////////
+    
+    long double menor_distancia(Ponto<long double> &pontos,int inicio, int fim){
+        return 0.0;
+    }
+    
+    static void menor_distancia_entre_pontos(){
+        
+        //Quantidade de pontos
+        int N;
+        cin>>N;
+        
+        Ponto<long double>* pontos = new Ponto<long double>[N];
+        Ponto<long double>* pontos_ordenados_por_x = new Ponto<long double>[N];
+        Ponto<long double>* pontos_ordenados_por_y = new Ponto<long double>[N];
+        
+        for(int i = 0;i<N;i++){
+            cin>>pontos[i].x;
+            cin>>pontos[i].y;
+        }
+        
+      
+        for(int i = 0;i<N;i++){
+            
+            pontos_ordenados_por_x[i].x = pontos[i].x;
+            pontos_ordenados_por_x[i].y = pontos[i].y;
+            
+            pontos_ordenados_por_y[i].x = pontos[i].x;
+            pontos_ordenados_por_y[i].y = pontos[i].y;
+            
+        }
+        
+        math2D::ordena_pontos_pelo_eixo_x(pontos_ordenados_por_x, N);
+        math2D::ordena_pontos_pelo_eixo_y(pontos_ordenados_por_y, N);
+        
+        
+    }
 
 };
 
@@ -2831,10 +2888,8 @@ class math2D{
 int main(){
     
     math2D Math2D;
-  
-  
-    math2D::ponto_em_poligono3();
-   
+    
+    math2D::menor_distancia_entre_pontos();
     
     return 0;
 }
