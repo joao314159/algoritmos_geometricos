@@ -1,6 +1,3 @@
-
-
-
 #include <iostream>
 #include <vector>
 #include <typeinfo>
@@ -2848,7 +2845,7 @@ class math2D{
     
     
     
-    long double menor_distancia(Ponto<long double> &pontos_ordenados_por_x, Ponto<long double> &pontos_ordenados_por_y ,int tamanho_do_trecho ,int inicio, int fim){
+    long double menor_distancia(Ponto<long double>* pontos_ordenados_por_x, Ponto<long double>* pontos_ordenados_por_y ,int tamanho_do_trecho ,int inicio, int fim){
         
         if(fim > inicio){
             
@@ -2859,11 +2856,11 @@ class math2D{
             int i_esquerda = 0;
             int i_direita = 0;
             
-            for(int i = inicio, i<tamanho_do_trecho, i++){
+            for(int i = inicio; i<tamanho_do_trecho; i++){
                 //eu comparo cada ponto do vetor ordenado por y com o ponto de corte(o ponto do meio do vetor ordenado por x)
                 
                 //em um vetor ficam os pontos à esquerda do ponto de corte, ordenados por y
-                if(pontos_ordenador_por_x[(fim+inicio)/2] >pontos_ordenados_por_y[i]){
+                if(pontos_ordenados_por_x[(fim+inicio)/2].x > pontos_ordenados_por_y[i].x){
                     pontos_ordenados_por_y_esquerda[i_esquerda] = pontos_ordenados_por_y[i];
                     i_esquerda++;
                 }
@@ -2874,19 +2871,19 @@ class math2D{
                 }
             }
             
-            long double a1 = menor_distancia(pontos_ordenados_por_x,pontos_ordenados_por_y_esquerda ,inicio,fim/2);
-            long double a2 = menor_distancia(pontos_ordenados_por_x,pontos_ordenados_por_y_direita ,fim/2 + 1, fim);
+            long double a1 = menor_distancia(pontos_ordenados_por_x,pontos_ordenados_por_y_esquerda ,(fim/2 - inicio), inicio,fim/2);
+            long double a2 = menor_distancia(pontos_ordenados_por_x,pontos_ordenados_por_y_direita ,(fim - fim/2 + 1), fim/2 + 1, fim);
             
             long double a3 = Math1::menor(a1, a2);
             
-            return Math1::menor(a3, menor_distancia2(pontos_ordenados_por_y, a3, pontos_ordenados_por_x[(fim+inicio)/2]));
+            return Math1::menor(a3, menor_distancia2(pontos_ordenados_por_y, a3, pontos_ordenados_por_x[(fim+inicio)/2].x));
         }
         
         
     }
     
     //y é a menor distância encontrada entre a menor distância de cada um dos dois trechos
-    long double menor_distancia2(Ponto<long double> &pontos_ordenados_por_y,int y,long double x_do_ponto_do_meio){
+    long double menor_distancia2(Ponto<long double>* pontos_ordenados_por_y,int y,long double x_do_ponto_do_meio){
         return 0.0;
     }
     
@@ -2919,7 +2916,7 @@ class math2D{
         math2D::ordena_pontos_pelo_eixo_x(pontos_ordenados_por_x, N);
         math2D::ordena_pontos_pelo_eixo_y(pontos_ordenados_por_y, N);
         
-        long double resposta = Math1::menor(menor_distancia(Ponto<long double> &pontos,int inicio, int fim))
+        //long double resposta = Math1::menor(menor_distancia(Ponto<long double> &pontos,int inicio, int fim))
         
     }
 
