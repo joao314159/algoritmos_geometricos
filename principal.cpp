@@ -2593,14 +2593,14 @@ class math2D{
             
             if(sobre[i]==false){
                 if(dentro[i]){
-                    cout<<"dentro"<<endl;
+                    cout<<"DENTRO"<<endl;
                 }
                 else{
-                    cout<<"fora"<<endl;
+                    cout<<"FORA"<<endl;
                 }
             }
             else{
-                cout<<"Em cima"<<endl;
+                cout<<"EMCIMA"<<endl;
             }
             
         }
@@ -2927,7 +2927,10 @@ int main(){
     
     math2D Math2D;
     
-    math2D::menor_distancia_entre_pontos();
+    //math2D::menor_distancia_entre_pontos();
+    
+    
+    math2D::ponto_em_poligono3();
     
     return 0;
 }
