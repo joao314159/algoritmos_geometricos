@@ -2845,7 +2845,7 @@ class math2D{
     
     
     //início e fim delimitam esse trecho da busca recursiva. início e fim são índices. portanto início é 0 e fim é tamanho do vetor-1
-    long double menor_distancia(Ponto<long double>* pontos_ordenados_por_x, Ponto<long double>* pontos_ordenados_por_y ,int tamanho ,int inicio, int fim){
+    long double menor_distancia(Ponto<long double>* pontos_ordenados_por_x, Ponto<long double>* pontos_ordenados_por_y,int inicio, int fim){
         
         //se trecho tem mais do que 2 elementos
         if(fim + 1 > inicio){
@@ -2885,18 +2885,18 @@ class math2D{
             
             //
             if(tamanho_esquerda >0){
-                a1 = menor_distancia(pontos_ordenados_por_x,pontos_ordenados_por_y_esquerda ,tamanho, inicio,tamanho_esquerda-1);
+                a1 = menor_distancia(pontos_ordenados_por_x,pontos_ordenados_por_y_esquerda , inicio,tamanho_esquerda-1);
             }
             
             else{
-                a1 = menor_distancia(pontos_ordenados_por_x, pontos_ordenados_por_y_direita ,tamanho_esquerda,tamanho_esquerda+tamanho_direita-1);
+                a1 = menor_distancia(pontos_ordenados_por_x, pontos_ordenados_por_y_direita , tamanho_esquerda,tamanho_esquerda+tamanho_direita-1);
             }
           
             if(tamanho_direita >0){
-                a2 = menor_distancia(pontos_ordenados_por_x, pontos_ordenados_por_y_direita ,tamanho_esquerda,tamanho_esquerda+tamanho_direita-1);
+                a2 = menor_distancia(pontos_ordenados_por_x, pontos_ordenados_por_y_direita , tamanho_esquerda,tamanho_esquerda+tamanho_direita-1);
             }
             else{
-                a2 = menor_distancia(pontos_ordenados_por_x,pontos_ordenados_por_y_esquerda ,tamanho, inicio,tamanho_esquerda-1);
+                a2 = menor_distancia(pontos_ordenados_por_x,pontos_ordenados_por_y_esquerda , inicio,tamanho_esquerda-1);
             }
            
             long double a3 = Math1::menor(a1, a2);
@@ -2922,7 +2922,7 @@ class math2D{
         //caso só tenha 2 pontos no vetor
         else{
             
-            return math2D::distância_entre_pontos( pontos_ordenados_por_x[0],pontos_ordenados_por_x[1]);
+            return math2D::distancia_entre_pontos( pontos_ordenados_por_x[0],pontos_ordenados_por_x[1]);
         }
         
     }
@@ -2930,7 +2930,11 @@ class math2D{
     //menor_distancia é a menor distância encontrada entre a menor distância de cada um dos dois trechos
     long double menor_distancia2(Ponto<long double>* pontos_ordenados_por_y,long double menor_distancia,long double x_do_ponto_do_meio, int tamanho){
         
+        
         //comparar cada ponto de um lado com os 6 pontos do outro
+        
+        
+        
         for(int i =0; i< tamanho;i++){
             
         }
