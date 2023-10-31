@@ -2843,7 +2843,6 @@ class math2D{
     //algoritmo menor distância entre pontos /////////////////////////////
     //////////////////////////////////////////////////////////////////////
     
-    
     //início e fim delimitam esse trecho da busca recursiva. início e fim são índices. portanto início é 0 e fim é tamanho do vetor-1
     long double menor_distancia(Ponto<long double>* pontos_ordenados_por_x, Ponto<long double>* pontos_ordenados_por_y,int inicio, int fim){
         
@@ -2882,8 +2881,6 @@ class math2D{
             long double a1;
             long double a2;
             
-            
-            //
             if(tamanho_esquerda >0){
                 a1 = menor_distancia(pontos_ordenados_por_x,pontos_ordenados_por_y_esquerda , inicio,tamanho_esquerda-1);
             }
@@ -2931,11 +2928,55 @@ class math2D{
     long double menor_distancia2(Ponto<long double>* pontos_ordenados_por_y,long double menor_distancia,long double x_do_ponto_do_meio, int tamanho){
         
         
-        //comparar cada ponto de um lado com os 6 pontos do outro
+        Ponto<long double>* pontos_ordenados_por_y_esquerda = new Ponto<long double>[tamanho];
+        Ponto<long double>* pontos_ordenados_por_y_direita = new Ponto<long double>[tamanho];
         
+        int tamanho_lado_esquerdo = 0;
+        int tamanho_lado_direito = 0;
         
+        int i_esquerda = 0;
+        int i_direita = 0;
+        
+        //separar os pontos nos pontos à esquerda e à direita
+        
+        for(int i = 0; i<tamanho;i++){
+            if(pontos_ordenados_por_y[i].x <= x_do_ponto_do_meio){
+                
+                pontos_ordenados_por_y_esquerda[i_esquerda] = pontos_ordenados_por_y[i];
+                
+                tamanho_lado_esquerdo++;
+                i_esquerda++;
+            }
+            else{
+                pontos_ordenados_por_y_direita[i_direita] = pontos_ordenados_por_y[i];
+                
+                tamanho_lado_direito++;
+                i_direita++;
+            }
+        }
+        
+        //comparar cada ponto de um lado com os pontos do outro dentro do retângulo no outro lado
+        
+        long double menor_distancia2 = menor_distancia;
+        
+        long double distancia;
+        long double distancia2;
+        
+        //i2 corresponde ao índice do vetor do lado esquerdo.
+        int i2 = 0;
         
         for(int i =0; i< tamanho;i++){
+            
+            distancia = math2D::distancia_entre_pontos(pontos_ordenados_por_y_esquerda[i2],pontos_ordenados_por_y_direita[i]);
+            
+          
+            
+            distancia2 = abs(pontos_ordenados_por_y_esquerda[i2].y - pontos_ordenados_por_y_direita[i].y);
+            while(distancia2 > menor_distancia && i2<tamanho){
+                
+            }
+            
+            
             
         }
         
@@ -2977,14 +3018,11 @@ class math2D{
 
 };
 
-
 int main(){
     
     math2D Math2D;
     
     math2D::menor_distancia_entre_pontos();
-    
-
     
     return 0;
 }
