@@ -2849,8 +2849,8 @@ class math2D{
         //se trecho tem mais do que 2 elementos
         if(fim + 1 > inicio){
             
-            Ponto<long double>* pontos_ordenados_por_y_esquerda = new Ponto<long double>[fim];
-            Ponto<long double>* pontos_ordenados_por_y_direita= new Ponto<long double>[fim];
+            Ponto<long double>* pontos_ordenados_por_y_esquerda = new Ponto<long double>[fim + 1];
+            Ponto<long double>* pontos_ordenados_por_y_direita= new Ponto<long double>[fim + 1];
             
             //extrair pontos do vetor ordenado por x que estão no trecho da esquerda, e os que estão no trecho da direita
             
@@ -2918,7 +2918,6 @@ class math2D{
         }
         //caso só tenha 2 pontos no vetor
         else{
-            
             return math2D::distancia_entre_pontos( pontos_ordenados_por_x[0],pontos_ordenados_por_x[1]);
         }
         
@@ -2975,9 +2974,14 @@ class math2D{
         int i =0;
         int i3 = 0;
         
+        i3 = i;
         while(i<tamanho){
             
-            i3 = i;
+            //se tiver passado por todos os pontos do lado direito
+            if(i3>tamanho_lado_direito){
+                break;
+            }
+            
             //subindo
             while(i3>=0){
                 //quando a distância passar de menor_distancia(quando passa do retângulo por cima)
@@ -2985,23 +2989,39 @@ class math2D{
                     break;
                 }
                 else{
-                    //se a distância entre os pontos for menor que a menor distância
-                   if(math2D::distancia_entre_pontos(pontos_ordenados_por_y_direita[i3],pontos_ordenados_por_y_esquerda[i2]) < menor_distancia){
+                    //se a distância entre os pontos for menor que a menor distância2
+                    if(math2D::distancia_entre_pontos(pontos_ordenados_por_y_direita[i3],pontos_ordenados_por_y_esquerda[i2]) < menor_distancia2){
                        
                        menor_distancia2 = math2D::distancia_entre_pontos(pontos_ordenados_por_y_direita[i3],pontos_ordenados_por_y_esquerda[i2]);
-                   } 
+                    }
+                    i3--;
                     
                 }    
             }
             //descendo
+            i3 = i;
+            while(i3<tamanho_lado_direito){
+                //quando a distância passar de menor_distancia (quando passa do retângulo por baixo)
+                if( (abs(pontos_ordenados_por_y_esquerda[i2].y - pontos_ordenados_por_y_direita[i3].y) >= menor_distancia) && (pontos_ordenados_por_y_esquerda[i2].y > pontos_ordenados_por_y[i3].y) ){
+                    break;
+                }
+                else{
+                    //se a distância entre os pontos for menor que a menor distância2
+                    if(math2D::distancia_entre_pontos(pontos_ordenados_por_y_direita[i3],pontos_ordenados_por_y_esquerda[i2]) < menor_distancia2){
+                        menor_distancia2 = math2D::distancia_entre_pontos(pontos_ordenados_por_y_direita[i3],pontos_ordenados_por_y_esquerda[i2]);
+                    }
+                    i3++;
+                }
+            }
             
         }
         
-        return 0.0;
+        return menor_distancia2;
     }
     
     static void menor_distancia_entre_pontos(){
         
+        math2D Math2D;
         //Quantidade de pontos
         int N;
         cin>>N;
@@ -3014,7 +3034,6 @@ class math2D{
             cin>>pontos[i].x;
             cin>>pontos[i].y;
         }
-        
       
         for(int i = 0;i<N;i++){
             
@@ -3029,8 +3048,8 @@ class math2D{
         math2D::ordena_pontos_pelo_eixo_x(pontos_ordenados_por_x, N);
         math2D::ordena_pontos_pelo_eixo_y(pontos_ordenados_por_y, N);
         
-        //long double resposta = Math1::menor(menor_distancia(Ponto<long double> &pontos,int inicio, int fim))
-        
+        long double resposta =Math2D.menor_distancia(pontos_ordenados_por_x,pontos_ordenados_por_y,0,N-1);
+        cout<< resposta<<endl;
     }
 
 };
