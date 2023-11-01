@@ -2927,6 +2927,9 @@ class math2D{
     //menor_distancia é a menor distância encontrada entre a menor distância de cada um dos dois trechos
     long double menor_distancia2(Ponto<long double>* pontos_ordenados_por_y,long double menor_distancia,long double x_do_ponto_do_meio, int tamanho){
         
+        if(tamanho == 0){
+            return menor_distancia;
+        }
         
         Ponto<long double>* pontos_ordenados_por_y_esquerda = new Ponto<long double>[tamanho];
         Ponto<long double>* pontos_ordenados_por_y_direita = new Ponto<long double>[tamanho];
@@ -2955,6 +2958,10 @@ class math2D{
             }
         }
         
+        if(tamanho_lado_esquerdo == 0 || tamanho_lado_direito == 0){
+            return menor_distancia;
+        }
+        
         //comparar cada ponto de um lado com os pontos do outro dentro do retângulo no outro lado
         
         long double menor_distancia2 = menor_distancia;
@@ -2965,18 +2972,28 @@ class math2D{
         //i2 corresponde ao índice do vetor do lado esquerdo.
         int i2 = 0;
         
-        for(int i =0; i< tamanho;i++){
+        int i =0;
+        int i3 = 0;
+        
+        while(i<tamanho){
             
-            distancia = math2D::distancia_entre_pontos(pontos_ordenados_por_y_esquerda[i2],pontos_ordenados_por_y_direita[i]);
-            
-          
-            
-            distancia2 = abs(pontos_ordenados_por_y_esquerda[i2].y - pontos_ordenados_por_y_direita[i].y);
-            while(distancia2 > menor_distancia && i2<tamanho){
-                
+            i3 = i;
+            //subindo
+            while(i3>=0){
+                //quando a distância passar de menor_distancia(quando passa do retângulo por cima)
+                if( (abs(pontos_ordenados_por_y_esquerda[i2].y - pontos_ordenados_por_y_direita[i3].y) >= menor_distancia) && (pontos_ordenados_por_y_esquerda[i2].y < pontos_ordenados_por_y_direita[i3].y) ){
+                    break;
+                }
+                else{
+                    //se a distância entre os pontos for menor que a menor distância
+                   if(math2D::distancia_entre_pontos(pontos_ordenados_por_y_direita[i3],pontos_ordenados_por_y_esquerda[i2]) < menor_distancia){
+                       
+                       menor_distancia2 = math2D::distancia_entre_pontos(pontos_ordenados_por_y_direita[i3],pontos_ordenados_por_y_esquerda[i2]);
+                   } 
+                    
+                }    
             }
-            
-            
+            //descendo
             
         }
         
