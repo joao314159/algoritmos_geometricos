@@ -2846,8 +2846,12 @@ class math2D{
     //início e fim delimitam esse trecho da busca recursiva. início e fim são índices. portanto início é 0 e fim é tamanho do vetor-1
     long double menor_distancia(Ponto<long double>* pontos_ordenados_por_x, Ponto<long double>* pontos_ordenados_por_y,int inicio, int fim){
         
-        //se trecho tem mais do que 2 elementos
-        if(fim + 1 > inicio){
+        cout<<"teste"<<endl;
+        //se trecho tem mais do que 3 elementos
+        if(fim - 2 > inicio){
+            
+            cout<<"teste2"<<endl;
+            
             
             Ponto<long double>* pontos_ordenados_por_y_esquerda = new Ponto<long double>[fim + 1];
             Ponto<long double>* pontos_ordenados_por_y_direita= new Ponto<long double>[fim + 1];
@@ -2869,6 +2873,8 @@ class math2D{
                     i_esquerda++;
                     tamanho_esquerda++;
                     
+                    
+                    
                 }
                 //em outro vetor ficam os pontos à direita do ponto de corte, ordenador por y
                 else{
@@ -2878,11 +2884,23 @@ class math2D{
                 }
             }
             
+            for(int i = 0; i <tamanho_esquerda + 1; i++){
+                cout<<"pontos da esquerda: "<<endl;
+                pontos_ordenados_por_y_esquerda[i].print();
+                cout<<endl;   
+            }
+            for(int i = 0; i <tamanho_esquerda + 1; i++){
+                cout<<"pontos da direita: "<<endl;
+                pontos_ordenados_por_y_direita[i].print();
+                cout<<endl;
+            }
+            
             long double a1;
             long double a2;
             
             if(tamanho_esquerda >0){
                 a1 = menor_distancia(pontos_ordenados_por_x,pontos_ordenados_por_y_esquerda , inicio,tamanho_esquerda-1);
+                cout<<a1<<endl;
             }
             
             else{
@@ -2916,15 +2934,39 @@ class math2D{
             
             return Math1::menor(a3, menor_distancia_trecho);
         }
-        //caso só tenha 2 pontos no vetor
+        //caso só tenha 3 ou menos pontos no vetor
         else{
-            return math2D::distancia_entre_pontos( pontos_ordenados_por_x[0],pontos_ordenados_por_x[1]);
+            
+            //se tem 3 elementos no vetor
+            if( (fim - inicio) == 2 ){
+                
+                cout<<"teste3"<<endl;
+                
+                long double x1 = math2D::distancia_entre_pontos( pontos_ordenados_por_x[inicio],pontos_ordenados_por_x[inicio + 1]);
+                long double x2 = math2D::distancia_entre_pontos( pontos_ordenados_por_x[inicio + 1],pontos_ordenados_por_x[inicio + 2]);
+                long double x3 = math2D::distancia_entre_pontos( pontos_ordenados_por_x[inicio],pontos_ordenados_por_x[inicio + 2]);
+                long double x4 = Math1::menor(x2,x3);
+                
+                return Math1::menor(x1,x4);
+            }
+            //se tem 2 elementos no vetor
+            else if((fim - inicio) == 1){
+                cout<<"teste5"<<endl;
+                return math2D::distancia_entre_pontos( pontos_ordenados_por_x[inicio],pontos_ordenados_por_x[inicio+1]);
+            }
+            else{
+                cout<<"erro!!!!!!"<<endl;
+                return 0;
+            }
+           
         }
         
     }
     
     //menor_distancia é a menor distância encontrada entre a menor distância de cada um dos dois trechos
     long double menor_distancia2(Ponto<long double>* pontos_ordenados_por_y,long double menor_distancia,long double x_do_ponto_do_meio, int tamanho){
+        
+        cout<<"teste menor_distancia2" <<endl;
         
         if(tamanho == 0){
             return menor_distancia;
@@ -3015,7 +3057,7 @@ class math2D{
             }
             
         }
-        
+        cout<< "menor distância do trecho: "<<menor_distancia2<<endl<<endl;
         return menor_distancia2;
     }
     
@@ -3050,6 +3092,39 @@ class math2D{
         
         long double resposta =Math2D.menor_distancia(pontos_ordenados_por_x,pontos_ordenados_por_y,0,N-1);
         cout<< resposta<<endl;
+        
+        /*caso de teste
+    
+        22
+        4 2
+        5 3 
+        10 6
+        14 4
+        -2 6
+        2 10
+        20 15
+        35 10
+        -20 20
+        -10 20
+        -10 10
+        -10 -10
+        30 -30
+        60 0
+        50 10
+        70 -20
+        -60 40
+        -40 80
+        -40 -40     
+        -40 -80
+        -120 20
+        -100 60   
+        
+        saída: raiz de dois
+        
+        */
+        
+        
+
     }
 
 };
