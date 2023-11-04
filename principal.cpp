@@ -2851,6 +2851,8 @@ class math2D{
         if(fim - 2 > inicio){
             
             cout<<"teste2"<<endl;
+            cout<<"fim: "<< fim<<endl;
+            cout<<"início: "<<inicio<<endl;
             
             
             Ponto<long double>* pontos_ordenados_por_y_esquerda = new Ponto<long double>[fim + 1];
@@ -2864,7 +2866,7 @@ class math2D{
             int tamanho_esquerda = 0;
             int tamanho_direita = 0;
             
-            for(int i = inicio; i<fim + 1; i++){
+            for(int i = inicio; i < (fim + 1); i++){
                 //eu comparo cada ponto do vetor ordenado por y com o ponto de corte(o ponto do meio do vetor ordenado por x)
                 
                 //em um vetor ficam os pontos à esquerda do ponto de corte, ordenados por y
@@ -2872,24 +2874,36 @@ class math2D{
                     pontos_ordenados_por_y_esquerda[i_esquerda] = pontos_ordenados_por_y[i];
                     i_esquerda++;
                     tamanho_esquerda++;
-                    
-                    
-                    
                 }
                 //em outro vetor ficam os pontos à direita do ponto de corte, ordenador por y
-                else{
+                else if(pontos_ordenados_por_x[(fim+inicio)/2].x < pontos_ordenados_por_y[i].x){
                     pontos_ordenados_por_y_direita[i_direita] = pontos_ordenados_por_y[i];
                     i_direita++;
                     tamanho_direita++;
                 }
+                else{
+                    //quando os pontos estão no mesmo eixo x distribuímos balanceadamente dos dois lados
+                    if(tamanho_esquerda>tamanho_direita){
+                        pontos_ordenados_por_y_direita[i_direita] = pontos_ordenados_por_y[i];
+                        i_direita++;
+                        tamanho_direita++;
+                    }
+                    else{
+                        pontos_ordenados_por_y_esquerda[i_esquerda] = pontos_ordenados_por_y[i];
+                        i_esquerda++;
+                        tamanho_esquerda++;
+                    }
+                }
             }
             
-            for(int i = 0; i <tamanho_esquerda + 1; i++){
+            for(int i = 0; i <tamanho_esquerda; i++){
+                cout<<"tamanho da esquerda: "<<tamanho_esquerda<<endl;
                 cout<<"pontos da esquerda: "<<endl;
                 pontos_ordenados_por_y_esquerda[i].print();
                 cout<<endl;   
             }
-            for(int i = 0; i <tamanho_esquerda + 1; i++){
+            for(int i = 0; i <tamanho_direita; i++){
+                cout<<"tamanho da direita: "<<tamanho_direita<<endl;
                 cout<<"pontos da direita: "<<endl;
                 pontos_ordenados_por_y_direita[i].print();
                 cout<<endl;
@@ -2904,13 +2918,15 @@ class math2D{
             }
             
             else{
-                a1 = menor_distancia(pontos_ordenados_por_x, pontos_ordenados_por_y_direita , tamanho_esquerda,tamanho_esquerda+tamanho_direita-1);
+                //não há elementos do lado esquerdo
+                a1 = menor_distancia(pontos_ordenados_por_x, pontos_ordenados_por_y_direita , tamanho_esquerda,tamanho_esquerda - 1 +tamanho_direita - 1);
             }
           
             if(tamanho_direita >0){
-                a2 = menor_distancia(pontos_ordenados_por_x, pontos_ordenados_por_y_direita , tamanho_esquerda,tamanho_esquerda+tamanho_direita-1);
+                a2 = menor_distancia(pontos_ordenados_por_x, pontos_ordenados_por_y_direita , tamanho_esquerda,tamanho_esquerda - 1+tamanho_direita - 1);
             }
             else{
+                //não há elementos do lado direito
                 a2 = menor_distancia(pontos_ordenados_por_x,pontos_ordenados_por_y_esquerda , inicio,tamanho_esquerda-1);
             }
            
