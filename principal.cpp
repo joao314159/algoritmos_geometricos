@@ -2866,12 +2866,14 @@ class math2D{
             int tamanho_esquerda = 0;
             int tamanho_direita = 0;
             
+            int i4 = 0;
+            
             for(int i = inicio; i < (fim + 1); i++){
                 //eu comparo cada ponto do vetor ordenado por y com o ponto de corte(o ponto do meio do vetor ordenado por x)
                 
                 //em um vetor ficam os pontos à esquerda do ponto de corte, ordenados por y
-                if(pontos_ordenados_por_x[(fim+inicio)/2].x > pontos_ordenados_por_y[i].x){
-                    pontos_ordenados_por_y_esquerda[i_esquerda] = pontos_ordenados_por_y[i];
+                if(pontos_ordenados_por_x[(fim+inicio)/2].x > pontos_ordenados_por_y[i4].x){
+                    pontos_ordenados_por_y_esquerda[i_esquerda] = pontos_ordenados_por_y[i4];
                     if(i_esquerda > fim){
                         cout<<"Erro!!!"<<endl;
                         exit(1);
@@ -2880,8 +2882,8 @@ class math2D{
                     tamanho_esquerda++;
                 }
                 //em outro vetor ficam os pontos à direita do ponto de corte, ordenador por y
-                else if(pontos_ordenados_por_x[(fim+inicio)/2].x < pontos_ordenados_por_y[i].x){
-                    pontos_ordenados_por_y_direita[i_direita] = pontos_ordenados_por_y[i];
+                else if(pontos_ordenados_por_x[(fim+inicio)/2].x < pontos_ordenados_por_y[i4].x){
+                    pontos_ordenados_por_y_direita[i_direita] = pontos_ordenados_por_y[i4];
                     if(i_direita > fim){
                         cout<<"Erro!!!"<<endl;
                         exit(1);
@@ -2892,18 +2894,19 @@ class math2D{
                 else{
                     //quando os pontos estão no mesmo eixo x distribuímos balanceadamente dos dois lados
                     if(tamanho_esquerda>tamanho_direita){
-                        pontos_ordenados_por_y_direita[i_direita] = pontos_ordenados_por_y[i];
+                        pontos_ordenados_por_y_direita[i_direita] = pontos_ordenados_por_y[i4];
                         i_direita++;
                         tamanho_direita++;
                         cout<<"teste5"<<endl;
                     }
                     else{
-                        pontos_ordenados_por_y_esquerda[i_esquerda] = pontos_ordenados_por_y[i];
+                        pontos_ordenados_por_y_esquerda[i_esquerda] = pontos_ordenados_por_y[i4];
                         i_esquerda++;
                         tamanho_esquerda++;
                         cout<<"teste6"<<endl;
                     }
                 }
+                i4++;
             }
             
             for(int i = 0; i <tamanho_esquerda; i++){
@@ -2923,7 +2926,7 @@ class math2D{
             long double a2;
             
             if(tamanho_esquerda >0){
-                a1 = menor_distancia(pontos_ordenados_por_x,pontos_ordenados_por_y_esquerda , inicio,tamanho_esquerda-1);
+                a1 = menor_distancia(pontos_ordenados_por_x,pontos_ordenados_por_y_esquerda , inicio,inicio + tamanho_esquerda-1);
                 cout<<a1<<endl;
             }
             
@@ -2938,7 +2941,7 @@ class math2D{
             }
             else{
                 //não há elementos do lado direito
-                a2 = menor_distancia(pontos_ordenados_por_x,pontos_ordenados_por_y_esquerda , inicio,tamanho_esquerda-1);
+                a2 = menor_distancia(pontos_ordenados_por_x,pontos_ordenados_por_y_esquerda , inicio,inicio + tamanho_esquerda-1);
             }
            
             long double a3 = Math1::menor(a1, a2);
@@ -3046,7 +3049,6 @@ class math2D{
         
         //i2 corresponde ao índice do vetor do lado esquerdo.
         int i2 = 0;
-        
         int i =0;
         int i3 = 0;
         
@@ -3128,6 +3130,7 @@ class math2D{
         math2D::ordena_pontos_pelo_eixo_y(pontos_ordenados_por_y, N);
         
         long double resposta =Math2D.menor_distancia(pontos_ordenados_por_x,pontos_ordenados_por_y,0,N-1);
+        cout<<endl<<endl;
         cout<< resposta<<endl;
        
         /*caso de teste
