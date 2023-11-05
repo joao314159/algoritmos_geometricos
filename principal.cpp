@@ -2953,14 +2953,14 @@ class math2D{
             
             //gerar vetor com pontos do trecho, pontos cuja distância do meio é menor ou igual à menor distância
             for(int i = 0; i < fim + 1 - inicio;i++){
-                if(abs(pontos_ordenados_por_y[i].x - pontos_ordenados_por_x[(fim+inicio)/2].x) <= a3){
+                if(abs(pontos_ordenados_por_y[i].x - pontos_ordenados_por_x[(fim+inicio + 1)/2].x) <= a3){
                     pontos_ordenados_por_y_vetor_trecho[i2] = pontos_ordenados_por_y[i];
                     i2++;
                     tamanho_vetor_do_meio++;
                 }
             }
             
-            long double menor_distancia_trecho = menor_distancia2(pontos_ordenados_por_y_vetor_trecho, a3, pontos_ordenados_por_x[(fim+inicio)/2].x, tamanho_vetor_do_meio);
+            long double menor_distancia_trecho = menor_distancia2(pontos_ordenados_por_y_vetor_trecho, a3, pontos_ordenados_por_x[((fim+inicio + 1)/2)].x, tamanho_vetor_do_meio);
             
             return Math1::menor(a3, menor_distancia_trecho);
         }
@@ -3027,7 +3027,7 @@ class math2D{
         
         for(int i = 0; i<tamanho;i++){
             if(pontos_ordenados_por_y[i].x <= x_do_ponto_do_meio){
-                
+                pontos_ordenados_por_y[i].print();
                 pontos_ordenados_por_y_esquerda[i_esquerda] = pontos_ordenados_por_y[i];
                 
                 tamanho_lado_esquerdo++;
