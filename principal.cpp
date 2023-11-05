@@ -769,7 +769,7 @@ class math2D{
                     o1 = abs(auxiliar[i].end.x - auxiliar[i].start.x)/abs(auxiliar[i].end.y - auxiliar[i].start.y);
                     
                     if((auxiliar[i].end.y - auxiliar[i].start.y) == 0){
-                        cout<<"erro"<<endl;
+                        cout<<"erro na linha "<<__LINE__<<endl;
                     }
                     else{
                       
@@ -792,7 +792,7 @@ class math2D{
                     o2 = abs(auxiliar[i2].end.x - auxiliar[i2].start.x)/abs(auxiliar[i2].end.y - auxiliar[i2].start.y);
 
                     if((auxiliar[i2].end.y - auxiliar[i2].start.y)==0){
-                        cout<<"erro"<<endl;
+                        cout<<"erro na linha "<<__LINE__<<endl;
                     }
                     else{
                        
@@ -2872,12 +2872,20 @@ class math2D{
                 //em um vetor ficam os pontos à esquerda do ponto de corte, ordenados por y
                 if(pontos_ordenados_por_x[(fim+inicio)/2].x > pontos_ordenados_por_y[i].x){
                     pontos_ordenados_por_y_esquerda[i_esquerda] = pontos_ordenados_por_y[i];
+                    if(i_esquerda > fim){
+                        cout<<"Erro!!!"<<endl;
+                        exit(1);
+                    }
                     i_esquerda++;
                     tamanho_esquerda++;
                 }
                 //em outro vetor ficam os pontos à direita do ponto de corte, ordenador por y
                 else if(pontos_ordenados_por_x[(fim+inicio)/2].x < pontos_ordenados_por_y[i].x){
                     pontos_ordenados_por_y_direita[i_direita] = pontos_ordenados_por_y[i];
+                    if(i_direita > fim){
+                        cout<<"Erro!!!"<<endl;
+                        exit(1);
+                    }
                     i_direita++;
                     tamanho_direita++;
                 }
@@ -2887,11 +2895,13 @@ class math2D{
                         pontos_ordenados_por_y_direita[i_direita] = pontos_ordenados_por_y[i];
                         i_direita++;
                         tamanho_direita++;
+                        cout<<"teste5"<<endl;
                     }
                     else{
                         pontos_ordenados_por_y_esquerda[i_esquerda] = pontos_ordenados_por_y[i];
                         i_esquerda++;
                         tamanho_esquerda++;
+                        cout<<"teste6"<<endl;
                     }
                 }
             }
@@ -2919,11 +2929,12 @@ class math2D{
             
             else{
                 //não há elementos do lado esquerdo
-                a1 = menor_distancia(pontos_ordenados_por_x, pontos_ordenados_por_y_direita , tamanho_esquerda,tamanho_esquerda - 1 +tamanho_direita - 1);
+                a1 = menor_distancia(pontos_ordenados_por_x, pontos_ordenados_por_y_direita ,inicio + tamanho_esquerda,inicio + tamanho_esquerda  +tamanho_direita - 1);
             }
           
-            if(tamanho_direita >0){
-                a2 = menor_distancia(pontos_ordenados_por_x, pontos_ordenados_por_y_direita , tamanho_esquerda,tamanho_esquerda - 1+tamanho_direita - 1);
+            if(tamanho_direita > 0){
+                cout<<"teste7"<<endl;
+                a2 = menor_distancia(pontos_ordenados_por_x, pontos_ordenados_por_y_direita ,inicio + tamanho_esquerda,inicio + tamanho_esquerda +tamanho_direita - 1  );
             }
             else{
                 //não há elementos do lado direito
@@ -2963,6 +2974,10 @@ class math2D{
                 long double x3 = math2D::distancia_entre_pontos( pontos_ordenados_por_x[inicio],pontos_ordenados_por_x[inicio + 2]);
                 long double x4 = Math1::menor(x2,x3);
                 
+                cout<<x2<<endl;
+                cout<<x3<<endl;
+                cout<<x4<<endl;
+                
                 return Math1::menor(x1,x4);
             }
             //se tem 2 elementos no vetor
@@ -2971,7 +2986,9 @@ class math2D{
                 return math2D::distancia_entre_pontos( pontos_ordenados_por_x[inicio],pontos_ordenados_por_x[inicio+1]);
             }
             else{
-                cout<<"erro!!!!!!"<<endl;
+                cout<<"erro!!!!!!"<<__LINE__<< endl;
+                cout<<fim - inicio<<endl;
+                exit(1);
                 return 0;
             }
            
@@ -2983,7 +3000,7 @@ class math2D{
     long double menor_distancia2(Ponto<long double>* pontos_ordenados_por_y,long double menor_distancia,long double x_do_ponto_do_meio, int tamanho){
         
         cout<<"teste menor_distancia2" <<endl;
-        
+        cout<<tamanho<<endl;
         if(tamanho == 0){
             return menor_distancia;
         }
@@ -3016,9 +3033,10 @@ class math2D{
         }
         
         if(tamanho_lado_esquerdo == 0 || tamanho_lado_direito == 0){
+            cout<<"um dos lados é 0, menor distância: "<<menor_distancia<<endl;
             return menor_distancia;
         }
-        
+        cout<<"teste"<<endl;
         //comparar cada ponto de um lado com os pontos do outro dentro do retângulo no outro lado
         
         long double menor_distancia2 = menor_distancia;
@@ -3034,7 +3052,7 @@ class math2D{
         
         i3 = i;
         while(i<tamanho){
-            
+             cout<<"teste "<<i <<endl;
             //se tiver passado por todos os pontos do lado direito
             if(i3>tamanho_lado_direito){
                 break;
@@ -3053,6 +3071,7 @@ class math2D{
                        menor_distancia2 = math2D::distancia_entre_pontos(pontos_ordenados_por_y_direita[i3],pontos_ordenados_por_y_esquerda[i2]);
                     }
                     i3--;
+                    cout<<" teste2 :"<<i3<<endl;
                     
                 }    
             }
@@ -3071,6 +3090,8 @@ class math2D{
                     i3++;
                 }
             }
+            i++;
+            cout<<endl<<endl<<i<<endl<<endl;
             
         }
         cout<< "menor distância do trecho: "<<menor_distancia2<<endl<<endl;
@@ -3108,7 +3129,7 @@ class math2D{
         
         long double resposta =Math2D.menor_distancia(pontos_ordenados_por_x,pontos_ordenados_por_y,0,N-1);
         cout<< resposta<<endl;
-        
+       
         /*caso de teste
     
         22
@@ -3151,5 +3172,25 @@ int main(){
     
     math2D::menor_distancia_entre_pontos();
     
+    /*  
+    Ponto<long double>* pontos = new Ponto<long double>[5];
+   
+    pontos[0] = Ponto<long double>(3,5);
+    pontos[1] = Ponto<long double>(2,7);
+    pontos[2] = Ponto<long double>(7,4);
+    pontos[3] = Ponto<long double>(2,5);
+    pontos[4] = Ponto<long double>(2,4);
+   
+    for(int i = 0; i < 5; i++){
+        pontos[i].print();    
+    }
+    cout<<endl<<endl;
+    math2D::ordena_pontos_pelo_eixo_x(pontos,5);
+   
+    for(int i = 0; i < 5; i++){
+        pontos[i].print();    
+    }
+    */
     return 0;
+    
 }
