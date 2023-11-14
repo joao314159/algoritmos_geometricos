@@ -3210,6 +3210,35 @@ class math2D{
 
 
     }
+    
+    void cruzamento_de_segmentos(){
+        
+        int N;
+        
+        int K = 0;
+        
+        cin>>N;
+        
+        Segmento<int>* segmentos = new Segmento<int>[N];
+        
+        for(int i = 0; i<N;i++){
+            
+            cin>>segmentos[i].start.x;
+            cin>>segmentos[i].start.y;
+            
+            cin>>segmentos[i].end.x;
+            cin>>segmentos[i].end.y;
+            
+        }
+        
+        //há k cruzamentos
+        
+        
+        
+       
+        
+        
+    }
 
 };
 
@@ -3217,27 +3246,8 @@ int main(){
 
     math2D Math2D;
 
-    math2D::menor_distancia_entre_pontos();
-
-    /*
-    Ponto<long double>* pontos = new Ponto<long double>[5];
-
-    pontos[0] = Ponto<long double>(3,5);
-    pontos[1] = Ponto<long double>(2,7);
-    pontos[2] = Ponto<long double>(7,4);
-    pontos[3] = Ponto<long double>(2,5);
-    pontos[4] = Ponto<long double>(2,4);
-
-    for(int i = 0; i < 5; i++){
-        pontos[i].print();
-    }
-    cout<<endl<<endl;
-    math2D::ordena_pontos_pelo_eixo_x(pontos,5);
-
-    for(int i = 0; i < 5; i++){
-        pontos[i].print();
-    }
-    */
+    Math2D.cruzamento_de_segmentos();
+    
     return 0;
 
 }
