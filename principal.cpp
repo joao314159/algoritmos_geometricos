@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <math.h>
 #include <iomanip>
+#include <set>
 
 #define PI 3.141592653589793236433932795029
 
@@ -22,6 +23,11 @@ class Ponto{
         this->x=a;
         this->y=b;
 
+    }
+    
+    Ponto(const Ponto<T> &ponto2){
+        this->x = ponto2.x;
+        this->y = ponto2.y;
     }
 
     T x;
@@ -96,6 +102,13 @@ class Segmento{
         this->end=ponto2;
 
     }
+    
+    Segmento(const Segmento<T> &segmento2){
+        this->start.x = segmento2.start.x;
+        this->start.y = segmento2.start.y;
+        this->end.x = segmento2.end.x;
+        this->end.y = segmento2.end.y;
+    }
 
     Ponto<T> start;
     Ponto<T> end;
@@ -153,6 +166,12 @@ class Segmento{
                 return true;
             }
 
+    }
+    
+    //para usar o segmento no set
+    template<typename tipo2>
+    bool operator<(const Segmento<tipo2> segmento2) const{
+        return(this->start.x < segmento2.start.x);
     }
 
 };
@@ -3233,10 +3252,20 @@ class math2D{
         
         //há k cruzamentos
         
+        set<Segmento<int>> segmentos2;
         
-        
-       
-        
+        //padronizar os segmentos com o ponto do início com o menor x
+        for(int i =0; i<N; i++){
+            
+            if(segmentos[i].start.x >segmentos[i].end.x){
+                segmentos[i].inverter();
+            }
+            
+            //insere no set 
+            segmentos2.insert(segmentos[i]);
+            
+        }
+   
         
     }
 
@@ -3247,6 +3276,30 @@ int main(){
     math2D Math2D;
 
     Math2D.cruzamento_de_segmentos();
+    
+    /*
+    Segmento<long double> segmento1(Ponto<long double>(4,6),Ponto<long double>(7,3));
+    Segmento<long double> segmento2(Ponto<long double>(8,3),Ponto<long double>(2,8));
+    Segmento<long double> segmento3(Ponto<long double>(4,6),Ponto<long double>(2,3));
+    Segmento<long double> segmento4(Ponto<long double>(5,3),Ponto<long double>(2,8));
+    Segmento<long double> segmento5(Ponto<long double>(76,6),Ponto<long double>(3,3));
+    Segmento<long double> segmento6(Ponto<long double>(8,3),Ponto<long double>(9,8));
+    
+    set<Segmento<long double>> segmentos;
+    segmentos.insert(segmento1);
+    segmentos.insert(segmento2);
+    segmentos.insert(segmento4);
+    segmentos.insert(segmento6);
+    segmentos.insert(segmento3);
+    segmentos.insert(segmento5);
+    
+    set<Segmento<long double>>::iterator i;
+    
+    for(i = segmentos.begin(); i != segmentos.end(); i++){
+        cout<<(*i).start.x<<endl;
+        Segmento<long double> (*i).print();
+    }
+    */
     
     return 0;
 
