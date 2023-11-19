@@ -6,6 +6,7 @@
 #include <math.h>
 #include <iomanip>
 #include <set>
+#include <algorithm>
 
 #define PI 3.141592653589793236433932795029
 
@@ -347,7 +348,12 @@ class Ponto2{
     Ponto2(Segmento<T> segmento1,bool start){
         this->segmento = segmento1;
         this->start = start;
-        this->x = segmento1.start.x;
+        if(start){
+            this->x = segmento1.start.x;
+        }
+        else{
+            this->x = segmento1.end.x;
+        }
     }
     
     T x;
@@ -3354,6 +3360,21 @@ class math2D{
             
         }
         
+        //ordenamos os pontos
+        sort(&pontos[0],&pontos[(N*2)]);
+        
+        cout<<"pontos ordenados: "<<endl<<endl;
+        
+        for(int i = 0; i<N*2;i++){
+            
+            cout<<endl;
+            pontos[i].print();
+            cout<<endl;
+            
+        }
+        
+        
+        //nesse set inserimos os pontos à medida que percorremos o vetor ordenado por x.(o vetor é ordenado em O(log n))
         set<Ponto2<int>> pontos2;
         
     }
