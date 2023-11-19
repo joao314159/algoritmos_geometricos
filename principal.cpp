@@ -335,6 +335,50 @@ class Vetor_de_segmentos{
 
 };
 
+
+//útil para a função de cruzamento de segmentos
+template <typename T>
+class Ponto2{
+    
+    public:
+    
+    Ponto2(){}
+    
+    Ponto2(Segmento<T> segmento1,bool start){
+        this->segmento = segmento1;
+        this->start = start;
+        this->x = segmento1.start.x;
+    }
+    
+    T x;
+    Segmento<T> segmento;
+    bool start;
+    
+    template <typename tipo2>
+    bool operator<(const Ponto2<tipo2> ponto2) const{
+        bool a = this->x < ponto2.x;
+        return a;
+    }
+    
+    void print(){
+        
+        if(start){
+            cout<<"Esse é o ponto do início do segmento"<<endl;
+            segmento.start.print();
+        }
+        else{
+            cout<<"Esse é o ponto do final do segmento"<<endl;
+            segmento.end.print();
+        }
+        
+        cout<<"Esse ponto faz parte do segmento:"<<endl;
+        this->segmento.print();
+        
+    }
+    
+    
+};
+
 //funções que não envolvem geometria
 class Math1{
 
@@ -361,8 +405,6 @@ class Math1{
             return b;
         }
     }
-
-
 
 
     //////MERGE SORT//////////////////////////////////
@@ -3252,6 +3294,7 @@ class math2D{
         
         //há k cruzamentos
         
+        /*
         set<Segmento<int>> segmentos2;
         
         //padronizar os segmentos com o ponto do início com o menor x
@@ -3265,7 +3308,53 @@ class math2D{
             segmentos2.insert(segmentos[i]);
             
         }
-   
+        
+        set<Segmento<int>>::iterator i;
+        
+        for(i = segmentos2.begin();i != segmentos2.end();i++){
+            cout<<"teste"<<endl;
+            Segmento<int> a = (*i);
+            a.print();
+            
+        }
+        
+        */
+        
+        //mantém o menor x como início do segmento
+        for(int i = 0; i<N;i++){
+            
+            if(segmentos[i].start.x>segmentos[i].end.x){
+                
+                int a = segmentos[i].start.x;
+                segmentos[i].start.x = segmentos[i].end.x;
+                segmentos[i].end.x = a;
+                
+            }
+            
+        }   
+        
+        //os pontos dos segmentos
+        Ponto2<int>* pontos = new Ponto2<int>[N*2];
+        
+        //passo os pontos para o array
+        
+        int i2=0;
+        for(int i =0;i<N;i++){
+            pontos[i2] = Ponto2<int>(segmentos[i],true);
+            i2++;
+            pontos[i2] = Ponto2<int>(segmentos[i],false);
+            i2++;
+        }
+        
+        for(int i = 0; i<N*2;i++){
+            
+            cout<<endl;
+            pontos[i].print();
+            cout<<endl;
+            
+        }
+        
+        set<Ponto2<int>> pontos2;
         
     }
 
