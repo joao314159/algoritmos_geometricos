@@ -25,7 +25,7 @@ class Ponto{
         this->y=b;
 
     }
-    
+
     Ponto(const Ponto<T> &ponto2){
         this->x = ponto2.x;
         this->y = ponto2.y;
@@ -103,7 +103,7 @@ class Segmento{
         this->end=ponto2;
 
     }
-    
+
     Segmento(const Segmento<T> &segmento2){
         this->start.x = segmento2.start.x;
         this->start.y = segmento2.start.y;
@@ -168,7 +168,9 @@ class Segmento{
             }
 
     }
-    
+
+
+
     //para usar o segmento no set
     template<typename tipo2>
     bool operator<(const Segmento<tipo2> segmento2) const{
@@ -211,6 +213,16 @@ class Vetor{
         resultado.y = -(this->x);
 
         return resultado;
+    }
+
+
+    Vetor<T> versor(){
+        long double comprimento = this->comprimento;
+        Vetor<T> versor;
+        versor.x = (this->x)/comprimento;
+        versor.y = (this->y)/comprimento;
+
+        return versor;
     }
 
     void print(){
@@ -305,6 +317,9 @@ class Matriz3{
 
 };
 
+
+//CLASSES ESPECÍFICAS PARA FUNÇÕES
+
 //útil na função ponto em polígono 3
 template <typename T>
 class Vetor_de_segmentos{
@@ -337,15 +352,16 @@ class Vetor_de_segmentos{
 };
 
 
-//útil para a função de cruzamento de segmentos
+//útil para a função de cruzamento de segmentos. Ele tem a informação de se é um evento de início ou de fim, e qual segmento ele faz parte
 template <typename T>
 class Ponto2{
-    
+
     public:
-    
+
     Ponto2(){}
-    
+
     Ponto2(Segmento<T> segmento1,bool start){
+        this->ponto_de_cruzamento = false;
         this->segmento = segmento1;
         this->start = start;
         if(start){
@@ -355,19 +371,35 @@ class Ponto2{
             this->x = segmento1.end.x;
         }
     }
-    
+
+    //construtor que passa a informação de que o ponto é de cruzamento
+    Ponto2(Segmento<T> segmento1,bool start,bool ponto_de_cruzamento){
+        this->ponto_de_cruzamento = ponto_de_cruzamento;
+        this->segmento = segmento1;
+        this->start = start;
+        if(start){
+            this->x = segmento1.start.x;
+        }
+        else{
+            this->x = segmento1.end.x;
+        }
+    }
+
     T x;
     Segmento<T> segmento;
     bool start;
-    
+
+
+
+
     template <typename tipo2>
     bool operator<(const Ponto2<tipo2> ponto2) const{
         bool a = this->x < ponto2.x;
         return a;
     }
-    
+
     void print(){
-        
+
         if(start){
             cout<<"Esse é o ponto do início do segmento"<<endl;
             segmento.start.print();
@@ -376,13 +408,39 @@ class Ponto2{
             cout<<"Esse é o ponto do final do segmento"<<endl;
             segmento.end.print();
         }
-        
+
         cout<<"Esse ponto faz parte do segmento:"<<endl;
         this->segmento.print();
-        
+
     }
-    
-    
+
+    //para tratar cruzamentos
+    bool ponto_de_cruzamento;
+
+    private:
+    Segmento<T> segmento_que_cruzou;
+
+    public:
+    Segmento<T> get_segmento_que_cruzou(){
+
+        try{
+            if(! ponto_de_cruzamento){
+                throw(0);
+            }
+        }
+        catch(int a){
+            cout<<"Esse ponto não é de cruzamento"<<endl;
+        }
+
+        return segmento_que_cruzou;
+
+    }
+
+    void set_segmento_que_cruzou(Segmento<int> segmento){
+        this->segmento_que_cruzou = segmento;
+    }
+
+
 };
 
 //funções que não envolvem geometria
@@ -1344,6 +1402,8 @@ class math2D{
     template <typename T>
     static Ponto<T> ponto_de_cruzamento(Segmento<T> segmento1,Segmento<T> segmento2){
         Ponto<T> ponto1;
+
+
 
 
     }
@@ -3277,73 +3337,67 @@ class math2D{
 
 
     }
-    
+
     void cruzamento_de_segmentos(){
-        
+
         int N;
-        
+
         int K = 0;
-        
+
         cin>>N;
-        
+
         Segmento<int>* segmentos = new Segmento<int>[N];
-        
+
         for(int i = 0; i<N;i++){
-            
+
             cin>>segmentos[i].start.x;
             cin>>segmentos[i].start.y;
-            
+
             cin>>segmentos[i].end.x;
             cin>>segmentos[i].end.y;
-            
+
         }
-        
+
         //há k cruzamentos
-        
+
         /*
         set<Segmento<int>> segmentos2;
-        
+
         //padronizar os segmentos com o ponto do início com o menor x
         for(int i =0; i<N; i++){
-            
+
             if(segmentos[i].start.x >segmentos[i].end.x){
                 segmentos[i].inverter();
             }
-            
-            //insere no set 
+
+            //insere no set
             segmentos2.insert(segmentos[i]);
-            
+
         }
-        
+
         set<Segmento<int>>::iterator i;
-        
+
         for(i = segmentos2.begin();i != segmentos2.end();i++){
             cout<<"teste"<<endl;
             Segmento<int> a = (*i);
             a.print();
-            
+
         }
-        
+
         */
-        
+
         //mantém o menor x como início do segmento
         for(int i = 0; i<N;i++){
-            
             if(segmentos[i].start.x>segmentos[i].end.x){
-                
-                int a = segmentos[i].start.x;
-                segmentos[i].start.x = segmentos[i].end.x;
-                segmentos[i].end.x = a;
-                
+                segmentos[i].inverter();
             }
-            
-        }   
-        
+        }
+
         //os pontos dos segmentos
         Ponto2<int>* pontos = new Ponto2<int>[N*2];
-        
+
         //passo os pontos para o array
-        
+
         int i2=0;
         for(int i =0;i<N;i++){
             pontos[i2] = Ponto2<int>(segmentos[i],true);
@@ -3351,32 +3405,32 @@ class math2D{
             pontos[i2] = Ponto2<int>(segmentos[i],false);
             i2++;
         }
-        
+
         for(int i = 0; i<N*2;i++){
-            
+
             cout<<endl;
             pontos[i].print();
             cout<<endl;
-            
+
         }
-        
+
         //ordenamos os pontos
         sort(&pontos[0],&pontos[(N*2)]);
-        
+
         cout<<"pontos ordenados: "<<endl<<endl;
-        
+
         for(int i = 0; i<N*2;i++){
-            
+
             cout<<endl;
             pontos[i].print();
             cout<<endl;
-            
+
         }
-        
-        
+
+
         //nesse set inserimos os pontos à medida que percorremos o vetor ordenado por x.(o vetor é ordenado em O(log n))
         set<Ponto2<int>> pontos2;
-        
+
     }
 
 };
@@ -3386,7 +3440,7 @@ int main(){
     math2D Math2D;
 
     Math2D.cruzamento_de_segmentos();
-    
+
     /*
     Segmento<long double> segmento1(Ponto<long double>(4,6),Ponto<long double>(7,3));
     Segmento<long double> segmento2(Ponto<long double>(8,3),Ponto<long double>(2,8));
@@ -3394,7 +3448,7 @@ int main(){
     Segmento<long double> segmento4(Ponto<long double>(5,3),Ponto<long double>(2,8));
     Segmento<long double> segmento5(Ponto<long double>(76,6),Ponto<long double>(3,3));
     Segmento<long double> segmento6(Ponto<long double>(8,3),Ponto<long double>(9,8));
-    
+
     set<Segmento<long double>> segmentos;
     segmentos.insert(segmento1);
     segmentos.insert(segmento2);
@@ -3402,15 +3456,15 @@ int main(){
     segmentos.insert(segmento6);
     segmentos.insert(segmento3);
     segmentos.insert(segmento5);
-    
+
     set<Segmento<long double>>::iterator i;
-    
+
     for(i = segmentos.begin(); i != segmentos.end(); i++){
         cout<<(*i).start.x<<endl;
         Segmento<long double> (*i).print();
     }
     */
-    
+
     return 0;
 
 }
