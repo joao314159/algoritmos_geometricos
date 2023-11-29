@@ -443,6 +443,29 @@ class Ponto2{
 
 };
 
+
+//Classe usada para comparar dois segmentos e informar qual está acima e qual está abaixo no x atual
+
+//Ela vai funcionar da seguinte forma:
+
+//haverá uma variável bool para determinar se o segmento já passou por um cruzamento, nesse caso a comparação vai ficar invertida
+
+//haverá um apontador para o X atual e comparamos segmentos a e b tendo em conta o x atual, que podemos alterar
+
+//passamos essa classe no construtor do set
+template <typename T>
+class Comparador{
+
+    int* x_atual;
+
+    bool* acabou_de_cruzar;
+
+    bool operator(const Segmento<T> a, const Segmento<T> b){
+        //comparamos os segmentos a e b baseado no x atual apontado por x_atual.
+    }
+
+};
+
 //funções que não envolvem geometria
 class Math1{
 
@@ -3427,11 +3450,34 @@ class math2D{
 
         }
 
-
         //nesse set inserimos os pontos à medida que percorremos o vetor ordenado por x.(o vetor é ordenado em O(log n))
         set<Ponto2<int>> pontos2;
 
+
+
+
+
+
+        //exemplo de entrada
+
+        /*
+        4
+        3 4
+        6 7
+        8 7
+        3 5
+        1 6
+        9 5
+        5 1
+        7 8
+        */
+
+
     }
+
+
+
+
 
 };
 
