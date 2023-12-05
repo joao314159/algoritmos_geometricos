@@ -353,6 +353,7 @@ class Vetor_de_segmentos{
 
 
 //útil para a função de cruzamento de segmentos. Ele tem a informação de se é um evento de início ou de fim, e qual segmento ele faz parte
+
 template <typename T>
 class Ponto2{
 
@@ -444,6 +445,24 @@ class Ponto2{
 };
 
 
+
+
+template <typename T>
+long double y_em_um_determinado_x(Segmento<T> segmento1, long double x){
+
+    //x = x1 + (x2-x1)*((y-y1)/(y2-y1))
+
+    //(x-x1)/(x2-x1)=((y-y1)/(y2-y1))
+
+    //((x-x1)*(y2-y1))/(x2-x1) = y-y1
+
+    // (((x-x1)*(y2-y1))/(x2-x1)) - y1 = y
+
+    long double y = ( ((x - segmento1.start.x) * (segmento1.end.y - segmento1.start.y))/(segmento1.end.x - segmento1.start.x)   )  + segmento1.start.y;
+
+    return y;
+}
+
 //Classe usada para comparar dois segmentos e informar qual está acima e qual está abaixo no x atual
 
 //Ela vai funcionar da seguinte forma:
@@ -456,14 +475,26 @@ class Ponto2{
 template <typename T>
 class Comparador{
 
-    int* x_atual;
+    long double* x_atual;
 
     bool* acabou_de_cruzar;
 
-    bool operator(const Segmento<T> a, const Segmento<T> b){
+    bool operator()(const Ponto2<T> a, const Ponto2<T> b){
         //comparamos os segmentos a e b baseado no x atual apontado por x_atual.
-    }
 
+            //se os segmentos ainda não se cruzaram
+        long double y_atual1 = y_em_um_determinado_x(a.segmento,*x_atual);
+        long double y_atual2 = y_em_um_determinado_x(b.segmento,*x_atual);
+
+        if(!(*acabou_de_cruzar)){
+            //comparo o y dos segmentos para o x atual
+            return (y_atual1 < y_atual2);
+        }
+        else{
+            //caso em que os segmentos já cruzou
+            return (y_atual1 >= y_atual2);
+        }
+    }
 };
 
 //funções que não envolvem geometria
@@ -495,7 +526,6 @@ class Math1{
 
 
     //////MERGE SORT//////////////////////////////////
-
     template <typename T>
     static void merge(T vetor[], int esquerda,int meio, int direita, int tamanho){
 
@@ -535,6 +565,7 @@ class Math1{
         }
     }
 
+
     template <typename T>
     static void merge_sort2(T vetor[],int tamanho, int esquerda,int direita){
 
@@ -551,12 +582,11 @@ class Math1{
 
     }
 
+
     template <typename T>
     static void merge_sort(T vetor[], int tamanho){
         merge_sort2(vetor,tamanho,0,tamanho-1);
     }
-
-
 
 
     template<typename T>
@@ -3451,7 +3481,7 @@ class math2D{
         }
 
         //nesse set inserimos os pontos à medida que percorremos o vetor ordenado por x.(o vetor é ordenado em O(log n))
-        set<Ponto2<int>> pontos2;
+        set<Ponto2<int>,Comparador<int>> pontos2;
 
 
 
@@ -3485,7 +3515,7 @@ int main(){
 
     math2D Math2D;
 
-    Math2D.cruzamento_de_segmentos();
+    //Math2D.cruzamento_de_segmentos();
 
     /*
     Segmento<long double> segmento1(Ponto<long double>(4,6),Ponto<long double>(7,3));
@@ -3511,6 +3541,13 @@ int main(){
     }
     */
 
+    Segmento<long double> teste(Ponto<long double>(0.0,0.0),Ponto<long double>(8.0,2.0));
+
+    long double a = y_em_um_determinado_x(teste,4.0);
+
+    teste.print();
+
+    cout<<"teste" << a<<endl;
     return 0;
 
 }
