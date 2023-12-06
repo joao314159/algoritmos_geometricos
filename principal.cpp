@@ -473,13 +473,13 @@ long double y_em_um_determinado_x(Segmento<T> segmento1, long double x){
 
 //passamos essa classe no construtor do set
 template <typename T>
-class Comparador{
+class Comparator{
 
     long double* x_atual;
 
     bool* acabou_de_cruzar;
 
-    bool operator()(const Ponto2<T> a, const Ponto2<T> b){
+    bool operator()(const Ponto2<T> &a, const Ponto2<T> &b){
         //comparamos os segmentos a e b baseado no x atual apontado por x_atual.
 
             //se os segmentos ainda não se cruzaram
@@ -3480,8 +3480,10 @@ class math2D{
 
         }
 
+        //ATENÇÃO, pontos é um ponteiro para Ponto2
+
         //nesse set inserimos os pontos à medida que percorremos o vetor ordenado por x.(o vetor é ordenado em O(log n))
-        set<Ponto2<int>,Comparador<int>> pontos2;
+        set<Ponto2<int>,Comparator<int>> pontos2;
 
 
 
