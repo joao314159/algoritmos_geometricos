@@ -85,7 +85,11 @@ class Ponto{
         return ponto2;
     }
 
+
     void print(){
+        cout<<"("<<this->x<<","<<this->y<<")";
+    }
+    void print2(){
         cout<<"Coordenadas do ponto: ("<<this->x<<", "<<this->y<<")"<<endl;
     }
 
@@ -115,6 +119,10 @@ class Segmento{
     Ponto<T> end;
 
     void print(){
+        cout<<"Seg("<<this->start.x<<","<<this->start.y<<")->("<<this->end.x<<","<<this->end.y<<")";
+    }
+
+    void print2(){
         cout<<"Esse segmento começa em ("<<this->start.x<<", "<<this->start.y<<") e termina em ("<<this->end.x<<", "<<this->end.y<<") "<<endl;
     }
 
@@ -361,11 +369,11 @@ class Ponto2{
 
     Ponto2(){}
 
-    Ponto2(Segmento<T> segmento1,bool start){
+    Ponto2(Segmento<T> segmento1,bool is_start){
         this->ponto_de_cruzamento = false;
         this->segmento = segmento1;
-        this->start = start;
-        if(start){
+        this->is_start = is_start;
+        if(is_start){
             this->x = segmento1.start.x;
         }
         else{
@@ -374,11 +382,11 @@ class Ponto2{
     }
 
     //construtor que passa a informação de que o ponto é de cruzamento
-    Ponto2(Segmento<T> segmento1,bool start,bool ponto_de_cruzamento){
+    Ponto2(Segmento<T> segmento1,bool is_start,bool ponto_de_cruzamento){
         this->ponto_de_cruzamento = ponto_de_cruzamento;
         this->segmento = segmento1;
-        this->start = start;
-        if(start){
+        this->is_start = is_start;
+        if(is_start){
             this->x = segmento1.start.x;
         }
         else{
@@ -388,7 +396,7 @@ class Ponto2{
 
     T x;
     Segmento<T> segmento;
-    bool start;
+    bool is_start;
 
 
 
@@ -399,9 +407,9 @@ class Ponto2{
         return a;
     }
 
-    void print(){
+    void print2(){
 
-        if(start){
+        if(is_start){
             cout<<"Esse é o ponto do início do segmento"<<endl;
             segmento.start.print();
         }
@@ -414,6 +422,22 @@ class Ponto2{
         this->segmento.print();
 
     }
+
+      void print(){
+        if(is_start){
+            cout << "Inicio:";
+            segmento.start.print();
+        }
+        else{
+            cout<<"Fim";
+            segmento.end.print();
+        }
+
+        cout<<"->:";
+        this->segmento.print();
+
+    }
+
 
     //para tratar cruzamentos
     bool ponto_de_cruzamento;
@@ -474,6 +498,8 @@ long double y_em_um_determinado_x(Segmento<T> segmento1, long double x){
 //passamos essa classe no construtor do set
 template <typename T>
 class Comparator{
+
+public:
 
     long double* x_atual;
 
@@ -3480,10 +3506,58 @@ class math2D{
 
         }
 
-        //ATENÇÃO, pontos é um ponteiro para Ponto2
+        //ATENÇÃO, pontos é um ponteiro para Ponto2, ou seja, corresponde a eventos
 
         //nesse set inserimos os pontos à medida que percorremos o vetor ordenado por x.(o vetor é ordenado em O(log n))
-        set<Ponto2<int>,Comparator<int>> pontos2;
+        set<Ponto2<int>,Comparator<int>> pontos2_set;
+
+        set<Ponto2<int>,Comparator<int>>::iterator i_set;
+
+        cout<<"Adicionando pontos no set (eventos):"<<endl<<endl;
+
+        //N é a quantidade de segmentos.
+        for(int i = 0; i < (2*N); i++){
+            //adicionamos os eventos no set percorrendo os pontos na ordem de x
+
+            if(pontos[i].is_start){
+                //se o ponto é evento do início do segmento
+                pontos[i].print();
+                cout<<"Evento de início do segmento."<<endl;
+                cout<<endl<<endl;
+
+                //adiciona o ponto no set
+                pontos2_set.insert(pontos[i]);
+
+                //verifica o cruzamento desse segmento com o acima, e desse segmento com o abaixo
+            }
+            else{
+                //se o ponto é evento do final do segmento
+                pontos[i].print();
+                cout<<"Evento de final do segmento.";
+                cout<<endl<<endl;
+
+                //remove o elemento do set
+                auto ponteiro = pontos2_set.find(pontos[i]);
+                pontos2_set.erase(ponteiro);
+
+                //veriifica o cruzamento do segmento acima com o segmento abaixo.
+            }
+
+            cout<<endl<<endl;
+            cout<<"........................."<<endl;
+            cout<<"Elementos no set nesse momento: "<<endl;
+
+            for (i_set = pontos2_set.begin(); i_set != pontos2_set.end(); i_set++){
+
+                Ponto2<int> a;
+                a = *i_set;
+                a.print();
+
+            }
+
+             cout<<endl<<"........................."<<endl<<endl;
+
+        }
 
 
 
@@ -3506,18 +3580,13 @@ class math2D{
 
 
     }
-
-
-
-
-
 };
 
 int main(){
 
     math2D Math2D;
 
-    //Math2D.cruzamento_de_segmentos();
+    Math2D.cruzamento_de_segmentos();
 
     /*
     Segmento<long double> segmento1(Ponto<long double>(4,6),Ponto<long double>(7,3));
@@ -3543,13 +3612,14 @@ int main(){
     }
     */
 
-    Segmento<long double> teste(Ponto<long double>(0.0,0.0),Ponto<long double>(8.0,2.0));
+    //Segmento<long double> teste(Ponto<long double>(0.0,0.0),Ponto<long double>(8.0,2.0));
 
-    long double a = y_em_um_determinado_x(teste,4.0);
+    //long double a = y_em_um_determinado_x(teste,4.0);
 
-    teste.print();
+    //teste.print();
 
-    cout<<"teste" << a<<endl;
+    //cout<<"teste" << a<<endl;
+
     return 0;
 
 }
