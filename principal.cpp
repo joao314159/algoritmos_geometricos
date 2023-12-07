@@ -501,7 +501,12 @@ class Comparator{
 
 public:
 
-    long double* x_atual;
+    Comparator(const bool* acabou_de_cruzar,const T* x_atual){
+        this->x_atual = x_atual;
+        this->acabou_de_cruzar = acabou_de_cruzar;
+    }
+
+    T* x_atual;
 
     bool* acabou_de_cruzar;
 
@@ -3506,14 +3511,22 @@ class math2D{
 
         }
 
+
+
+
+        const int* x_atual;
+        const bool* acabou_de_cruzar;
+
         //ATENÇÃO, pontos é um ponteiro para Ponto2, ou seja, corresponde a eventos
 
         //nesse set inserimos os pontos à medida que percorremos o vetor ordenado por x.(o vetor é ordenado em O(log n))
-        set<Ponto2<int>,Comparator<int>> pontos2_set;
 
-        set<Ponto2<int>,Comparator<int>>::iterator i_set;
+        set<Ponto2<int>,Comparator<int>(acabou_de_cruzar,x_atual)> pontos2_set;
+
+        set<Ponto2<int>,Comparator<int>(acabou_de_cruzar,x_atual)>::iterator i_set;
 
         cout<<"Adicionando pontos no set (eventos):"<<endl<<endl;
+
 
         //N é a quantidade de segmentos.
         for(int i = 0; i < (2*N); i++){
