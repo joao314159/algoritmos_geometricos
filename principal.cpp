@@ -436,6 +436,8 @@ class Ponto2{
         cout<<"->:";
         this->segmento.print();
 
+        cout<<endl;
+
     }
 
 
@@ -501,23 +503,20 @@ class Comparator{
 
 public:
 
-    Comparator(const bool* acabou_de_cruzar,const T* x_atual){
-        this->x_atual = x_atual;
-        this->acabou_de_cruzar = acabou_de_cruzar;
-    }
-
-    T* x_atual;
-
-    bool* acabou_de_cruzar;
+    bool acabou_de_cruzar;
 
     bool operator()(const Ponto2<T> &a, const Ponto2<T> &b){
         //comparamos os segmentos a e b baseado no x atual apontado por x_atual.
 
-            //se os segmentos ainda não se cruzaram
-        long double y_atual1 = y_em_um_determinado_x(a.segmento,*x_atual);
-        long double y_atual2 = y_em_um_determinado_x(b.segmento,*x_atual);
+        //a é o ponto adicionado no set, por isso o x atual é o x do ponto a
 
-        if(!(*acabou_de_cruzar)){
+        //se os segmentos ainda não se cruzaram
+        long double y_atual1 = y_em_um_determinado_x(a.segmento,a.x);
+        long double y_atual2 = y_em_um_determinado_x(b.segmento,a.x);
+
+        return (y_atual1 <y_atual2);
+
+        /*if(!(acabou_de_cruzar)){
             //comparo o y dos segmentos para o x atual
             return (y_atual1 < y_atual2);
         }
@@ -525,6 +524,7 @@ public:
             //caso em que os segmentos já cruzou
             return (y_atual1 >= y_atual2);
         }
+        */
     }
 };
 
@@ -3512,18 +3512,13 @@ class math2D{
         }
 
 
-
-
-        const int* x_atual;
-        const bool* acabou_de_cruzar;
-
         //ATENÇÃO, pontos é um ponteiro para Ponto2, ou seja, corresponde a eventos
 
         //nesse set inserimos os pontos à medida que percorremos o vetor ordenado por x.(o vetor é ordenado em O(log n))
 
-        set<Ponto2<int>,Comparator<int>(acabou_de_cruzar,x_atual)> pontos2_set;
+        set<Ponto2<int>,Comparator<int>> pontos2_set;
 
-        set<Ponto2<int>,Comparator<int>(acabou_de_cruzar,x_atual)>::iterator i_set;
+        set<Ponto2<int>,Comparator<int>>::iterator i_set;
 
         cout<<"Adicionando pontos no set (eventos):"<<endl<<endl;
 
