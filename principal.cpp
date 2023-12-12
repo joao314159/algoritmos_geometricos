@@ -536,6 +536,26 @@ public:
     }
 };
 
+template <typename T>
+class Cruzamentos_salvos{
+
+public:
+
+    Cruzamentos_salvos(Segmento<T> segmento1, Segmento<T> segmento2){
+
+        this->segmento1 = segmento1;
+        this->segmento2 = segmento2;
+
+    }
+
+    Segmento<T> segmento1;
+    Segmento<T> segmento2;
+
+    long double Ponto_de_cruzamento;
+
+
+};
+
 //funções que não envolvem geometria
 class Math1{
 
@@ -3529,6 +3549,7 @@ class math2D{
         }
         Ponto2<int> auxiliar;
 
+        /*
         cout<<"Pontos da fila de prioridade: "<<endl;
 
         for(int i =0;i<N*2;i++){
@@ -3543,7 +3564,7 @@ class math2D{
         cout<<"...................................................."<<endl;
         cout<<endl;
 
-
+        */
 
         //ATENÇÃO, pontos é um ponteiro para Ponto2, ou seja, corresponde a eventos
 
@@ -3560,25 +3581,27 @@ class math2D{
         for(int i = 0; i < (2*N); i++){
             //adicionamos os eventos no set percorrendo os pontos na ordem de x
 
-            if(pontos[i].is_start){
+            auxiliar = fila_de_prioridade_pontos.top();
+
+            if(auxiliar.is_start){
                 //se o ponto é evento do início do segmento
-                pontos[i].print();
+                auxiliar.print();
                 cout<<"Evento de início do segmento."<<endl;
                 cout<<endl<<endl;
 
                 //adiciona o ponto no set
-                pontos2_set.insert(pontos[i]);
+                pontos2_set.insert(auxiliar);
 
                 //verifica o cruzamento desse segmento com o acima, e desse segmento com o abaixo
             }
             else{
                 //se o ponto é evento do final do segmento
-                pontos[i].print();
+                auxiliar.print();
                 cout<<"Evento de final do segmento.";
                 cout<<endl<<endl;
 
                 //remove o elemento do set
-                auto ponteiro = pontos2_set.find(pontos[i]);
+                auto ponteiro = pontos2_set.find(auxiliar);
                 pontos2_set.erase(ponteiro);
 
                 //veriifica o cruzamento do segmento acima com o segmento abaixo.
@@ -3596,7 +3619,9 @@ class math2D{
 
             }
 
-             cout<<endl<<"........................."<<endl<<endl;
+            fila_de_prioridade_pontos.pop();
+
+            cout<<endl<<"........................."<<endl<<endl;
 
         }
 
