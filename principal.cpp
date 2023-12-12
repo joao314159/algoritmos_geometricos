@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <set>
 #include <algorithm>
+#include <queue>
 
 #define PI 3.141592653589793236433932795029
 
@@ -404,6 +405,13 @@ class Ponto2{
     template <typename tipo2>
     bool operator<(const Ponto2<tipo2> ponto2) const{
         bool a = this->x < ponto2.x;
+        return a;
+    }
+
+
+    template <typename tipo2>
+    bool operator>(const Ponto2<tipo2> ponto2) const{
+        bool a = this->x > ponto2.x;
         return a;
     }
 
@@ -3510,6 +3518,31 @@ class math2D{
             cout<<endl;
 
         }
+
+        priority_queue<Ponto2<int>,vector<Ponto2<int>>,greater<Ponto2<int>>> fila_de_prioridade_pontos;
+
+        cout<<endl;
+        cout<<"Colocando os pontos numa fila de prioridade."<<endl;
+
+        for(int i = 0 ;i < N*2; i++){
+            fila_de_prioridade_pontos.push(pontos[i]);
+        }
+        Ponto2<int> auxiliar;
+
+        cout<<"Pontos da fila de prioridade: "<<endl;
+
+        for(int i =0;i<N*2;i++){
+            auxiliar = fila_de_prioridade_pontos.top();
+            auxiliar.print();
+
+            fila_de_prioridade_pontos.pop();
+        }
+
+        cout<<endl;
+        cout<<"...................................................."<<endl;
+        cout<<"...................................................."<<endl;
+        cout<<endl;
+
 
 
         //ATENÇÃO, pontos é um ponteiro para Ponto2, ou seja, corresponde a eventos
