@@ -134,6 +134,7 @@ class Segmento{
         this->end = ponto;
     }
 
+    /*
     bool estranho(){
 
         Ponto<T> ponto1=this->start;
@@ -177,6 +178,8 @@ class Segmento{
             }
 
     }
+
+    */
 
 
 
@@ -328,6 +331,15 @@ class Matriz3{
 
 
 //CLASSES ESPECÍFICAS PARA FUNÇÕES
+template <typename T>
+Ponto<T> ponto_de_cruzamento(Segmento<T> segmento1, Segmento<T> segmento2){
+
+
+
+}
+
+
+
 
 //útil na função ponto em polígono 3
 template <typename T>
@@ -1513,7 +1525,27 @@ class math2D{
 
     template <typename T>
     static Ponto<T> ponto_de_cruzamento(Segmento<T> segmento1,Segmento<T> segmento2){
-        Ponto<T> ponto1;
+        Ponto<T> ponto;
+
+        long double d;
+        long double h;
+
+        Segmento<T> segmento_auxiliar1(segmento1.start,segmento2.start);
+
+        Vetor<T> vetor1(segmento1);
+        Vetor<T> vetor2(segmento2);
+
+        Vetor<T> vetor_auxiliar(segmento_auxiliar1);
+
+        d = produto_escalar(vetor1.normal(),vetor_auxiliar);
+
+        h = produto_escalar(vetor1.normal(),vetor2.inverter());
+
+        //somar ponto com d/h vezes vector2
+
+
+        return d/h;
+
 
 
 
