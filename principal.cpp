@@ -237,6 +237,17 @@ class Vetor{
         return versor;
     }
 
+    template<typename tipo2>
+    Vetor<T> operator*(const tipo2 x){
+
+        Vetor<T> auxiliar;
+        auxiliar.x = this->x* x;
+        auxiliar.y = this->y* x;
+
+        return auxiliar;
+
+    }
+
     void print(){
         cout<<"Esse vetor tem módulo "<<this->comprimento()<<" e aponta para ("<<this->x<<", "<<this->y<<")"<<endl;
     }
@@ -1535,16 +1546,31 @@ class math2D{
         Vetor<T> vetor1(segmento1);
         Vetor<T> vetor2(segmento2);
 
+        Segmento<T> segmento22 = segmento2;
+        segmento22.inverter();
+        Vetor<T> vetor22(segmento22);
+
         Vetor<T> vetor_auxiliar(segmento_auxiliar1);
 
         d = produto_escalar(vetor1.normal(),vetor_auxiliar);
 
-        h = produto_escalar(vetor1.normal(),vetor2.inverter());
+        h = produto_escalar(vetor1.normal(),vetor22);
 
         //somar ponto com d/h vezes vector2
 
+        if(h == 0){
+            cout<<"divisão por zero!"<<endl;
+        }
+        else{
+            vetor2 = vetor2*(d/h);
 
-        return d/h;
+            vetor2.x = vetor2.x +segmento2.start.x;
+            vetor2.y = vetor2.y +segmento2.start.y;
+        }
+
+        Ponto<T> a(vetor2.x,vetor2.y);
+
+        return a;
 
 
 
@@ -3684,7 +3710,28 @@ int main(){
 
     math2D Math2D;
 
-    Math2D.cruzamento_de_segmentos();
+   //Math2D.cruzamento_de_segmentos();
+
+
+
+
+
+    Segmento<long double> segmento1(Ponto<long double>(1.0,1.0),Ponto<long double>(10.0,10.0));
+
+    Segmento<long double> segmento2(Ponto<long double>(1.0,3.0),Ponto<long double>(7.0,5.0));
+
+
+    Ponto<long double> ponto1 = Math2D.ponto_de_cruzamento(segmento1,segmento2);
+
+    ponto1.print();
+
+
+
+
+
+
+
+
 
     /*
     Segmento<long double> segmento1(Ponto<long double>(4,6),Ponto<long double>(7,3));
