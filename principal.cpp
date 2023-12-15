@@ -86,6 +86,17 @@ class Ponto{
         return ponto2;
     }
 
+    template <typename tipo8>
+    bool operator==(Ponto<tipo8> ponto1){
+        if(this->x == ponto1.x && this->y == ponto1.y){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
+
 
     void print(){
         cout<<"("<<this->x<<","<<this->y<<")";
@@ -342,14 +353,6 @@ class Matriz3{
 
 
 //CLASSES ESPECÍFICAS PARA FUNÇÕES
-template <typename T>
-Ponto<T> ponto_de_cruzamento(Segmento<T> segmento1, Segmento<T> segmento2){
-
-
-
-}
-
-
 
 
 //útil na função ponto em polígono 3
@@ -397,6 +400,7 @@ class Ponto2{
         this->ponto_de_cruzamento = false;
         this->segmento = segmento1;
         this->is_start = is_start;
+        this->ponto_de_cruzamento = false;
         if(is_start){
             this->x = segmento1.start.x;
         }
@@ -406,17 +410,28 @@ class Ponto2{
     }
 
     //construtor que passa a informação de que o ponto é de cruzamento
-    Ponto2(Segmento<T> segmento1,bool is_start,bool ponto_de_cruzamento){
+    Ponto2(Segmento<T> segmento1,bool segmento_de_cima,bool ponto_de_cruzamento,Ponto<T> ponto_cruzamento){
         this->ponto_de_cruzamento = ponto_de_cruzamento;
         this->segmento = segmento1;
-        this->is_start = is_start;
-        if(is_start){
-            this->x = segmento1.start.x;
+        this->is_start = segmento_de_cima;
+        this->ponto_cruzamento = ponto_cruzamento;
+        if(segmento_de_cima){
+            this->x = ponto_cruzamento.x + 0.0000001;
         }
         else{
-            this->x = segmento1.end.x;
+            this->x = ponto_cruzamento.x;
         }
     }
+    Ponto2(Ponto<T> ponto){
+        this->ponto_de_cruzamento = true;
+        Segmento<T> segmento1(ponto,ponto);
+        this->segmento = segmento1;
+        this->is_start = is_start;
+
+        this->x = segmento1.start.x;
+
+    }
+
 
     T x;
     Segmento<T> segmento;
@@ -427,16 +442,61 @@ class Ponto2{
 
     template <typename tipo2>
     bool operator<(const Ponto2<tipo2> ponto2) const{
-        bool a = this->x < ponto2.x;
+
+
+            bool a = this->x < ponto2.x;
+
+
         return a;
     }
 
 
-    template <typename tipo2>
-    bool operator>(const Ponto2<tipo2> ponto2) const{
+    template <typename tipo3>
+    bool operator>(const Ponto2<tipo3> ponto2) const{
         bool a = this->x > ponto2.x;
         return a;
     }
+
+    template <typename tipo4>
+    bool mesmo_ponto(Ponto2<tipo4> ponto22){
+
+        Ponto<tipo4> ponto1;
+        Ponto<tipo4> ponto2;
+
+        if(this->is_start){
+            ponto1 = this->segmento.start;
+        }
+        else if(not this->is_start){
+            ponto1 = this->segmento.end;
+        }
+
+        if(ponto22.is_start){
+            ponto2 = ponto22.segmento.start;
+        }
+        else if(not ponto22.is_start){
+            ponto2 = ponto22.segmento.end;
+        }
+
+        if((ponto1.x == ponto2.x) && (ponto1.y == ponto2.y)){
+
+            //cout<<"pontos iguais.";
+            //ponto1.print();
+            //ponto2.print();
+
+            return true;
+        }
+        else {
+
+            //cout<<"pontos diferentes.";
+            //ponto1.print();
+            //ponto2.print();
+
+            return false;
+        }
+        //cout<<"teste"<<endl;
+
+    }
+
 
     void print2(){
 
@@ -454,7 +514,7 @@ class Ponto2{
 
     }
 
-      void print(){
+    void print(){
         if(is_start){
             cout << "Inicio:";
             segmento.start.print();
@@ -474,6 +534,8 @@ class Ponto2{
 
     //para tratar cruzamentos
     bool ponto_de_cruzamento;
+
+    Ponto<T> ponto_cruzamento;
 
     private:
     Segmento<T> segmento_que_cruzou;
@@ -575,6 +637,11 @@ public:
     Segmento<T> segmento2;
 
     long double Ponto_de_cruzamento;
+
+    void print(){
+        cout<<segmento1.start.x<<" "<<segmento1.start.y<<" "<<segmento1.end.x<<" "<<segmento1.end.y;
+        cout<<" "<<segmento2.start.x<<" "<<segmento2.start.y<<" "<<segmento2.end.x<<" "<<segmento2.end.y<<endl;
+    }
 
 
 };
@@ -1535,22 +1602,22 @@ class math2D{
     }
 
     template <typename T>
-    static Ponto<T> ponto_de_cruzamento(Segmento<T> segmento1,Segmento<T> segmento2){
-        Ponto<T> ponto;
+    static Ponto<long double> ponto_de_cruzamento_function(Segmento<T> segmento1,Segmento<T> segmento2){
+        Ponto<long double> ponto;
 
         long double d;
         long double h;
 
-        Segmento<T> segmento_auxiliar1(segmento1.start,segmento2.start);
+        Segmento<long double> segmento_auxiliar1(segmento1.start,segmento2.start);
 
-        Vetor<T> vetor1(segmento1);
-        Vetor<T> vetor2(segmento2);
+        Vetor<long double> vetor1(segmento1);
+        Vetor<long double> vetor2(segmento2);
 
-        Segmento<T> segmento22 = segmento2;
+        Segmento<long double> segmento22 = segmento2;
         segmento22.inverter();
-        Vetor<T> vetor22(segmento22);
+        Vetor<long double> vetor22(segmento22);
 
-        Vetor<T> vetor_auxiliar(segmento_auxiliar1);
+        Vetor<long double> vetor_auxiliar(segmento_auxiliar1);
 
         d = produto_escalar(vetor1.normal(),vetor_auxiliar);
 
@@ -1568,13 +1635,9 @@ class math2D{
             vetor2.y = vetor2.y +segmento2.start.y;
         }
 
-        Ponto<T> a(vetor2.x,vetor2.y);
+        Ponto<long double> a(vetor2.x,vetor2.y);
 
         return a;
-
-
-
-
 
     }
 
@@ -3514,9 +3577,11 @@ class math2D{
 
         int K = 0;
 
+        vector<Cruzamentos_salvos<long double>> cruzamentos_salvos;
+
         cin>>N;
 
-        Segmento<int>* segmentos = new Segmento<int>[N];
+        Segmento<long double>* segmentos = new Segmento<long double>[N];
 
         for(int i = 0; i<N;i++){
 
@@ -3564,15 +3629,15 @@ class math2D{
         }
 
         //os pontos dos segmentos
-        Ponto2<int>* pontos = new Ponto2<int>[N*2];
+        Ponto2<long double>* pontos = new Ponto2<long double>[N*2];
 
         //passo os pontos para o array
 
         int i2=0;
         for(int i =0;i<N;i++){
-            pontos[i2] = Ponto2<int>(segmentos[i],true);
+            pontos[i2] = Ponto2<long double>(segmentos[i],true);
             i2++;
-            pontos[i2] = Ponto2<int>(segmentos[i],false);
+            pontos[i2] = Ponto2<long double>(segmentos[i],false);
             i2++;
         }
 
@@ -3597,7 +3662,7 @@ class math2D{
 
         }
 
-        priority_queue<Ponto2<int>,vector<Ponto2<int>>,greater<Ponto2<int>>> fila_de_prioridade_pontos;
+        priority_queue<Ponto2<long double>,vector<Ponto2<long double>>,greater<Ponto2<long double>>> fila_de_prioridade_pontos;
 
         cout<<endl;
         cout<<"Colocando os pontos numa fila de prioridade."<<endl;
@@ -3605,7 +3670,7 @@ class math2D{
         for(int i = 0 ;i < N*2; i++){
             fila_de_prioridade_pontos.push(pontos[i]);
         }
-        Ponto2<int> auxiliar;
+        Ponto2<long double> auxiliar;
 
         /*
         cout<<"Pontos da fila de prioridade: "<<endl;
@@ -3628,11 +3693,18 @@ class math2D{
 
         //nesse set inserimos os pontos à medida que percorremos o vetor ordenado por x.(o vetor é ordenado em O(log n))
 
-        set<Ponto2<int>,Comparator<int>> pontos2_set;
+        set<Ponto2<long double>,Comparator<long double>> pontos2_set;
 
-        set<Ponto2<int>,Comparator<int>>::iterator i_set;
+        set<Ponto2<long double>,Comparator<long double>>::iterator i_set;
+        set<Ponto2<long double>,Comparator<long double>>::iterator i_set2;
+
+        set<Ponto2<long double>,Comparator<long double>>::iterator i_set3;
+        set<Ponto2<long double>,Comparator<long double>>::iterator i_set4;
 
         cout<<"Adicionando pontos no set (eventos):"<<endl<<endl;
+
+        Ponto2<long double> ponto_anterior;
+        Ponto2<long double> ponto_seguinte;
 
 
         //N é a quantidade de segmentos.
@@ -3641,7 +3713,8 @@ class math2D{
 
             auxiliar = fila_de_prioridade_pontos.top();
 
-            if(auxiliar.is_start){
+
+            if(auxiliar.is_start && auxiliar.ponto_de_cruzamento == false){
                 //se o ponto é evento do início do segmento
                 auxiliar.print();
                 cout<<"Evento de início do segmento."<<endl;
@@ -3651,8 +3724,152 @@ class math2D{
                 pontos2_set.insert(auxiliar);
 
                 //verifica o cruzamento desse segmento com o acima, e desse segmento com o abaixo
+
+                //encontra a posição do ponto inserido no set
+                i_set2 =  pontos2_set.find(auxiliar);
+
+                i_set3 = pontos2_set.begin();
+                i_set4 = pontos2_set.end();
+                i_set4--;
+
+                Ponto2<long double> i_set2_ponto = *i_set2;
+                Ponto2<long double> i_set3_ponto = *i_set3;
+                Ponto2<long double> i_set4_ponto = *i_set4;
+
+                bool first = false;
+                bool last = false;
+
+                if( i_set2_ponto.mesmo_ponto(i_set3_ponto)){
+                    cout<<"Primeiro elemento do set"<<endl;
+                    first = true;
+
+
+                }
+                if( i_set2_ponto.mesmo_ponto(i_set4_ponto)){
+                    cout<<"Último elemento do set"<<endl;
+                    last = true;
+
+
+                }
+
+
+
+                    //cout<<"Não é primeiro elemento do set, nem último."<<endl;
+
+                    Ponto2<long double> teste;
+                    teste = *i_set3;
+                    teste.print();
+                    cout<<endl;
+                    teste = *i_set3;
+                    teste.print();
+                    cout<<endl;
+                    teste = *i_set2;
+                    teste.print();
+                    cout<<endl;
+
+                     i_set2--;
+                     ponto_anterior = *i_set2;
+
+                     i_set2++;
+                     i_set2++;
+
+                     ponto_seguinte = *i_set2;
+
+
+
+                     if( (cruza2(ponto_anterior.segmento,auxiliar.segmento) == 1) && (first == false) ){
+
+                        cout<<"O segmento adicionado cruza com o segmento abaixo."<<endl;
+
+
+
+
+                        //para fazer fazer o cruzamento de segmento com pontos em double
+
+                        Segmento<long double> segmento1;
+
+                        segmento1.start.x = ponto_anterior.segmento.start.x;
+                        segmento1.start.y = ponto_anterior.segmento.start.y;
+
+                        segmento1.end.x = ponto_anterior.segmento.end.x;
+                        segmento1.end.y = ponto_anterior.segmento.end.y;
+
+                        Segmento<long double> segmento2;
+
+                        segmento2.start.x = auxiliar.segmento.start.x;
+                        segmento2.start.y = auxiliar.segmento.start.y;
+
+                        segmento2.end.x = auxiliar.segmento.end.x;
+                        segmento2.end.y = auxiliar.segmento.end.y;
+
+
+
+                        Ponto<long double> ponto_de_cruzamento = ponto_de_cruzamento_function(segmento1,segmento2);
+
+                        cout<<"Ponto de cruzamento: ";
+                        ponto_de_cruzamento.print();
+
+                        Ponto2<long double> ponto_de_cruzamento2(ponto_de_cruzamento);
+
+                        pontos2_set.insert(ponto_de_cruzamento2);
+
+
+                        K++;
+                        Cruzamentos_salvos<long double> cruzamento(segmento1,segmento2);
+                        cruzamentos_salvos.push_back(cruzamento);
+
+                        cout<<endl<<endl;
+
+
+
+                     }
+                     if( (cruza2(ponto_seguinte.segmento,auxiliar.segmento) == 1) && last == false ){
+                        cout<<"O segmento adicionado cruza com o segmento acima."<<endl;
+
+
+                        //para fazer fazer o cruzamento de segmento com pontos em double
+
+                        Segmento<long double> segmento1;
+
+                        segmento1.start.x = auxiliar.segmento.start.x;
+                        segmento1.start.y = auxiliar.segmento.start.y;
+
+                        segmento1.end.x = auxiliar.segmento.end.x;
+                        segmento1.end.y = auxiliar.segmento.end.y;
+
+                        Segmento<long double> segmento2;
+
+                        segmento2.start.x = ponto_seguinte.segmento.start.x;
+                        segmento2.start.y = ponto_seguinte.segmento.start.y;
+
+                        segmento2.end.x = ponto_seguinte.segmento.end.x;
+                        segmento2.end.y = ponto_seguinte.segmento.end.y;
+
+                        Ponto<long double> ponto_de_cruzamento = ponto_de_cruzamento_function(segmento1, segmento2);
+
+                        cout<<"Ponto de cruzamento: "<<endl;
+
+                        ponto_de_cruzamento.print();
+
+
+                        Ponto2<long double> ponto_de_cruzamento2(ponto_de_cruzamento);
+
+                        pontos2_set.insert(ponto_de_cruzamento2);
+
+
+                        K++;
+                        Cruzamentos_salvos<long double> cruzamento(segmento1,segmento2);
+                        cruzamentos_salvos.push_back(cruzamento);
+
+
+                     }
+                     else{
+                        cout<<"Os segmentos não cruzam."<<endl;
+                     }
+
+
             }
-            else{
+            else if(auxiliar.ponto_de_cruzamento == false){
                 //se o ponto é evento do final do segmento
                 auxiliar.print();
                 cout<<"Evento de final do segmento.";
@@ -3660,9 +3877,139 @@ class math2D{
 
                 //remove o elemento do set
                 auto ponteiro = pontos2_set.find(auxiliar);
-                pontos2_set.erase(ponteiro);
+
 
                 //veriifica o cruzamento do segmento acima com o segmento abaixo.
+
+                i_set2 =  pontos2_set.find(auxiliar);
+
+                i_set3 = pontos2_set.begin();
+                i_set4 = pontos2_set.end();
+                i_set4--;
+
+                Ponto2<long double> i_set2_ponto2 = *i_set2;
+                Ponto2<long double> i_set3_ponto2 = *i_set3;
+                Ponto2<long double> i_set4_ponto2 = *i_set4;
+
+                if(i_set2_ponto2.mesmo_ponto(i_set3_ponto2) || i_set2_ponto2.mesmo_ponto(i_set4_ponto2)){
+                    cout<<"Primeiro elemento do set, ou último."<<endl;
+                    Ponto2<long double> teste;
+                    teste = *i_set3;
+                    teste.print();
+                    cout<<endl;
+                    teste = *i_set3;
+                    teste.print();
+                    cout<<endl;
+                    teste = *i_set2;
+                    teste.print();
+                    cout<<endl;
+
+                }
+                else{
+
+                    cout<<"Não é primeiro elemento do set, nem último."<<endl;
+                    Ponto2<long double> teste;
+                    teste = *i_set3;
+                    teste.print();
+                    cout<<endl;
+                    teste = *i_set3;
+                    teste.print();
+                    cout<<endl;
+                    teste = *i_set2;
+                    teste.print();
+                    cout<<endl;
+
+
+                    i_set2++;
+                    ponto_anterior = *i_set2;
+                    i_set2--;
+                    i_set2--;
+                    ponto_seguinte = *i_set2;
+
+                    if(cruza2(ponto_anterior.segmento,ponto_seguinte.segmento) == 1){
+
+                        cout<<"Os segmento abaixo e acima se cruzam."<<endl;
+
+                        //criar ponto de cruzamento
+                        //colocar ponto de cruzamento no set
+
+
+
+                        //para fazer fazer o cruzamento de segmento com pontos em double
+
+                        Segmento<long double> segmento1;
+
+                        segmento1.start.x = ponto_anterior.segmento.start.x;
+                        segmento1.start.y = ponto_anterior.segmento.start.y;
+
+                        segmento1.end.x = ponto_anterior.segmento.end.x;
+                        segmento1.end.y = ponto_anterior.segmento.end.y;
+
+                        Segmento<long double> segmento2;
+
+                        segmento2.start.x = ponto_seguinte.segmento.start.x;
+                        segmento2.start.y = ponto_seguinte.segmento.start.y;
+
+                        segmento2.end.x = ponto_seguinte.segmento.end.x;
+                        segmento2.end.y = ponto_seguinte.segmento.end.y;
+
+                        Ponto<long double> ponto_de_cruzamento = ponto_de_cruzamento_function(segmento1,segmento2);
+
+                        cout<<"Ponto de cruzamento: "<<endl;
+                        ponto_de_cruzamento.print();
+
+
+                        Ponto2<long double> ponto_de_cruzamento2(ponto_de_cruzamento);
+
+                        pontos2_set.insert(ponto_de_cruzamento2);
+
+
+                        K++;
+                        Cruzamentos_salvos<long double> cruzamento(segmento1,segmento2);
+                        cruzamentos_salvos.push_back(cruzamento);
+
+                    }
+                    else{
+                        cout<<"Os segmentos abaixo e acima não se cruzam."<<endl;
+                    }
+
+                }
+
+
+
+                pontos2_set.erase(ponteiro);
+
+            }
+            else{
+
+
+
+
+                i_set2 =  pontos2_set.find(auxiliar);
+
+                i_set3 = i_set2;
+                i_set4 = i_set2;
+
+                i_set3--;
+
+                i_set4++;
+
+                //pegar cada segmento do cruzamento e inserir de novo
+
+                Ponto2<long double> ponto_anterior = *i_set3;
+                Ponto2<long double> ponto_seguinte = *i_set4;
+
+                pontos2_set.erase(i_set3);
+                pontos2_set.erase(i_set4);
+
+
+                pontos2_set.insert(Ponto2<long double>(ponto_anterior.segmento,true,true,auxiliar.segmento.start));
+
+                pontos2_set.insert(Ponto2<long double>(ponto_seguinte.segmento,false,true,auxiliar.segmento.start));
+
+
+
+
             }
 
             cout<<endl<<endl;
@@ -3671,7 +4018,7 @@ class math2D{
 
             for (i_set = pontos2_set.begin(); i_set != pontos2_set.end(); i_set++){
 
-                Ponto2<int> a;
+                Ponto2<long double> a;
                 a = *i_set;
                 a.print();
 
@@ -3710,12 +4057,12 @@ int main(){
 
     math2D Math2D;
 
-   //Math2D.cruzamento_de_segmentos();
+    Math2D.cruzamento_de_segmentos();
 
 
 
 
-
+/*
     Segmento<long double> segmento1(Ponto<long double>(1.0,1.0),Ponto<long double>(10.0,10.0));
 
     Segmento<long double> segmento2(Ponto<long double>(1.0,3.0),Ponto<long double>(7.0,5.0));
@@ -3725,7 +4072,7 @@ int main(){
 
     ponto1.print();
 
-
+*/
 
 
 
